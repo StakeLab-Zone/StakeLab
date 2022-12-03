@@ -1,6 +1,6 @@
 # Restake  
 [Restake](https://restake.app/) is an open source application that provide Auto-Compound feature using Authz module from the Cosmos SDK. Enjoy growing your staking APR by allowing us to daily claim and stake your rewards!  
-*Note that if you are using a Ledger, you can use our [Ledger CLI documentation](https://github.com/StakeLab-Hub/Ledger_Authz_CLI) to make it (only Secret support it natively for the moment).*  
+*Note that if you are using a Ledger, you can use our [Ledger CLI documentation](https://github.com/StakeLab-Hub/Documentation/blob/main/CLI/Authz%20with%20Ledger/README.md)) to make it (only Secret support it natively for the moment).*  
 **You are free to send native coins from each blockchains to support us and the cost of the operations in our Restake wallets. If you prefer, you can also delegate to our Validators**  
 
 ## How it works?  
