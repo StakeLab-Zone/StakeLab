@@ -8,6 +8,7 @@ If you are one of our supported network, or one we don't support but would like 
 [Akash](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#akash)  
 [Asset Mantle](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#asset-mantle)  
 [Axelar](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#axelar)  
+[Bitcanna](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#bitcanna)  
 [Chihuahua](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#chihuahua)  
 [Comdex](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#comdex)  
 [Cosmos Hub](https://github.com/StakeLab-Hub/Relayers/blob/main/README.md#cosmos-hub)  
@@ -74,6 +75,15 @@ Account: [axelar1mjq48r6435aewerpruwc8up3tz3rzan2ghgl25](https://www.mintscan.io
 | Axelar | channel-23 | AssetMantle | channel-10 |  
 | Axelar | channel-29 | Regen | channel-48 | 
 | Axelar | channel-33 | Stride | channel-11 | 
+----------------  
+
+### _Bitcanna_  
+
+Account: [bcna1mjq48r6435aewerpruwc8up3tz3rzan2kfwkf8](https://www.mintscan.io/bitcanna/account/bcna1mjq48r6435aewerpruwc8up3tz3rzan2kfwkf8)  
+| Source | Channel-id | Destination | Channel-id |  
+| ------|-----|-----|-----|
+| Bitcanna | channel-1 | Osmosis | channel-51 |  
+| Bitcanna | channel-10 | Juno | channel-50 |  
 ----------------  
 
 ### _Chihuahua_  
@@ -207,6 +217,7 @@ Account: [juno1mjq48r6435aewerpruwc8up3tz3rzan26tavxf](https://www.mintscan.io/j
 | Juno | channel-28 | Chihuahua | channel-11 |  
 | Juno | channel-47 | Osmosis | channel-169 |  
 | Juno | channel-48 | Secret | channel-8 |  
+| Juno | channel-50 | Bitcanna | channel-10 |  
 | Juno | channel-58 | Ki Chain | channel-8 |  
 | Juno | channel-70 | Evmos | channel-5 |  
 | Juno | channel-71 | Axelar | channel-4 |  
@@ -271,6 +282,7 @@ Account: [osmo1mjq48r6435aewerpruwc8up3tz3rzan2yzd8h8](https://www.mintscan.io/o
 | ------|-----|-----|-----|
 | Osmosis | channel-0 | Cosmos | channel-141 |  
 | Osmosis | channel-6 | Iris | channel-3 |  
+| Osmosis | channel-51 | Bitcanna | channel-1 |  
 | Osmosis | channel-77 | Ki Chain | channel-0 |  
 | Osmosis | channel-88 | Secret | channel-1 |  
 | Osmosis | channel-113 | Chihuahua | channel-7 |  
