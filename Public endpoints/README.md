@@ -5,10 +5,10 @@ If you are one of our supported network, or one we don't support but would like 
 **You are free to send native coins from each blockchains to support us and the cost of the operations in our Relayers wallets. If you prefer, you can also delegate to our Validators**  
 
 ## Public endpoints chains  
-[Cosmos Hub](https://github.com/StakeLab-Hub/Public-Endpoints/blob/main/README.md#cosmos-hub)  
-[Crescent](https://github.com/StakeLab-Hub/Public-Endpoints/blob/main/README.md#crescent)   
-[Evmos](https://github.com/StakeLab-Hub/Public-Endpoints/blob/main/README.md#evmos)  
-[Osmosis](https://github.com/StakeLab-Hub/Public-Endpoints/blob/main/README.md#osmosis)   
+[Cosmos Hub](https://github.com/StakeLab-Hub/StakeLab/tree/main/Public%20endpoints/README.md#cosmos-hub)  
+[Crescent](https://github.com/StakeLab-Hub/StakeLab/tree/main/Public%20endpoints/README.md#crescent)   
+[Evmos](https://github.com/StakeLab-Hub/StakeLab/tree/main/Public%20endpoints/README.md#evmos)  
+[Osmosis](https://github.com/StakeLab-Hub/StakeLab/tree/main/Public%20endpoints/README.md#osmosis)   
 
 ## Supported networks:  
 
