@@ -26,8 +26,7 @@ If you are one of our supported network, or one we don't support but would like 
 [Kujira](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#kujira)  
 [Okex](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#okex)   
 [Omniflix](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#omniflix)   
-[Osmosis](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#osmosis)   
-[Regen](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#regen)   
+[Osmosis](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#osmosis)    
 [Secret](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#secret)  
 [Sentinel](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#sentinel)  
 [Sifchain](https://github.com/StakeLab-Hub/StakeLab/blob/main/Relayers/README.md#sifchain)   
@@ -73,7 +72,6 @@ Account: [axelar1mjq48r6435aewerpruwc8up3tz3rzan2ghgl25](https://www.mintscan.io
 | Axelar | channel-18 | Stargaze | channel-50 |   
 | Axelar | channel-22 | Evmos | channel-21 | 
 | Axelar | channel-23 | AssetMantle | channel-10 |  
-| Axelar | channel-29 | Regen | channel-48 | 
 | Axelar | channel-33 | Stride | channel-11 | 
 ----------------  
 
@@ -297,14 +295,6 @@ Account: [osmo1mjq48r6435aewerpruwc8up3tz3rzan2yzd8h8](https://www.mintscan.io/o
 | Osmosis | channel-326 | Stride | channel-5 |  
 | Osmosis | channel-362 | Teritori | channel-0 |  
 ---------------- 
-
-### _Regen_  
-
-Account: [regen1mjq48r6435aewerpruwc8up3tz3rzan2nm4th3](https://www.mintscan.io/regen/account/regen1mjq48r6435aewerpruwc8up3tz3rzan2nm4th3)  
-| Source | Channel-id | Destination | Channel-id |  
-| ------|-----|-----|-----|
-| Regen | channel-48 | Axelar | channel-29 |  
-----------------  
 
 ### _Secret_  
 
