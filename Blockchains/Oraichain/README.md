@@ -1,6 +1,15 @@
 # Oraichain
 
-## Install the prerequies
+## Summary
+1. Prepare your environment
+  - [Install the prerequies](https://github.com/StakeLab-Hub/StakeLab/blob/main/Blockchains/Oraichain/README.md#Install-the-prerequies)
+2. Run your full node
+  - [Install the binary](https://github.com/StakeLab-Hub/StakeLab/blob/main/Blockchains/Oraichain/README.md#Install-the-binary)
+  - [Configure your network files](https://github.com/StakeLab-Hub/StakeLab/blob/main/Blockchains/Oraichain/README.md#Configure-your-network-files)
+  - [Launch the chain](https://github.com/StakeLab-Hub/StakeLab/blob/main/Blockchains/Oraichain/README.md#Launch-the-chain)
+ 
+## Prepare your environment
+### Install the prerequies
 *  Linux Machine 20.4+  
 *  Install few packages:  
 ```shell
@@ -27,7 +36,8 @@ go version
 #Should return: go version go1.19.3 linux/amd64
 ```  
 
-## Manual Setup of oraid binary
+## Run your full node
+### Install the binary
 
 Install ```oraid``` binaries and moove it to the right path:
 ```shell
@@ -46,4 +56,6 @@ oraid query wasm libwasmvm-version
 # should return 1.1.2
 ```
 
-## 
+### Configure your networks files
+
+### Launch the chain
