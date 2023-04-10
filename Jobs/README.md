@@ -1,5 +1,7 @@
 # StakeLab Jobs
 
-## [CTO](https://github.com/StakeLab-Hub/StakeLab/tree/main/Jobs/CTO/README.md)
-## [Governance Lead](https://github.com/StakeLab-Hub/StakeLab/tree/main/Jobs/Governance-Lead/README.md)
-## [Community Lead](https://github.com/StakeLab-Hub/StakeLab/tree/main/Jobs/Community-Lead/README.md)
+### [Governance Lead](https://github.com/StakeLab-Hub/StakeLab/tree/main/Jobs/Governance-Lead/README.md)
+### [Designer](https://github.com/StakeLab-Hub/StakeLab/tree/main/Jobs/Designer/README.md)
+
+## To come, but you can start apply now
+### [DevOps](https://github.com/StakeLab-Hub/StakeLab/tree/main/Jobs/DevOps/README.md)
