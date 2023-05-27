@@ -1,3 +1,3 @@
-# chihuahua-helm-chart
+# Charts
 
-Helm chart to install Chihuahua in Kubernetes
+Helm chart to run nodes on Kubernetes.
