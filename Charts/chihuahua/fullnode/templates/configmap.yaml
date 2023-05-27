@@ -1,0 +1,200 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: chihuahua-node-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chihuahua-node.labels" . | nindent 4 }}
+data:
+  init.sh: |
+{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-toml
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chihuahua-node.labels" . | nindent 4 }}
+data:
+  config.toml: |-
+    proxy_app = "{{ .Values.chihuahua_node.proxy_app | default "tcp://127.0.0.1:26658" }}"
+    moniker = "{{ .Values.chihuahua_node.moniker  | default "chihuahua-node" }}"
+    fast_sync = {{ .Values.chihuahua_node.fast_sync | default true}}
+    db_backend = "{{ .Values.chihuahua_node.db_backend | default "goleveldb" }}"
+    db_dir = "{{ .Values.chihuahua_node.db_dir | default "data" }}"
+    log_level = "{{ .Values.log_level | default "info" }}"
+    log_format = "{{ .Values.log_format | default "plain" }}"
+    genesis_file = "{{ .Values.genesis_file | default "config/genesis.json" }}"
+    priv_validator_key_file = "{{ .Values.priv_validator_key_file | default "config/priv_validator_key.json" }}"
+    priv_validator_state_file = "{{ .Values.priv_validator_state_file | default "data/priv_validator_state.json" }}"
+    priv_validator_laddr = "{{ .Values.priv_validator_laddr | default "" }}"
+    node_key_file = "{{ .Values.node_key_file | default "config/node_key.json" }}"
+    abci = "{{ .Values.abci | default "socket" }}"
+    filter_peers = {{ .Values.filter_peers | default false }}
+    [rpc]
+    laddr = "{{ .Values.chihuahua_node.rpc.laddr | default "tcp://127.0.0.1:26657" }}"
+    cors_allowed_origins = {{ .Values.chihuahua_node.rpc.cors_allowed_origins | default "[]" }}
+    cors_allowed_methods = {{ .Values.chihuahua_node.rpc.cors_allowed_methods | default "['HEAD', 'GET', 'POST']" }}
+    cors_allowed_headers = {{ .Values.chihuahua_node.rpc.cors_allowed_headers | default "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']" }}
+    grpc_laddr = "{{ .Values.chihuahua_node.rpc.grpc_laddr | default "" }}"
+    grpc_max_open_connections = {{ .Values.chihuahua_node.rpc.grpc_max_open_connections | default 900 }}
+    unsafe = {{ .Values.chihuahua_node.rpc.unsafe | default false }}
+    max_open_connections = {{ .Values.chihuahua_node.rpc.max_open_connections | default 900 }}
+    max_subscription_clients = {{ .Values.chihuahua_node.rpc.max_subscription_clients | default 100 }}
+    max_subscriptions_per_client = {{ .Values.chihuahua_node.rpc.max_subscriptions_per_client | default 5 }}
+    experimental_subscription_buffer_size = {{ .Values.chihuahua_node.rpc.experimental_subscription_buffer_size | default 200 }}
+    experimental_websocket_write_buffer_size = {{ .Values.chihuahua_node.rpc.experimental_websocket_write_buffer_size | default 200 }}
+    experimental_close_on_slow_client = {{ .Values.chihuahua_node.rpc.experimental_close_on_slow_client | default false }}
+    timeout_broadcast_tx_commit = "{{ .Values.chihuahua_node.rpc.timeout_broadcast_tx_commit | default "10s" }}"
+    max_body_bytes = {{ .Values.chihuahua_node.rpc.max_body_bytes | default 1000000 }}
+    max_header_bytes = {{ .Values.chihuahua_node.rpc.max_header_bytes | default 1048576 | int }}
+    tls_cert_file = "{{ .Values.chihuahua_node.rpc.tls_cert_file | default "" }}"
+    tls_key_file = "{{ .Values.chihuahua_node.rpc.tls_key_file | default "" }}"
+    pprof_laddr = "{{ .Values.chihuahua_node.rpc.pprof_laddr | default "localhost:6060" }}"
+    [p2p]
+    laddr = "{{ .Values.chihuahua_node.p2p.laddr | default "tcp://0.0.0.0:26656" }}"
+    external_address = "{{ .Values.chihuahua_node.p2p.external_address | default "" }}"
+    {{- if .Values.chihuahua_node.addrbook.enabled }} 
+    seeds = "" 
+    {{- else }}
+    seeds = "{{ .Values.chihuahua_node.seeds}}"
+    {{- end }}
+    {{- if .Values.chihuahua_node.addrbook.enabled }}
+    persistent_peers = ""
+    {{- else }}
+    persistent_peers = "{{ .Values.chihuahua_node.peers}}" 
+    {{- end }}
+    upnp = {{ .Values.chihuahua_node.p2p.upnp | default false }}
+    addr_book_file = {{ .Values.chihuahua_node.p2p.addr_book_file | default "config/addrbook.json" | quote }}
+    addr_book_strict = {{ .Values.chihuahua_node.p2p.addr_book_strict | default true }}
+    max_num_inbound_peers = {{ .Values.chihuahua_node.p2p.max_num_inbound_peers | default 40 }}
+    max_num_outbound_peers = {{ .Values.chihuahua_node.p2p.max_num_outbound_peers | default 10 }}
+    unconditional_peer_ids = {{ .Values.chihuahua_node.p2p.unconditional_peer_ids | default "" |quote }}
+    persistent_peers_max_dial_period = {{ .Values.chihuahua_node.p2p.persistent_peers_max_dial_period | default "0s" | quote }}
+    flush_throttle_timeout = {{ .Values.chihuahua_node.p2p.flush_throttle_timeout | default "100ms" |quote }}
+    max_packet_msg_payload_size = {{ .Values.chihuahua_node.p2p.max_packet_msg_payload_size | default 1024 }}
+    send_rate = {{ .Values.chihuahua_node.p2p.send_rate | default 5120000 | int }}
+    recv_rate = {{ .Values.chihuahua_node.p2p.recv_rate | default 5120000 | int }}
+    pex = {{ .Values.chihuahua_node.p2p.pex | default true }}
+    seed_mode = {{ .Values.chihuahua_node.p2p.seed_mode | default false }}
+    private_peer_ids = {{ .Values.chihuahua_node.p2p.private_peer_ids | default "" |quote}}
+    allow_duplicate_ip = {{ .Values.chihuahua_node.p2p.allow_duplicate_ip | default false }}
+    handshake_timeout = {{ .Values.chihuahua_node.p2p.handshake_timeout | default "20s" |quote }}
+    dial_timeout = {{ .Values.chihuahua_node.p2p.dial_timeout | default "3s" |quote }}
+    [mempool]
+    version = {{ .Values.chihuahua_node.mempool.version | default 1 |quote }}
+    recheck = {{ .Values.chihuahua_node.mempool.recheck | default true }}
+    broadcast = {{ .Values.chihuahua_node.mempool.broadcast | default true }}
+    wal_dir = {{ .Values.chihuahua_node.mempool.wal_dir | default "" | quote }}
+    size = {{ .Values.chihuahua_node.mempool.size | default 5000 }}
+    max_txs_bytes = {{ .Values.chihuahua_node.mempool.max_txs_bytes | default 1073741824 | int }}
+    cache_size = {{ .Values.chihuahua_node.mempool.cache_size | default 10000 }}
+    keep-invalid-txs-in-cache = {{ .Values.chihuahua_node.mempool.keep_invalid_txs_in_cache | default false }}
+    max_tx_bytes = {{ .Values.chihuahua_node.mempool.max_tx_bytes | default 1048576 }}
+    max_batch_bytes = {{ .Values.chihuahua_node.mempool.max_batch_bytes | default 1048576 }}
+    ttl-duration = {{ .Values.chihuahua_node.mempool.ttl_duration | default "0s" | quote }}
+    ttl-num-blocks = {{ .Values.chihuahua_node.mempool.ttl_num_blocks | default 0 }}
+    [statesync]
+    enable = {{ .Values.chihuahua_node.statesync.enable | default false }}
+    rpc_servers = {{ .Values.chihuahua_node.statesync.rpc_servers | default "" |quote}}
+    trust_height = {{ .Values.chihuahua_node.statesync.trust_height | default 0 }}
+    trust_hash = {{ .Values.chihuahua_node.statesync.trust_hash | default "" |quote }}
+    trust_period = {{ .Values.chihuahua_node.statesync.trust_period | default "336h" | quote }}
+    discovery_time = {{ .Values.chihuahua_node.statesync.discovery_time | default "15s" | quote }}
+    temp_dir = {{ .Values.chihuahua_node.statesync.temp_dir | default "data/statesync" | quote }}
+    chunk_request_timeout = {{ .Values.chihuahua_node.statesync.chunk_request_timeout | default "10s" | quote }}
+    chunk_fetchers = {{ .Values.chihuahua_node.statesync.chunk_fetchers | default 4 | quote}}
+    [fastsync]
+    version = "{{ .Values.chihuahua_node.fastsync.version | default "v0" }}"
+    [consensus]
+    wal_file = "{{ .Values.chihuahua_node.consensus.wal_file | default "data/cs.wal/wal" }}"
+    timeout_propose = "{{ .Values.chihuahua_node.consensus.timeout_propose | default "3s" }}"
+    timeout_propose_delta = "{{ .Values.chihuahua_node.consensus.timeout_propose_delta | default "500ms" }}"
+    timeout_prevote = "{{ .Values.chihuahua_node.consensus.timeout_prevote | default "1s" }}"
+    timeout_prevote_delta = "{{ .Values.chihuahua_node.consensus.timeout_prevote_delta | default "500ms" }}"
+    timeout_precommit = "{{ .Values.chihuahua_node.consensus.timeout_precommit | default "1s" }}"
+    timeout_precommit_delta = "{{ .Values.chihuahua_node.consensus.timeout_precommit_delta | default "500ms" }}"
+    timeout_commit = "{{ .Values.chihuahua_node.consensus.timeout_commit | default "5s" }}"
+    double_sign_check_height = {{ .Values.chihuahua_node.consensus.double_sign_check_height | default 0 }}
+    skip_timeout_commit = {{ .Values.chihuahua_node.consensus.skip_timeout_commit | default false }}
+    create_empty_blocks = {{ .Values.chihuahua_node.consensus.create_empty_blocks | default true}}
+    create_empty_blocks_interval = "{{ .Values.chihuahua_node.consensus.create_empty_blocks_interval | default "0s" }}"
+    peer_gossip_sleep_duration = "{{ .Values.chihuahua_node.consensus.peer_gossip_sleep_duration | default "100ms" }}"
+    peer_query_maj23_sleep_duration = "{{ .Values.chihuahua_node.consensus.peer_query_maj23_sleep_duration | default "2s" }}"
+    [storage]
+    discard_abci_responses = {{ .Values.chihuahua_node.storage.discard_abci_responses | default false }}
+    [tx_index]
+    indexer = "{{ .Values.chihuahua_node.tx_index.indexer | default "kv" }}"
+    psql-conn = "{{ .Values.chihuahua_node.tx_index.psql_conn | default "" }}"
+    [instrumentation]
+    prometheus = {{ .Values.chihuahua_node.instrumentation.prometheus | default true }}
+    prometheus_listen_addr = "{{ .Values.chihuahua_node.instrumentation.prometheus_listen_addr | default ":26660" }}"
+    max_open_connections = {{ .Values.chihuahua_node.instrumentation.max_open_connections | default 3 }}
+    namespace = {{ .Values.chihuahua_node.instrumentation.namespace | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-toml
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "chihuahua-node.labels" . | nindent 4 }}
+data:
+  app.toml: |-
+    minimum-gas-prices = "{{ .Values.chihuahua_node.minimum_gas_prices }}"
+    pruning = "{{ .Values.chihuahua_node.pruning }}"
+    pruning-keep-recent = "{{ .Values.chihuahua_node.pruning_keep_recent}}"
+    pruning-keep-every = "{{ .Values.chihuahua_node.pruning_keep_every  }}"
+    pruning-interval = "{{ .Values.chihuahua_node.pruning_interval }}"
+    halt-height = {{ .Values.chihuahua_node.halt_height }}
+    halt-time = {{ .Values.chihuahua_node.halt_time }}
+    min-retain-blocks = {{ .Values.chihuahua_node.min_retain_blocks }}
+    inter-block-cache = {{ .Values.chihuahua_node.inter_block_cache }}
+    index-events = {{ .Values.chihuahua_node.index_events }}
+    iavl-cache-size = {{ .Values.chihuahua_node.iavl_cache_size }}
+    iavl-disable-fastnode = {{ .Values.chihuahua_node.iavl_disable_fastnode }}
+    [telemetry]
+    service-name = "{{ .Values.chihuahua_node.telemetry.serviceName }}"
+    enabled = {{ .Values.chihuahua_node.telemetry.enabled }}
+    enable-hostname = {{ .Values.chihuahua_node.telemetry.enableHostname }}
+    enable-hostname-label = {{ .Values.chihuahua_node.telemetry.enableHostnameLabel }}
+    enable-service-label = {{ .Values.chihuahua_node.telemetry.enableServiceLabel }}
+    prometheus-retention-time = {{ .Values.chihuahua_node.telemetry.prometheusRetentionTime }}
+    global-labels = {{ .Values.chihuahua_node.telemetry.globalLabels }}
+    [api]
+    enable = {{ .Values.chihuahua_node.api.enable }}
+    swagger = {{ .Values.chihuahua_node.api.swagger }}
+    address = "{{ .Values.chihuahua_node.api.address }}"
+    max-open-connections = {{ .Values.chihuahua_node.api.maxOpenConnections }}
+    rpc-read-timeout = {{ .Values.chihuahua_node.api.rpcReadTimeout }}
+    rpc-write-timeout = {{ .Values.chihuahua_node.api.rpcWriteTimeout }}
+    rpc-max-body-bytes = {{ .Values.chihuahua_node.api.rpcMaxBodyBytes }}
+    enabled-unsafe-cors = {{ .Values.chihuahua_node.api.enabledUnsafeCors }}
+    [rosetta]
+    enable = {{ .Values.chihuahua_node.rosetta.enable }}
+    address = "{{ .Values.chihuahua_node.rosetta.address }}"
+    blockchain = "{{ .Values.chihuahua_node.rosetta.blockchain }}"
+    network = "{{ .Values.chihuahua_node.rosetta.network }}"
+    retries = {{ .Values.chihuahua_node.rosetta.retries }}
+    offline = {{ .Values.chihuahua_node.rosetta.offline }}
+    [grpc]
+    enable = {{ .Values.chihuahua_node.grpc.enable }}
+    address = "{{ .Values.chihuahua_node.grpc.address }}"
+    [grpc-web]
+    enable = {{ .Values.chihuahua_node.grpcWeb.enable }}
+    address = "{{ .Values.chihuahua_node.grpcWeb.address }}"
+    enable-unsafe-cors = {{ .Values.chihuahua_node.grpcWeb.enableUnsafeCors }}
+    [state-sync]
+    snapshot-interval = {{ .Values.chihuahua_node.stateSync.snapshotInterval }}
+    snapshot-keep-recent = {{ .Values.chihuahua_node.stateSync.snapshotKeepRecent }}
+    [store]
+    streamers = {{ .Values.chihuahua_node.store.streamers }}
+    [streamers]
+    [streamers.file]
+    keys = {{ .Values.chihuahua_node.streamers.file.keys |default "['*', ]" }}
+    write_dir = {{ .Values.chihuahua_node.streamers.file.writeDir | default "" | quote }}
+    prefix = {{ .Values.chihuahua_node.streamers.file.prefix | default "" | quote }}
+    output-metadata = {{ .Values.chihuahua_node.streamers.file.outputMetadata | default true |quote }}
+    stop-node-on-error = {{ .Values.chihuahua_node.streamers.file.stopNodeOnError | default true |quote }}
+    fsync = {{ .Values.chihuahua_node.streamers.file.fsync | default false | quote }}

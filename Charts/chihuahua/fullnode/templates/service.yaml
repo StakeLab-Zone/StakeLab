@@ -1,0 +1,21 @@
+{{- if .Values.fullnode.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chihuahua-fullnode
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1317
+      name: chihuahuad-api
+    - port: 9090
+      name: chihuahuad-grpc
+    - port: 26656
+      name: chihuahuad-p2p
+    - port: 26657
+      name: chihuahuad-rpc
+  selector:
+    chihuahua.network/fullnode: "{{ .Values.chihuahua_node.moniker }}"
+{{- end }}

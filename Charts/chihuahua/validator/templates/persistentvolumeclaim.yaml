@@ -1,0 +1,13 @@
+{{- if .Values.local_storage.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: chihuahua-node-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: chihuahua-local-storage
+  resources:
+    requests:
+      storage: {{ $.Values.local_storage.capacity }}
+{{- end }}
