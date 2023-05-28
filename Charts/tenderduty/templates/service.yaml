@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "tenderduty.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "tenderduty.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.listen_port }}
+      name: tenderduty-ui
+    {{- if .Values.prometheus_enabled }}
+    - port: {{ .Values.prometheus_listen_port }}
+      name: tenderduty-prometheus
+    {{- end }}
+  selector:
+    {{ include "tenderduty.fullname" . }}

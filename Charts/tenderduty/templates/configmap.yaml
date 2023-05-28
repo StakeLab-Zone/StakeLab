@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-yaml
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "tenderduty.labels" . | nindent 4 }}
+data:
+  config.yaml: |-
+    # controls whether the dashboard is enabled.
+    enable_dashboard: {{ .Values.enable_dashboard }}
+    # What TCP port the dashboard will listen on. Only the port is controllable for now.
+    listen_port: {{ .Values.listen_port }}
+    # hide_logs is useful if the dashboard will be posted publicly. It disables the log feed,
+    # and obscures most node-related details. Be aware this isn't fully vetted for preventing
+    # info leaks about node names, etc.
+    hide_logs: {{ .Values.hide_logs }}
+    # How long to wait before alerting that a node is down.
+    node_down_alert_minutes: {{ .Values.node_down_alert_minutes }}
+    # Node Down alert Pagerduty Severity
+    node_down_alert_severity: {{ .Values.node_down_alert_severity }}
+
+    # Should the prometheus exporter be enabled?
+    prometheus_enabled: {{ .Values.prometheus_enabled }}}
+    # What port should it listen on? For now only port is configurable.
+    prometheus_listen_port: {{ .Values.prometheus_listen_port }}
+
+    # Global setting for pagerduty
+    pagerduty:
+      # Should we use PD? Be aware that if this is set to no it overrides individual chain alerting settings.
+      enabled: {{ .Values.pagerduty.enabled }}
+      # This is an API key, not oauth token, more details to follow, but check the v1 docs for more info
+      api_key: {{ .Values.pagerduty.api_key }}
+      # Not currently used, but will be soon. This allows setting escalation priorities etc.
+      default_severity: {{ .Values.pagerduty.default_severity }}
+
+    # Discord settings
+    discord:
+      # Alert to discord?
+      enabled: {{ .Values.discord.enabled }}}
+      # The webhook is set by right-clicking on a channel, editing the settings, and configuring a webhook in the intergrations section.
+      webhook: {{ .Values.discord.webhook }}
+
+    # Telegram settings
+    telegram:
+      # Alert via telegram? Note: also supersedes chain-specific settings
+      enabled: {{ .Values.telegram.enabled }}
+      # API key ... talk to @BotFather
+      api_key: {{ .Values.telegram.api_key }}
+      # The group ID for the chat where messages will be sent. Google how to find this, will include better info later.
+      channel: {{ .Values.telegram.channel }}
+
+    # Slack settings
+    slack:
+      # Send alerts to Slack?
+      enabled: {{ .Values.slack.enabled }}
+      # The webhook can be added in the Slack app directory.
+      webhook: {{ .Values.slack.webhook }}
+
+    # The various chains to be monitored. Create a new entry for each chain. The name itself can be arbitrary, but a
+    # user-friendly name is recommended.
+    {{- range $chainName, $chainData := .Values.chains }}
+    {{ $chainName }}:
+      chain_id: {{ $chainData.chain_id }}
+      valoper_address: {{ $chainData.valoper_address }}
+      public_fallback: {{ $chainData.public_fallback | quote }}
+      alerts:
+        stalled_enabled: {{ $chainData.alerts.stalled_enabled | quote }}
+        stalled_minutes: {{ $chainData.alerts.stalled_minutes }}
+        consecutive_enabled: {{ $chainData.alerts.consecutive_enabled | quote }}
+        consecutive_missed: {{ $chainData.alerts.consecutive_missed }}
+        consecutive_priority: {{ $chainData.alerts.consecutive_priority | quote }}
+        percentage_enabled: {{ $chainData.alerts.percentage_enabled | quote }}
+        percentage_missed: {{ $chainData.alerts.percentage_missed }}
+        percentage_priority: {{ $chainData.alerts.percentage_priority | quote }}
+        alert_if_inactive: {{ $chainData.alerts.alert_if_inactive | quote }}
+        alert_if_no_servers: {{ $chainData.alerts.alert_if_no_servers | quote }}
+        pagerduty:
+          enabled: {{ $chainData.alerts.pagerduty.enabled | quote }}
+          api_key: {{ $chainData.alerts.pagerduty.api_key | quote }}
+        discord:
+          enabled: {{ $chainData.alerts.discord.enabled | quote }}
+          webhook: {{ $chainData.alerts.discord.webhook | quote }}
+        telegram:
+          enabled: {{ $chainData.alerts.telegram.enabled | quote }}
+          api_key: {{ $chainData.alerts.telegram.api_key | quote }}
+          channel: {{ $chainData.alerts.telegram.channel | quote }}
+        slack:
+          enabled: {{ $chainData.alerts.slack.enabled | quote }}
+          webhook: {{ $chainData.alerts.slack.webhook | quote }}
+      nodes:
+        {{- range $chainData.nodes }}
+        - url: {{ .url | quote }}
+          alert_if_down: {{ .alert_if_down | quote }}
+        {{- end }}
+    {{- end }}

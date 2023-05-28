@@ -1,0 +1,6 @@
+apiVersion: v2
+name: tenderduty
+description: Installs a Tenderduty dashboard and Prometheus exporter
+type: application
+version: 0.0.1
+appVersion: 2.2.1

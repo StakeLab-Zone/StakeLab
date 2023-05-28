@@ -1,0 +1,99 @@
+ingress:
+  enabled: true
+  hostname: example.com
+
+image:
+  repository: ghcr.io/blockpane/tenderduty
+  tag: 2.2.1
+  pullPolicy: Always
+enable_dashboard: yes
+listen_port: 8888
+hide_logs: no
+node_down_alert_minutes: 3
+node_down_alert_severity: critical
+prometheus_enabled: yes
+prometheus_listen_port: 28686
+
+# Alerting settings
+pagerduty:
+  enabled: no
+  api_key: aaaaaaaaaaaabbbbbbbbbbbbbcccccccccccc
+  default_severity: alert
+discord:
+  enabled: no
+  webhook: https://discord.com/api/webhooks/999999999999999999/zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+telegram:
+  enabled: no
+  api_key: '5555555555:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'
+  channel: "-666666666"
+slack:
+  enabled: no
+  webhook: https://hooks.slack.com/services/AAAAAAAAAAAAAAAAAAAAAAA/bbbbbbbbbbbbbbbbbbbbbbbb
+
+chains:
+  Osmosis:
+    chain_id: osmosis-1
+    valoper_address: osmovaloper1xxxxxxx...
+    public_fallback: no
+    alerts:
+      stalled_enabled: yes
+      stalled_minutes: 10
+      consecutive_enabled: yes
+      consecutive_missed: 5
+      consecutive_priority: critical
+      percentage_enabled: no
+      percentage_missed: 10
+      percentage_priority: warning
+      alert_if_inactive: yes
+      alert_if_no_servers: yes
+      pagerduty:
+        enabled: yes
+        api_key: "" # uses default if blank
+      discord:
+        enabled: yes
+        webhook: "" # uses default if blank
+      telegram:
+        enabled: yes
+        api_key: "" # uses default if blank
+        channel: "" # uses default if blank
+      slack:
+        enabled: yes
+        webhook: "" # uses default if blank
+    nodes:
+      - url: tcp://localhost:26657
+        alert_if_down: yes
+      - url: https://some-other-node:443
+        alert_if_down: no
+  Chain2:
+    chain_id: chain2-1
+    valoper_address: chain2valoper1xxxxxxx...
+    public_fallback: no
+    alerts:
+      stalled_enabled: yes
+      stalled_minutes: 10
+      consecutive_enabled: yes
+      consecutive_missed: 5
+      consecutive_priority: critical
+      percentage_enabled: no
+      percentage_missed: 10
+      percentage_priority: warning
+      alert_if_inactive: yes
+      alert_if_no_servers: yes
+      pagerduty:
+        enabled: yes
+        api_key: "" # uses default if blank
+      discord:
+        enabled: yes
+        webhook: "" # uses default if blank
+      telegram:
+        enabled: yes
+        api_key: "" # uses default if blank
+        channel: "" # uses default if blank
+      slack:
+        enabled: yes
+        webhook: "" # uses default if blank
+    nodes:
+      - url: tcp://localhost:27757
+        alert_if_down: yes
+      - url: https://some-other-node-for-chain2:443
+        alert_if_down: no

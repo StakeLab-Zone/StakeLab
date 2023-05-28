@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "tenderduty.fullname" . }}
+  labels:
+    app: tenderduty
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "tenderduty.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "tenderduty.fullname" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: config-volume
+              mountPath: /var/lib/tenderduty/config.yml
+              subPath: config.yml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: config-yaml
