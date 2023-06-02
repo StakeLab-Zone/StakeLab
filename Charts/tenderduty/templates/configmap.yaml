@@ -59,38 +59,39 @@ data:
 
     # The various chains to be monitored. Create a new entry for each chain. The name itself can be arbitrary, but a
     # user-friendly name is recommended.
-    {{- range $chainName, $chainData := .Values.chains }}
-    {{ $chainName }}:
-      chain_id: {{ $chainData.chain_id }}
-      valoper_address: {{ $chainData.valoper_address }}
-      public_fallback: {{ $chainData.public_fallback | quote }}
-      alerts:
-        stalled_enabled: {{ $chainData.alerts.stalled_enabled | quote }}
-        stalled_minutes: {{ $chainData.alerts.stalled_minutes }}
-        consecutive_enabled: {{ $chainData.alerts.consecutive_enabled | quote }}
-        consecutive_missed: {{ $chainData.alerts.consecutive_missed }}
-        consecutive_priority: {{ $chainData.alerts.consecutive_priority | quote }}
-        percentage_enabled: {{ $chainData.alerts.percentage_enabled | quote }}
-        percentage_missed: {{ $chainData.alerts.percentage_missed }}
-        percentage_priority: {{ $chainData.alerts.percentage_priority | quote }}
-        alert_if_inactive: {{ $chainData.alerts.alert_if_inactive | quote }}
-        alert_if_no_servers: {{ $chainData.alerts.alert_if_no_servers | quote }}
-        pagerduty:
-          enabled: {{ $chainData.alerts.pagerduty.enabled | quote }}
-          api_key: {{ $chainData.alerts.pagerduty.api_key | quote }}
-        discord:
-          enabled: {{ $chainData.alerts.discord.enabled | quote }}
-          webhook: {{ $chainData.alerts.discord.webhook | quote }}
-        telegram:
-          enabled: {{ $chainData.alerts.telegram.enabled | quote }}
-          api_key: {{ $chainData.alerts.telegram.api_key | quote }}
-          channel: {{ $chainData.alerts.telegram.channel | quote }}
-        slack:
-          enabled: {{ $chainData.alerts.slack.enabled | quote }}
-          webhook: {{ $chainData.alerts.slack.webhook | quote }}
-      nodes:
-        {{- range $chainData.nodes }}
-        - url: {{ .url | quote }}
-          alert_if_down: {{ .alert_if_down | quote }}
-        {{- end }}
-    {{- end }}
+    chains:
+      {{- range $chainName, $chainData := .Values.chains }}
+      {{ $chainName }}:
+        chain_id: {{ $chainData.chain_id }}
+        valoper_address: {{ $chainData.valoper_address }}
+        public_fallback: {{ $chainData.public_fallback | quote }}
+        alerts:
+          stalled_enabled: {{ $chainData.alerts.stalled_enabled | quote }}
+          stalled_minutes: {{ $chainData.alerts.stalled_minutes }}
+          consecutive_enabled: {{ $chainData.alerts.consecutive_enabled | quote }}
+          consecutive_missed: {{ $chainData.alerts.consecutive_missed }}
+          consecutive_priority: {{ $chainData.alerts.consecutive_priority | quote }}
+          percentage_enabled: {{ $chainData.alerts.percentage_enabled | quote }}
+          percentage_missed: {{ $chainData.alerts.percentage_missed }}
+          percentage_priority: {{ $chainData.alerts.percentage_priority | quote }}
+          alert_if_inactive: {{ $chainData.alerts.alert_if_inactive | quote }}
+          alert_if_no_servers: {{ $chainData.alerts.alert_if_no_servers | quote }}
+          pagerduty:
+            enabled: {{ $chainData.alerts.pagerduty.enabled | quote }}
+            api_key: {{ $chainData.alerts.pagerduty.api_key | quote }}
+          discord:
+            enabled: {{ $chainData.alerts.discord.enabled | quote }}
+            webhook: {{ $chainData.alerts.discord.webhook | quote }}
+          telegram:
+            enabled: {{ $chainData.alerts.telegram.enabled | quote }}
+            api_key: {{ $chainData.alerts.telegram.api_key | quote }}
+            channel: {{ $chainData.alerts.telegram.channel | quote }}
+          slack:
+            enabled: {{ $chainData.alerts.slack.enabled | quote }}
+           webhook: {{ $chainData.alerts.slack.webhook | quote }}
+        nodes:
+          {{- range $chainData.nodes }}
+          - url: {{ .url | quote }}
+            alert_if_down: {{ .alert_if_down | quote }}
+          {{- end }}
+      {{- end }}
