@@ -16,4 +16,4 @@ spec:
       name: tenderduty-prometheus
     {{- end }}
   selector:
-    {{ include "tenderduty.fullname" . }}
+    app: tenderduty
