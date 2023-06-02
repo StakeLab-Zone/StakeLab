@@ -20,7 +20,7 @@ spec:
           imagePullPolicy: Always
           volumeMounts:
             - name: config-volume
-              mountPath: /var/lib/tenderduty/config.yml
+              mountPath: /var/lib/tenderduty/
               subPath: config.yml
       volumes:
         - name: config-volume
