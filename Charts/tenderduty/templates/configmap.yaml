@@ -21,7 +21,7 @@ data:
     node_down_alert_severity: {{ .Values.node_down_alert_severity }}
 
     # Should the prometheus exporter be enabled?
-    prometheus_enabled: {{ .Values.prometheus_enabled }}}
+    prometheus_enabled: {{ .Values.prometheus_enabled }}
     # What port should it listen on? For now only port is configurable.
     prometheus_listen_port: {{ .Values.prometheus_listen_port }}
 
@@ -37,7 +37,7 @@ data:
     # Discord settings
     discord:
       # Alert to discord?
-      enabled: {{ .Values.discord.enabled }}}
+      enabled: {{ .Values.discord.enabled }}
       # The webhook is set by right-clicking on a channel, editing the settings, and configuring a webhook in the intergrations section.
       webhook: {{ .Values.discord.webhook }}
 
