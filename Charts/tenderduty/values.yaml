@@ -33,67 +33,23 @@ slack:
 chains:
   Osmosis:
     chain_id: osmosis-1
-    valoper_address: osmovaloper1xxxxxxx...
-    public_fallback: no
+    valoper_address: osmovaloper16q8xd335y38xk2ul67mjg27vdnrcnklt4wx6kt
+    public_fallback: yes
     alerts:
-      stalled_enabled: yes
-      stalled_minutes: 10
       consecutive_enabled: yes
-      consecutive_missed: 5
-      consecutive_priority: critical
-      percentage_enabled: no
-      percentage_missed: 10
-      percentage_priority: warning
-      alert_if_inactive: yes
-      alert_if_no_servers: yes
+      consecutive_missed: 1000
       pagerduty:
-        enabled: yes
-        api_key: "" # uses default if blank
-      discord:
-        enabled: yes
-        webhook: "" # uses default if blank
-      telegram:
-        enabled: yes
-        api_key: "" # uses default if blank
-        channel: "" # uses default if blank
-      slack:
-        enabled: yes
-        webhook: "" # uses default if blank
+        enabled: no
     nodes:
-      - url: tcp://localhost:26657
-        alert_if_down: yes
-      - url: https://some-other-node:443
-        alert_if_down: no
-  Chain2:
-    chain_id: chain2-1
-    valoper_address: chain2valoper1xxxxxxx...
-    public_fallback: no
+      - url: https://osmosis-rpc.lavenderfive.com:443
+  Akash:
+    chain_id: akashnet-2
+    valoper_address: akashvaloper1dgxdep80th2qm8xxk8h3j3g93npsd3a8jg60gz
+    public_fallback: yes
     alerts:
-      stalled_enabled: yes
-      stalled_minutes: 10
       consecutive_enabled: yes
-      consecutive_missed: 5
-      consecutive_priority: critical
-      percentage_enabled: no
-      percentage_missed: 10
-      percentage_priority: warning
-      alert_if_inactive: yes
-      alert_if_no_servers: yes
+      consecutive_missed: 1000
       pagerduty:
-        enabled: yes
-        api_key: "" # uses default if blank
-      discord:
-        enabled: yes
-        webhook: "" # uses default if blank
-      telegram:
-        enabled: yes
-        api_key: "" # uses default if blank
-        channel: "" # uses default if blank
-      slack:
-        enabled: yes
-        webhook: "" # uses default if blank
+        enabled: no
     nodes:
-      - url: tcp://localhost:27757
-        alert_if_down: yes
-      - url: https://some-other-node-for-chain2:443
-        alert_if_down: no
+      - url: https://rpc.akash.forbole.com:443
