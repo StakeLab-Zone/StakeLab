@@ -64,7 +64,7 @@ data:
       {{ $chainName | quote }}:
         chain_id: {{ $chainData.chain_id }}
         valoper_address: {{ $chainData.valoper_address }}
-        public_fallback: {{ $chainData.public_fallback | quote }}
+        public_fallback: {{ $chainData.public_fallback }}
         alerts:
           stalled_enabled: {{ $chainData.alerts.stalled_enabled | default "yes" }}
           stalled_minutes: {{ $chainData.alerts.stalled_minutes | default 10 }}
