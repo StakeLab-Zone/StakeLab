@@ -62,6 +62,7 @@ data:
     chains:
       {{- range $chainName, $chainData := .Values.chains }}
       {{ $chainName }}:
+        chain_id: {{ $chainData.chain_id }}
         valoper_address: {{ $chainData.valoper_address }}
         public_fallback: {{ $chainData.public_fallback | quote }}
         alerts:
