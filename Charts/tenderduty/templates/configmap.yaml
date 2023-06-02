@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "tenderduty.labels" . | nindent 4 }}
 data:
-  config.yaml: |-
+  config.yml: |-
     # controls whether the dashboard is enabled.
     enable_dashboard: {{ .Values.enable_dashboard }}
     # What TCP port the dashboard will listen on. Only the port is controllable for now.
