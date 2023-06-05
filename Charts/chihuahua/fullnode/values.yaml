@@ -5,7 +5,7 @@
 image:
   # repository: ghcr.io/charlesjudith/chihuahua-node-docker
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.32-chihuahua-v4.2.3"
+  tag: "v0.3.33-chihuahua-v4.2.3"
   pullPolicy: IfNotPresent
 
 # Common Values
