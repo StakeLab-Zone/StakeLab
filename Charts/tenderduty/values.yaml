@@ -42,6 +42,164 @@ chains:
         enabled: no
     nodes:
       - url: https://osmosis-rpc.lavenderfive.com:443
+  "Asset Mantle":
+    chain_id: mantle-1
+    valoper_address: mantlevaloper1uy0q4859hw5f90peraexmdanyrt8tazz7vheg9
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.akash.forbole.com:443
+
+  "Axelar":
+    chain_id: axelar-dojo-1
+    valoper_address: axelarvaloper19dx6vywgr62jtsxhhlhlgh7ug5vmgjnz6dkeud
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-axelar.imperator.co:443
+
+  "Band":
+    chain_id: laozi-mainnet
+    valoper_address: bandvaloper10s7t8prp0nz36g4dug5ftkm8elyg9hdtlpn6uv
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: http://rpc.laozi1.bandchain.org:80
+
+  "Bitcanna":
+    chain_id: bitcanna-1
+    valoper_address: bcnavaloper1r7up4azsnmprakycclqrh60phvq6zptq8lx8qk
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.bitcanna.io:443
+
+  "Bitsong":
+    chain_id: bitsong-2b
+    valoper_address: bitsongvaloper18wf0w252jxk3kgl5vlst8ttat8xzfnvejuftk2
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://bitsong-rpc.validatrium.club:443
+
+  "Canto":
+    chain_id: canto_7700-1
+    valoper_address: cantovaloper1ctc7cuvzkwhdnfg87u0fp8746cg5d95zyjcr9u
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://canto-rpc.polkachu.com/
+
+  "Chihuahua":
+    chain_id: chihuahua-1
+    valoper_address: chihuahuavaloper13c2hcctczy695gfs5gc637tc844n6a9unlkaqv
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://chihuahua-rpc.polkachu.com:443
+      - url: https://rpc-chihuahua.whispernode.com:443
+      - url: https://rpc.chihuahua.wtf:443
+
+  "Comdex":
+    chain_id: comdex-1
+    valoper_address: comdexvaloper1gfe4f7urf866xte5cpmkgsw7q2u97qj06ldtj3
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-comdex.carbonzero.zone:443
+
+  "Coreum":
+    chain_id: coreum-mainnet-1
+    valoper_address: corevaloper1k0rllvenwr02gvm52fh5056g5m3hly2lpf63z5
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://full-node.mainnet-1.coreum.dev:26657
+
+  "Cosmos":
+    chain_id: cosmoshub-4
+    valoper_address: cosmosvaloper1gpx52r9h3zeul45amvcy2pysgvcwddxrgx6cnv
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.cosmoshub.strange.love:443
+  
+  "Crescent":
+    chain_id: crescent-1
+    valoper_address: crevaloper19mt7qa5pralxre8j9v0wae2kvncv8qcghv0chf
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://crescent-rpc.polkachu.com:443
+
+  "Decentr":
+    chain_id: mainnet-3
+    valoper_address: decentrvaloper1dxlusw3j5hy4m9r9xewhdux7wnctdcdz8hnt4q
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.decentr.nodexcapital.com:443
+
+  "Desmos":
+    chain_id: desmos-mainnet
+    valoper_address: desmosvaloper1lzzctd3a839xxk7vf4cwuhcvgcnmxrhrx7d92e
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.mainnet.desmos.network:443
+
   Akash:
     chain_id: akashnet-2
     valoper_address: akashvaloper1dgxdep80th2qm8xxk8h3j3g93npsd3a8jg60gz
