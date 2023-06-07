@@ -211,3 +211,14 @@ chains:
         enabled: no
     nodes:
       - url: https://rpc.akash.forbole.com:443
+  "Quicksilver":
+    chain_id: quicksilver-2
+    valoper_address: quickvaloper1nng6wzzlzt7htz2fa7xag959acusyjdvnfafph
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.quicksilver.zone:443
