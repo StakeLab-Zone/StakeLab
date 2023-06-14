@@ -214,7 +214,7 @@ spec:
             - containerPort: 26659
               name: chihuahuad-kms
             - containerPort: 26660
-              name: chihuahuad-metrics
+              name: metrics
           volumeMounts:
             - name: config
               mountPath: /config

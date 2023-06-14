@@ -33,6 +33,6 @@ spec:
     - port: 26659
       name: chihuahuad-kms
     - port: 26660
-      name: chihuahuad-metrics
+      name: metrics
   selector:
     app: "chihuahua-validator"
