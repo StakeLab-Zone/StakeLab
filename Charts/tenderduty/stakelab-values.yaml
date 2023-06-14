@@ -1,0 +1,559 @@
+chains:
+
+  "Akash":
+    chain_id: akashnet-2
+    valoper_address: akashvaloper1dgxdep80th2qm8xxk8h3j3g93npsd3a8jg60gz
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.akash.forbole.com:443
+
+  "Asset Mantle":
+    chain_id: mantle-1
+    valoper_address: mantlevaloper1uy0q4859hw5f90peraexmdanyrt8tazz7vheg9
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.akash.forbole.com:443
+
+  "Axelar":
+    chain_id: axelar-dojo-1
+    valoper_address: axelarvaloper19dx6vywgr62jtsxhhlhlgh7ug5vmgjnz6dkeud
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-axelar.imperator.co:443
+
+  "Band":
+    chain_id: laozi-mainnet
+    valoper_address: bandvaloper10s7t8prp0nz36g4dug5ftkm8elyg9hdtlpn6uv
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: http://rpc.laozi1.bandchain.org:80
+
+  "Bitcanna":
+    chain_id: bitcanna-1
+    valoper_address: bcnavaloper1r7up4azsnmprakycclqrh60phvq6zptq8lx8qk
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.bitcanna.io:443
+
+  "Bitsong":
+    chain_id: bitsong-2b
+    valoper_address: bitsongvaloper18wf0w252jxk3kgl5vlst8ttat8xzfnvejuftk2
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://bitsong-rpc.validatrium.club:443
+
+  "Canto":
+    chain_id: canto_7700-1
+    valoper_address: cantovaloper1ctc7cuvzkwhdnfg87u0fp8746cg5d95zyjcr9u
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://canto-rpc.polkachu.com/
+
+  "Chihuahua":
+    chain_id: chihuahua-1
+    valoper_address: chihuahuavaloper13c2hcctczy695gfs5gc637tc844n6a9unlkaqv
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://chihuahua-rpc.polkachu.com:443
+      - url: https://rpc-chihuahua.whispernode.com:443
+      - url: https://rpc.chihuahua.wtf:443
+
+  "Comdex":
+    chain_id: comdex-1
+    valoper_address: comdexvaloper1gfe4f7urf866xte5cpmkgsw7q2u97qj06ldtj3
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-comdex.carbonzero.zone:443
+
+  "Coreum":
+    chain_id: coreum-mainnet-1
+    valoper_address: corevaloper1k0rllvenwr02gvm52fh5056g5m3hly2lpf63z5
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://full-node.mainnet-1.coreum.dev:26657
+
+  "Cosmos":
+    chain_id: cosmoshub-4
+    valoper_address: cosmosvaloper1gpx52r9h3zeul45amvcy2pysgvcwddxrgx6cnv
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.cosmoshub.strange.love:443
+  
+  "Crescent":
+    chain_id: crescent-1
+    valoper_address: crevaloper19mt7qa5pralxre8j9v0wae2kvncv8qcghv0chf
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://crescent-rpc.polkachu.com:443
+
+  "Decentr":
+    chain_id: mainnet-3
+    valoper_address: decentrvaloper1dxlusw3j5hy4m9r9xewhdux7wnctdcdz8hnt4q
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.decentr.nodexcapital.com:443
+
+  "Desmos":
+    chain_id: desmos-mainnet
+    valoper_address: desmosvaloper1lzzctd3a839xxk7vf4cwuhcvgcnmxrhrx7d92e
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.mainnet.desmos.network:443
+
+  "Emoney":
+    chain_id: emoney-3
+    valoper_address: emoneyvaloper1fskgtauswg2d0p79d9gdqj2yjyfulg3d65dtue
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://emoney.validator.network:443
+
+  "Evmos":
+    chain_id: evmos_9001-2
+    valoper_address: evmosvaloper1f6m9d94lkenw9fy5wmytatt76l849kx6ugdz70
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://evmos-rpc.polkachu.com:443
+
+  "Fetch AI":
+    chain_id: fetchhub-4
+    valoper_address: fetchvaloper1mr8tqsr3cjp4vh30j8h32uluh5nhnjnh8lkef0
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-fetchhub.fetch.ai:443
+
+  "Gravity Bridge":
+    chain_id: gravity-bridge-3
+    valoper_address: gravityvaloper1d63hvdgwy64sfex2kyujd0xyfhmu7r7cgxt5ru
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://gravity-rpc.polkachu.com:443
+
+  "HumansAI":
+    chain_id: humans_1089-1
+    valoper_address: humanvaloper1wl8e2g65ajchfke76tss02lpxcdvsfup5pzrz9
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.humans-mainnet.stake-take.com:443
+
+  "Injective":
+    chain_id: injective-1
+    valoper_address: iva1d3z30ndxuqas8vr3mrc7028ykvfaukal0tnj0p
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://injective-rpc.polkachu.com:443
+      - url: https://injective-rpc.polkachu.com:443
+      - url: https://injective-rpc.quickapi.com:443
+
+  "Iris":
+    chain_id: irishub-1
+    valoper_address: iva1d3z30ndxuqas8vr3mrc7028ykvfaukal0tnj0p
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-irisnet-ia.cosmosia.notional.ventures:443
+      - url: https://rpc-iris.keplr.app:443
+      - url: https://rpc-irisnet-01.stakeflow.io:443
+
+  "Ixo":
+    chain_id: ixo-5
+    valoper_address: ixovaloper1ktjjvaurdupt7nvmfkgycn7mv0jcx5frz0dwzf
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: 
+
+  "Juno":
+    chain_id: juno-1
+    valoper_address: junovaloper1la7th9kc3gdltl53cedxxqpkyk5runudrzwx55
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://juno-rpc.reece.sh:443
+
+  "Kava":
+    chain_id: kava_2222-10
+    valoper_address: kavavaloper1gd5hf545caremavv28apr9mzf7f7ns395c27mq
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://kava-rpc.polkachu.com:443
+
+  "Ki Chain":
+    chain_id: kichain-2
+    valoper_address: kivaloper14g4ztk36q529vx8ash7y8hr047kgzxlvyh2ch5
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://kichain-rpc.polkachu.com:443
+
+  "Konstellation":
+    chain_id: darchub
+    valoper_address: darcvaloper1pk8e47hdlw9mtnphz3klhkeed8wlq8gwjw7m0w
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://konstellation-rpc.polkachu.com:443
+
+  "Kyve":
+    chain_id: kyve-1
+    valoper_address: kyvevaloper1v7l3znt0ynf7ppp7gaw8d8vlkpfhrnypawg6vr
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-kyve.imperator.co:443
+
+  "Lum":
+    chain_id: lum-network-1
+    valoper_address: lumvaloper1axqn30kead92gdsg7pusc6ezxx8ltq465r3hv3
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://node0.mainnet.lum.network/rpc:443
+
+  "Medibloc":
+    chain_id: panacea-3
+    valoper_address: panaceavaloper1tfu4t4c0pywlh8d2g2u3d5xnsxdec8x5hacum5
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: 
+
+  "OmniFlix":
+    chain_id: omniflixhub-1
+    valoper_address: omniflixvaloper1pzkx9p2upmrrscwxvwgrmvmfrgcnfskxfzm3z0
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-omniflixhub-ia.cosmosia.notional.ventures:443
+
+  "Osmosis":
+    chain_id: osmosis-1
+    valoper_address: osmovaloper16q8xd335y38xk2ul67mjg27vdnrcnklt4wx6kt
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://osmosis-rpc.lavenderfive.com:443
+
+  "Passage":
+    chain_id: passage-1
+    valoper_address: pasgvaloper1judfryxu5xz4y3sljcqm82vv94psy3d4ckcp7m
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://passage-rpc.polkachu.com:443
+
+  "Persistence":
+    chain_id: core-1
+    valoper_address: persistencevaloper1r7gdc8ag4ktmrvhed2xp09n3klrjuznwdzsru2
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://persistence-rpc.polkachu.com:443
+
+  "Quicksilver":
+    chain_id: quicksilver-2
+    valoper_address: quickvaloper1nng6wzzlzt7htz2fa7xag959acusyjdvnfafph
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc.quicksilver.zone:443
+
+  "Regen":
+    chain_id: regen-1
+    valoper_address: regenvaloper1gjvu75cq6qxyrtdv66lx9xe92jw9gqdetagaze
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-regen-ia.cosmosia.notional.ventures:443
+
+  "Rizon":
+    chain_id: titan-1
+    valoper_address: rizonvaloper1494l9eavjxecx8faxnfx7k5c4x6xneye5rzs2a
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rizon-rpc.ibs.team:443
+
+  "Secret Network":
+    chain_id: secret-4
+    valoper_address: secretvaloper16w5hlcf389le2n60t32eqf43plp539ged9sruy
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://secretnetwork-rpc.lavenderfive.com:443
+
+  "Sentinel":
+    chain_id: sentinelhub-2
+    valoper_address: sentvaloper1gwqt4jzhtvms8u57gpl4tzxjxqq8fss2j3hx48
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-sentinel-ia.cosmosia.notional.ventures:443
+
+  "Shentu":
+    chain_id: shentu-2.2
+    valoper_address: certikvaloper1795d6km32m8qtquepatf7npean9dgvrpr3le7q
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://rpc-shentu-01.stakeflow.io:443
+
+  "Sifchain":
+    chain_id: sifchain-1
+    valoper_address: sifvaloper1kttxh8lxsmez56pen3cw307raf45fj9vmvwn5j
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://sifchain-rpc.polkachu.com:443
+
+  "Sommelier":
+    chain_id: sommelier-3
+    valoper_address: sommvaloper1pedd3sk0qhwc3yr6zh036gcwc0d6yhuntw9lcw
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://sommelier-rpc.polkachu.com:443
+
+  "Stafihub":
+    chain_id: stafihub-1
+    valoper_address: stafivaloper18em4at7k6qrmhjp804jst72ygj8h6hjzfsdj7h
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://public-rpc1.stafihub.io:443
+
+  "Stargaze":
+    chain_id: stargaze-1
+    valoper_address: starsvaloper1mz2qks48v486d9m8wp4l9fxm2e9l0e0kzk79m5
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://stargaze-rpc.polkachu.com:443
+
+  "Stride":
+    chain_id: stride-1
+    valoper_address: stridevaloper1mjr7m233g7yklzvfjp7jvtpsjm286dv2rcytjj
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://stride-rpc.lavenderfive.com:443
+
+  "Teritori":
+    chain_id: teritori-1
+    valoper_address: torivaloper1xu736l4vt6l2pg9k2yk66fq7zq6y4aj5xmd6vq
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://teritori-rpc.polkachu.com:443
+
+  "Umee":
+    chain_id: umee-1
+    valoper_address: umeevaloper1gxgsq7jpkg0f8vfkk60c4rd30z4cgs6lyqtglf
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 1000
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: https://umee-rpc.polkachu.com:443
