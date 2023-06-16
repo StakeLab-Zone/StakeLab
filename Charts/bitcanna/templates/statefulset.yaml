@@ -1,0 +1,281 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bitcanna-node-validator
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: bitcanna-validator
+    bitcanna.network/validator: "{{ .Values.bitcanna_node.moniker }}"
+  {{- else }}
+    app: bitcanna-fullnode
+    bitcanna.network/fullnode: "{{ .Values.bitcanna_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: bitcanna-validator
+  {{- else }}
+  serviceName: bitcanna-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: bitcanna-validator
+      bitcanna.network/validator: "{{ .Values.bitcanna_node.moniker }}"
+    {{- else }}
+      app: bitcanna-fullnode
+      bitcanna.network/fullnode: "{{ .Values.bitcanna_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: bitcanna-validator
+        bitcanna.network/validator: "{{ .Values.bitcanna_node.moniker }}"
+      {{- else }}
+        app: bitcanna-fullnode
+        bitcanna.network/fullnode: "{{ .Values.bitcanna_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: bitcanna-validator
+    {{- else }}
+      ServiceAccountName: bitcanna-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: BITCANNA_MONIKER
+              value: {{ .Values.bitcanna_node.moniker }}
+            - name: BITCANNA_NET
+              value: {{ .Values.bitcanna_node.net }}
+            - name: BITCANNA_HOME
+              value: {{ .Values.home }}
+            - name: BITCANNA_CHAIN_ID
+              value: {{ .Values.bitcanna_node.chainid }}
+            - name: BITCANNA_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: BITCANNA_ADDRBOOK_ENABLED
+              value: "{{ .Values.bitcanna_node.addrbook.enabled }}"
+            - name: BITCANNA_ADDRBOOK_URL
+              value: {{ .Values.bitcanna_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: BITCANNA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitcanna_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.bitcanna_node.addrbook.enabled }}
+            - name: BITCANNA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitcanna_node.peers }}
+            {{- end }}
+            - name: BITCANNA_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.bitcanna_node.iavl_disable_fastnode }}"
+            - name: BITCANNA_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: BITCANNA_MINIMUM_GAS_PRICES
+              value: "{{ .Values.bitcanna_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.bitcanna_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: BITCANNA_STATESYNC_ENABLE
+              value: "true"
+            - name: BITCANNA_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: bitcanna-validator-config-toml
+              mountPath: /root/.bcna/config/config.toml
+              subPath: config.toml
+            - name: bitcanna-validator-app-toml
+              mountPath: /root/.bcna/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.bcna/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.bcna/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bcnad" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: BITCANNA_MONIKER
+              value: {{ .Values.bitcanna_node.moniker }}
+            - name: BITCANNA_NET
+              value: {{ .Values.bitcanna_node.net }}
+            - name: BITCANNA_HOME
+              value: {{ .Values.home }}
+            - name: BITCANNA_CHAIN_ID
+              value: {{ .Values.bitcanna_node.chainid }}
+            - name: BITCANNA_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: BITCANNA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitcanna_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.bitcanna_node.addrbook.enabled }}
+            - name: BITCANNA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitcanna_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: BITCANNA_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: BITCANNA_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: BITCANNA_PRUNING
+              value: "custom"
+            - name: BITCANNA_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: BITCANNA_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: BITCANNA_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: BITCANNA_PRUNING
+              value: "{{ .Values.bitcanna_node.pruning }}"
+            - name: BITCANNA_PRUNING_KEEP_RECENT
+              value: "{{ .Values.bitcanna_node.pruning_keep_recent }}"
+            - name: BITCANNA_PRUNING_KEEP_EVERY
+              value: "{{ .Values.bitcanna_node.pruning_keep_every }}"
+            - name: BITCANNA_PRUNING_INTERVAL
+              value: "{{ .Values.bitcanna_node.pruning_interval }}"
+            {{- end }}
+            - name: BITCANNA_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.bitcanna_node.iavl_disable_fastnode }}"
+            - name: BITCANNA_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: BITCANNA_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: BITCANNA_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: BITCANNA_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: BITCANNA_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: BITCANNA_ROSETTA_ENABLE
+              value: "false"
+            - name: BITCANNA_P2P_SEED_MODE
+              value: "true"
+            - name: BITCANNA_P2P_PEX
+              value: "{{ .Values.bitcanna_node.p2p.pex }}"
+            - name: BITCANNA_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: BITCANNA_MINIMUM_GAS_PRICES
+              value: "{{ .Values.bitcanna_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.bitcanna_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: BITCANNA_STATESYNC_ENABLE
+              value: "true"
+            - name: BITCANNA_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: BITCANNA_API_ENABLE
+              value: "{{ .Values.bitcanna_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: bitcanna-p2p
+            - containerPort: 26659
+              name: bitcanna-kms
+            - containerPort: 26660
+              name: bitcanna-metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: bitcanna-validator-config-toml
+              mountPath: /root/.bcna/config/config.toml
+              subPath: config.toml
+            - name: bitcanna-validator-app-toml
+              mountPath: /root/.bcna/config/app.toml
+              subPath: app.toml
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.bcna/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.bcna/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: bitcanna-node-config
+        - name: bitcanna-validator-config-toml
+          configMap:
+            name: bitcanna-validator-config-toml
+        - name: bitcanna-validator-app-toml
+          configMap:
+            name: bitcanna-validator-app-toml
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}

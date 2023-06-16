@@ -1,0 +1,36 @@
+{{- if .Values.fullnode.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitcanna-fullnode
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1317
+      name: bitcanna-api
+    - port: 9090
+      name: bitcanna-grpc
+    - port: 26656
+      name: bitcanna-p2p
+    - port: 26657
+      name: bitcanna-rpc
+  selector:
+    bitcanna.network/fullnode: "{{ .Values.bitcanna_node.moniker }}"
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bitcanna-validator
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 26656
+      name: bitcanna-p2p
+    - port: 26659
+      name: bitcanna-kms
+  selector:
+    app: "bitcanna-validator"
