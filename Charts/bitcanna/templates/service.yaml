@@ -30,7 +30,11 @@ spec:
   ports:
     - port: 26656
       name: bitcanna-p2p
+    - port: 26660
+      name: metrics
+    {{- if .Values.validator.tmkms }}
     - port: 26659
       name: bitcanna-kms
+    {{- end }}
   selector:
     app: "bitcanna-validator"
