@@ -1,0 +1,281 @@
+# Default values for shentu-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.3.30-shentu-v2.5.0"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.certik"
+debug: "false"
+
+# Set Values to run a single shentu (Certik) node connected to an existing network
+# Defaults to mainnet
+shentu_node:
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: shentu-2.2
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices: 0.05uctk
+  net: https://raw.githubusercontent.com/ShentuChain/mainnet/main/shentu-2.2/genesis.json
+  peers: 4ba3f83efc53c834ba27eb22452840ee74aecf45@85.215.105.19:15604,43b923d403b569575fbee4eef1c0fb0c5d39be2f@165.232.72.33:26656,b53c36775ff9bc7bfc084df1cf633bda61735297@3.72.14.179:26656,9bb87ff793b464cc1c1d28f07442fb1c1cf82b0b@142.132.146.164:15607,fa275f5a5c20b8359cc65fb9848cc03a598ec5b6@85.237.193.98:26656,fe3b71b0628a9af8625ffd05abeb3bafe9d2226f@168.119.240.200:46656,100aee4f6928d09e3dddfd0c5028cf127509bbd9@162.55.132.48:15607,b4b138b303d7501db5e198763d1d4bafec1c0884@193.70.33.64:14056,7bc3ca3cd6d5360ad2ac59949128b7eeadd9bdac@178.63.72.80:26656,d2247f7b919f0781c90ee61958d7044665a22d38@134.65.192.243:26656,f36a8abd833ba375029d219cb4f3e53f4dfe1e14@146.59.81.204:61656,f97807210f9547b8a5016fb18000b46072ca5e30@135.181.113.227:2407,c124ce0b508e8b9ed1c5b6957f362225659b5343@169.155.171.114:26656,89757803f40da51678451735445ad40d5b15e059@169.155.169.81:26656,fe394717ce027f33ef6efddbf7cada94d2b0eb9e@3.238.157.164:26656,cdbe37fc5ea42278285dceb90a4fc35e88d1bde9@47.240.17.20:28656,bc9bbcae77a09b41417f597965f6fcbb8b280892@52.71.99.85:26656,c335aa9dce43c9ee376c712952685ea55a984cae@135.181.116.109:27556,486504957037cd04b6159613e748794292523d1c@94.130.115.190:26656,065f66f818c1dfd41cf6aa434c21056339b5528d@136.243.39.175:36656,20157e5c6538f1750618972db3c0d171dae8cf8c@94.130.90.82:26656,1431ea1dd3ccf9363eaca5a464c19d6dfd2696c2@49.12.102.219:26656,6f9bbce23f674829d8a5c306f5c75c21b7fead9b@78.47.87.115:26656,9abf31887c1be97cafac77c58644acbbffce0639@69.197.46.13:26656,a605e6fa81adf6e510da9a819103e4244d97cdff@54.241.84.226:26656,648c22816fdd2dc41fca47bde27f74b68b2886de@95.217.35.111:28656,259259325c4d060fa92209d5e2d456aefa2ef941@69.197.19.19:26656,89467927bca6d8f707effd7bae4759add98953a1@142.132.143.15:11756,baa8cfcad0eff850ef4e0f159bb9b4af620ae019@202.55.85.83:26656,207c47bed435e4174844064ef3f51ca35b059de2@5.189.128.119:26656,77a8840f2209400fb83e32472e47833af8d73751@69.197.43.14:28656,0494d17e2cbe835c7e85a073c7c4f0b6dc17d834@31.7.196.49:26656,f845d2ddfc081b61ffde641d29bda04c81915ea5@44.203.246.233:26656,3e4aae7a4a762627d3e6fa3b7225ae9464a63e7c@45.76.164.176:26656,147eeac0de54a973ade15e46ca427b70d0d535b2@135.181.128.114:14056,db927f396ebc0cef65729961c732a19821834226@69.197.44.12:26656,20f0daee37280bad3befc654171a4bde0d7ecd06@44.193.197.59:26656,d2577e282ec623168015ed7ccf4dc33c3fb07007@44.192.97.59:26656,acaa4b5a5c8d9fb67567a1a611a23fa0f9a89178@3.122.239.14:26656,dcceb7e119765d6ff54cb16fef8d008ba9099d56@52.202.184.217:26656,1fa010a89dedf7dbb91c8239a4fe00c14ffe8715@161.97.133.184:26656,9023d9a3d60f147514129aabe6f6b60cfa4ee128@194.195.213.37:26656,362a39df3a1fa5503300a0e868f8e3e158dc50d1@170.106.151.165:26656,31a3436fa45d0c0b6df1275783be405d5ca71850@65.108.199.222:26556,504d57dce32894491b0c16a2ec4f598d9f0fcf26@198.244.228.17:30656,9442e09afb9b2fbfdcb3a0b7ba3126f0c22edaa3@161.97.90.102:26656,75c40fda1afb5650b0ef378ac461523a97ec6321@44.201.47.161:26656
+  seeds: 
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/addrbook/shentu/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+  store:
+    streamers: "[]"
+  streamers:
+    file:
+      keys: "['*', ]"
+      writeDir: ""
+      prefix: ""
+      outputMetadata: true
+      stopNodeOnError: true
+      fsync: false
+
+# If your node gets connection troubles to Polkachu,
+# make sure to get through the trouble-shooting section at
+# https://polkachu.com/state_sync/shentu
+state_sync:
+  enabled: false
+  rpc1: "https://shentu-rpc.polkachu.com:443"
+  rpc2: "https://shentu-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the SHENTU_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/shentu-validator
+
+# Used for mounting SHENTU_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/shentu-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  tmkms: false
+  node_key: ""
+  priv_key: ""
+
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"

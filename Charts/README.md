@@ -6,4 +6,5 @@ Supported charts:
 
 * bitcanna
 * chihuahua
+* shentu
 * tenderduty
