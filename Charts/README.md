@@ -8,3 +8,4 @@ Supported charts:
 * chihuahua
 * shentu
 * tenderduty
+* uptime-kume
