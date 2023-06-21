@@ -1,0 +1,16 @@
+{{- if .Values.local_storage.enabled -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-storage
+spec:
+  capacity:
+    storage: {{ $.Values.local_storage.capacity }}
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: local-storage
+  local:
+    path: {{ $.Values.local_storage.path }}
+{{- end }}
