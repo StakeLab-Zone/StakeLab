@@ -68,6 +68,11 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+local_storage:
+  enabled: true
+  capacity: 4Gi
+  path: /data/uptime-kuma
+
 autoscaling:
   enabled: false
   minReplicas: 1
