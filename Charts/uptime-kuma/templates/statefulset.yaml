@@ -37,6 +37,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          volumeMounts:
+            - name: uptime-kuma-storage
+              mountPath: /app/data 
+              subPath: /app/data
           livenessProbe:
             httpGet:
               path: /
@@ -59,3 +63,5 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: uptime-kuma-storage
