@@ -24,6 +24,10 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+      - name: uptime-kuma-storage
+        persistentVolumeClaim:
+          claimName: uptime-kuma-node-pvc
       serviceAccountName: {{ include "uptime-kuma.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -63,5 +67,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-        - name: uptime-kuma-storage

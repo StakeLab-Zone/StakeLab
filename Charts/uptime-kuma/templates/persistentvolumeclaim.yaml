@@ -2,11 +2,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: node-pvc
+  name: uptime-kuma-node-pvc
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: local-storage
+  storageClassName: uptime-kuma-local-storage
   resources:
     requests:
       storage: {{ $.Values.local_storage.capacity }}
