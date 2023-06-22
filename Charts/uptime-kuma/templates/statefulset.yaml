@@ -1,5 +1,6 @@
+---
 apiVersion: apps/v1
-kind: Statefulset
+kind: StatefulSet
 metadata:
   name: {{ include "uptime-kuma.fullname" . }}
   labels:
