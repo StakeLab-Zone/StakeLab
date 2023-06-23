@@ -27,8 +27,8 @@ spec:
       {{- end }}
       volumes:
       - name: uptime-kuma-storage
-        persistentVolumeClaim:
-          claimName: uptime-kuma-node-pvc
+        hostPath:
+          path: {{ .Values.local_storage.path }}
       serviceAccountName: {{ include "uptime-kuma.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -44,16 +44,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: uptime-kuma-storage
-              mountPath: /app/data 
-              subPath: /app/data
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+              mountPath: /app/data
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

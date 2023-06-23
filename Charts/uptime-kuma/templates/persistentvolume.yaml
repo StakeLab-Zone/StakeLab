@@ -11,6 +11,6 @@ spec:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Delete
   storageClassName: uptime-kuma-local-storage
-  local:
+  hostPath:
     path: {{ $.Values.local_storage.path }}
 {{- end }}
