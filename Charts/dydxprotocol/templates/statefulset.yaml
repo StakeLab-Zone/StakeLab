@@ -1,0 +1,281 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: dydxprotocol-node-validator
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: dydxprotocol-validator
+    dydxprotocol.network/validator: "{{ .Values.dydxprotocol_node.moniker }}"
+  {{- else }}
+    app: dydxprotocol-fullnode
+    dydxprotocol.network/fullnode: "{{ .Values.dydxprotocol_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: dydxprotocol-validator
+  {{- else }}
+  serviceName: dydxprotocol-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: dydxprotocol-validator
+      dydxprotocol.network/validator: "{{ .Values.dydxprotocol_node.moniker }}"
+    {{- else }}
+      app: dydxprotocol-fullnode
+      dydxprotocol.network/fullnode: "{{ .Values.dydxprotocol_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: dydxprotocol-validator
+        dydxprotocol.network/validator: "{{ .Values.dydxprotocol_node.moniker }}"
+      {{- else }}
+        app: dydxprotocol-fullnode
+        dydxprotocol.network/fullnode: "{{ .Values.dydxprotocol_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: dydxprotocol-validator
+    {{- else }}
+      ServiceAccountName: dydxprotocol-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DYDX_MONIKER
+              value: {{ .Values.dydxprotocol_node.moniker }}
+            - name: DYDX_NET
+              value: {{ .Values.dydxprotocol_node.net }}
+            - name: DYDX_HOME
+              value: {{ .Values.home }}
+            - name: DYDX_CHAIN_ID
+              value: {{ .Values.dydxprotocol_node.chainid }}
+            - name: DYDX_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: DYDX_ADDRBOOK_ENABLED
+              value: "{{ .Values.dydxprotocol_node.addrbook.enabled }}"
+            - name: DYDX_ADDRBOOK_URL
+              value: {{ .Values.dydxprotocol_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: DYDX_P2P_PERSISTENT_PEERS
+              value: {{ .Values.dydxprotocol_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.dydxprotocol_node.addrbook.enabled }}
+            - name: DYDX_P2P_PERSISTENT_PEERS
+              value: {{ .Values.dydxprotocol_node.peers }}
+            {{- end }}
+            - name: DYDX_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.dydxprotocol_node.iavl_disable_fastnode }}"
+            - name: DYDX_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: DYDX_MINIMUM_GAS_PRICES
+              value: "{{ .Values.dydxprotocol_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.dydxprotocol_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: DYDX_STATESYNC_ENABLE
+              value: "true"
+            - name: DYDX_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: dydxprotocol-validator-config-toml
+              mountPath: /root/.bcna/config/config.toml
+              subPath: config.toml
+            - name: dydxprotocol-validator-app-toml
+              mountPath: /root/.bcna/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.bcna/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.bcna/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bcnad" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DYDX_MONIKER
+              value: {{ .Values.dydxprotocol_node.moniker }}
+            - name: DYDX_NET
+              value: {{ .Values.dydxprotocol_node.net }}
+            - name: DYDX_HOME
+              value: {{ .Values.home }}
+            - name: DYDX_CHAIN_ID
+              value: {{ .Values.dydxprotocol_node.chainid }}
+            - name: DYDX_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: DYDX_P2P_PERSISTENT_PEERS
+              value: {{ .Values.dydxprotocol_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.dydxprotocol_node.addrbook.enabled }}
+            - name: DYDX_P2P_PERSISTENT_PEERS
+              value: {{ .Values.dydxprotocol_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: DYDX_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: DYDX_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: DYDX_PRUNING
+              value: "custom"
+            - name: DYDX_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: DYDX_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: DYDX_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: DYDX_PRUNING
+              value: "{{ .Values.dydxprotocol_node.pruning }}"
+            - name: DYDX_PRUNING_KEEP_RECENT
+              value: "{{ .Values.dydxprotocol_node.pruning_keep_recent }}"
+            - name: DYDX_PRUNING_KEEP_EVERY
+              value: "{{ .Values.dydxprotocol_node.pruning_keep_every }}"
+            - name: DYDX_PRUNING_INTERVAL
+              value: "{{ .Values.dydxprotocol_node.pruning_interval }}"
+            {{- end }}
+            - name: DYDX_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.dydxprotocol_node.iavl_disable_fastnode }}"
+            - name: DYDX_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: DYDX_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: DYDX_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: DYDX_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: DYDX_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: DYDX_ROSETTA_ENABLE
+              value: "false"
+            - name: DYDX_P2P_SEED_MODE
+              value: "true"
+            - name: DYDX_P2P_PEX
+              value: "{{ .Values.dydxprotocol_node.p2p.pex }}"
+            - name: DYDX_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: DYDX_MINIMUM_GAS_PRICES
+              value: "{{ .Values.dydxprotocol_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.dydxprotocol_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: DYDX_STATESYNC_ENABLE
+              value: "true"
+            - name: DYDX_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: DYDX_API_ENABLE
+              value: "{{ .Values.dydxprotocol_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: dydxprotocol-p2p
+            - containerPort: 26659
+              name: dydxprotocol-kms
+            - containerPort: 26660
+              name: dydxprotocol-metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: dydxprotocol-validator-config-toml
+              mountPath: /root/.bcna/config/config.toml
+              subPath: config.toml
+            - name: dydxprotocol-validator-app-toml
+              mountPath: /root/.bcna/config/app.toml
+              subPath: app.toml
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.bcna/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.bcna/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: dydxprotocol-node-config
+        - name: dydxprotocol-validator-config-toml
+          configMap:
+            name: dydxprotocol-validator-config-toml
+        - name: dydxprotocol-validator-app-toml
+          configMap:
+            name: dydxprotocol-validator-app-toml
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}

@@ -1,0 +1,280 @@
+# Default values for dydx-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/dydxprotocol/networks"
+  tag: "v0.0.1-rc1"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.dydxprotocol"
+debug: "false"
+
+# Set Values to run a single dydx node connected to an existing network
+# Defaults to mainnet
+dydxprotocol_node:
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: StakeLab
+  chainid: dydx-testnet-1
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices: 0.0025udv4tnt
+  net: https://raw.githubusercontent.com/dydxprotocol/dydxprotocol/main/genesis.json
+  peers: 
+  seeds: 
+  addrbook:
+    enabled: false
+    url: 
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+  store:
+    streamers: "[]"
+  streamers:
+    file:
+      keys: "['*', ]"
+      writeDir: ""
+      prefix: ""
+      outputMetadata: true
+      stopNodeOnError: true
+      fsync: false
+
+# If your node gets connection troubles to Polkachu,
+# make sure to get through the trouble-shooting section at
+# https://polkachu.com/state_sync/dydx
+state_sync:
+  enabled: false
+  rpc1: "https://dydx-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the DYDX_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/dydx-validator
+
+# Used for mounting DYDX_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/dydx-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"
