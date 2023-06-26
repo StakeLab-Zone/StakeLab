@@ -1,2 +1,2 @@
 # bitcanna-helm-chart
-Helm chart to install Bitcanna nodes
+Helm chart to install Bitcanna nodes in Kubernetes
