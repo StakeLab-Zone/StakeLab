@@ -2,10 +2,12 @@
 
 Helm chart to run nodes on Kubernetes.
 
-Supported charts:
+# Supported charts
+## Blockchains:
+- [Bitcanna](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitcanna)
+- [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
+- [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)
 
-* bitcanna
-* chihuahua
-* shentu
-* tenderduty
-* uptime-kume
+## Tools:
+- [Tenderduty](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/tenderduty)
+- [Uptime-Kume](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/uptime-kume)
