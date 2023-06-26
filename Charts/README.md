@@ -1,6 +1,6 @@
 # Charts
 
-Helm chart to run nodes on Kubernetes.
+Helm chart to run nodes on Kubernetes
 
 # Supported charts
 ## Blockchains:
@@ -10,4 +10,4 @@ Helm chart to run nodes on Kubernetes.
 
 ## Tools:
 - [Tenderduty](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/tenderduty)
-- [Uptime-Kume](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/uptime-kume)
+- [Uptime-Kuma](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/uptime-kuma)
