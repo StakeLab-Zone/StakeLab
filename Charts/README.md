@@ -3,10 +3,13 @@
 Helm chart to run nodes on Kubernetes
 
 # Supported charts
-## Blockchains:
+## Blockchains (mainnet):
 - [Bitcanna](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitcanna)
 - [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
 - [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)
+
+## Blockchains (testnet):
+- [dYdX](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/dydxprotocol)
 
 ## Tools:
 - [Tenderduty](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/tenderduty)
