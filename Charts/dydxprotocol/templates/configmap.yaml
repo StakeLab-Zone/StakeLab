@@ -83,7 +83,7 @@ data:
     handshake_timeout = {{ .Values.dydxprotocol_node.p2p.handshake_timeout | default "20s" |quote }}
     dial_timeout = {{ .Values.dydxprotocol_node.p2p.dial_timeout | default "3s" |quote }}
     [mempool]
-    version = {{ .Values.dydxprotocol_node.mempool.version | default 1 |quote }}
+    version = {{ .Values.dydxprotocol_node.mempool.version | default "v1" |quote }}
     recheck = {{ .Values.dydxprotocol_node.mempool.recheck | default true }}
     broadcast = {{ .Values.dydxprotocol_node.mempool.broadcast | default true }}
     wal_dir = {{ .Values.dydxprotocol_node.mempool.wal_dir | default "" | quote }}
@@ -91,8 +91,8 @@ data:
     max_txs_bytes = {{ .Values.dydxprotocol_node.mempool.max_txs_bytes | default 1073741824 | int }}
     cache_size = {{ .Values.dydxprotocol_node.mempool.cache_size | default 10000 }}
     keep-invalid-txs-in-cache = {{ .Values.dydxprotocol_node.mempool.keep_invalid_txs_in_cache | default true }}
-    max_tx_bytes = {{ .Values.dydxprotocol_node.mempool.max_tx_bytes | default 1048576 }}
-    max_batch_bytes = {{ .Values.dydxprotocol_node.mempool.max_batch_bytes | default 1048576 }}
+    max_tx_bytes = {{ .Values.dydxprotocol_node.mempool.max_tx_bytes | default 1048576 | int }}
+    max_batch_bytes = {{ .Values.dydxprotocol_node.mempool.max_batch_bytes | default 0 }}
     ttl-duration = {{ .Values.dydxprotocol_node.mempool.ttl_duration | default "0s" | quote }}
     ttl-num-blocks = {{ .Values.dydxprotocol_node.mempool.ttl_num_blocks | default 20 }}
     [statesync]

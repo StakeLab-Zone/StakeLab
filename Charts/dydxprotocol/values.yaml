@@ -101,6 +101,7 @@ dydxprotocol_node:
     max_batch_bytes: 0
     ttl-duration: "0s"
     ttl-num-blocks: 20
+    max_txs: 5000
   statesync:
     enable: false
     rpc_servers: ""
@@ -202,9 +203,6 @@ dydxprotocol_node:
       outputMetadata: true
       stopNodeOnError: true
       fsync: false
-
-  mempool:
-    max_txs: 5000
 
 state_sync:
   enabled: false
