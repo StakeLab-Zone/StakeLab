@@ -205,6 +205,8 @@ spec:
               name: api
             - containerPort: 26656
               name: p2p
+            - containerPort: 26657
+              name: rpc
             - containerPort: 26660
               name: metrics
           volumeMounts:
