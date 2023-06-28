@@ -1,5 +1,5 @@
 # DYDX Protocol
 
-Helm chart to install DYDX protocol node.
+Helm chart to install dYdX nodes in Kubernetes
 
-This network is now in testnet.
+Note that this is specific to dYdX testnet (not in mainnet yet) and for testing purposes only
