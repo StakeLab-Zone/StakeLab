@@ -28,6 +28,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
+    - port: 1317
+      name: api
     - port: 26656
       name: dydxprotocol-p2p
     - port: 26660
