@@ -279,7 +279,7 @@ ingress:
 
 service:
   type: LoadBalancer
-  loadBalancerIP: 167.235.1.216
+  loadBalancerIP: 65.109.112.162
   p2p: 26656
   rpc: 26657
   grpc: 9090
