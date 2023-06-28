@@ -9,22 +9,22 @@ spec:
   type: {{ .Values.service.type }}
   loadBalancerIP: {{ .Values.service.loadBalancerIP }}
   ports:
-    - port: 1317
-      targetPort: 1317
-      protocol: TCP
-      name: api
-    - port: 9090
-      targetPort: 9090
-      protocol: TCP
-      name: grpc
-    - port: 26656
-      targetPort: 26656
-      protocol: TCP
-      name: p2p
-    - port: 26657
-      targetPort: 26657
-      protocol: TCP
-      name: rpc
+  - port: 1317
+    targetPort: 1317
+    protocol: TCP
+    name: api
+  - port: 9090
+    targetPort: 9090
+    protocol: TCP
+    name: grpc
+  - port: 26656
+    targetPort: 26656
+    protocol: TCP
+    name: p2p
+  - port: 26657
+    targetPort: 26657
+    protocol: TCP
+    name: rpc
   selector:
     dydxprotocol.network/fullnode: "{{ .Values.dydxprotocol_node.moniker }}"
 {{- end }}
@@ -38,29 +38,21 @@ spec:
   type: {{ .Values.service.type }}
   loadBalancerIP: {{ .Values.service.loadBalancerIP }}
   ports:
-   - port: 1317
-      targetPort: 1317
-      protocol: TCP
-      name: api
-    - port: 9090
-      targetPort: 9090
-      protocol: TCP
-      name: grpc
-    - port: 26656
-      targetPort: 26656
-      protocol: TCP
-      name: p2p
-    - port: 26657
-      targetPort: 26657
-      protocol: TCP
-      name: rpc
-    - port: 26660
-      targetPort: 26660
-      protocol: TCP
-      name: metrics
-    {{- if .Values.validator.tmkms }}
-    - port: 26659
-      name: kms
-    {{- end }}
+  - port: 1317
+    targetPort: 1317
+    protocol: TCP
+    name: api
+  - port: 9090
+    targetPort: 9090
+    protocol: TCP
+    name: grpc
+  - port: 26656
+    targetPort: 26656
+    protocol: TCP
+    name: p2p
+  - port: 26657
+    targetPort: 26657
+    protocol: TCP
+    name: rpc
   selector:
     app: "dydxprotocol-validator"
