@@ -31,12 +31,12 @@ spec:
     - port: 1317
       name: api
     - port: 26656
-      name: dydxprotocol-p2p
+      name: p2p
     - port: 26660
       name: metrics
     {{- if .Values.validator.tmkms }}
     - port: 26659
-      name: dydxprotocol-kms
+      name: kms
     {{- end }}
   selector:
     app: "dydxprotocol-validator"
