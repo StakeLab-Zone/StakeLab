@@ -47,7 +47,7 @@ data:
     experimental_websocket_write_buffer_size = {{ .Values.dydxprotocol_node.rpc.experimental_websocket_write_buffer_size | default 200 }}
     experimental_close_on_slow_client = {{ .Values.dydxprotocol_node.rpc.experimental_close_on_slow_client | default false }}
     timeout_broadcast_tx_commit = "{{ .Values.dydxprotocol_node.rpc.timeout_broadcast_tx_commit | default "10s" }}"
-    max_body_bytes = {{ .Values.dydxprotocol_node.rpc.max_body_bytes | default 1000000 }}
+    max_body_bytes = {{ .Values.dydxprotocol_node.rpc.max_body_bytes | default 1000000 | int }}
     max_header_bytes = {{ .Values.dydxprotocol_node.rpc.max_header_bytes | default 1048576 | int }}
     tls_cert_file = "{{ .Values.dydxprotocol_node.rpc.tls_cert_file | default "" }}"
     tls_key_file = "{{ .Values.dydxprotocol_node.rpc.tls_key_file | default "" }}"
