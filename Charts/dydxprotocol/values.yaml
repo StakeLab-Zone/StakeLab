@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: "ghcr.io/dydxprotocol/networks"
+  repository: "ghcr.io/charlesjudith/dydxprotocol-docker"
   tag: "v0.0.1-rc1"
   pullPolicy: IfNotPresent
 
@@ -16,14 +16,12 @@ debug: "false"
 # Set Values to run a single dydx node connected to an existing network
 # Defaults to mainnet
 dydxprotocol_node:
-  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
-  snapshot_provider: "polkachu"
-  api_enable: "false"
+  api_enable: "true"
   moniker: StakeLab
   chainid: dydx-testnet-1
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
   minimum_gas_prices: 0.0025udv4tnt
-  net: https://raw.githubusercontent.com/dydxprotocol/dydxprotocol/main/genesis.json
+  net: https://raw.githubusercontent.com/CharlesJUDITH/dydxprotocol-docker/main/genesis.json
   peers: 
   seeds: 
   addrbook:
