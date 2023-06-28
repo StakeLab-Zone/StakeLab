@@ -169,7 +169,7 @@ data:
     max-open-connections = {{ .Values.dydxprotocol_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.dydxprotocol_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.dydxprotocol_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.dydxprotocol_node.api.rpcMaxBodyBytes }}
+    rpc-max-body-bytes = {{ .Values.dydxprotocol_node.api.rpcMaxBodyBytes | int }}
     enabled-unsafe-cors = {{ .Values.dydxprotocol_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.dydxprotocol_node.rosetta.enable }}
