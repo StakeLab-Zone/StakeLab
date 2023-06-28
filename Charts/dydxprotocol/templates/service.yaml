@@ -9,13 +9,13 @@ spec:
   type: ClusterIP
   ports:
     - port: 1317
-      name: dydxprotocol-api
+      name: api
     - port: 9090
-      name: dydxprotocol-grpc
+      name: grpc
     - port: 26656
-      name: dydxprotocol-p2p
+      name: p2p
     - port: 26657
-      name: dydxprotocol-rpc
+      name: rpc
   selector:
     dydxprotocol.network/fullnode: "{{ .Values.dydxprotocol_node.moniker }}"
 {{- end }}
