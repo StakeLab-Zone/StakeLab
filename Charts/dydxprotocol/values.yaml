@@ -276,3 +276,12 @@ affinity: {}
 ingress:
   enabled: false
   domain: "dmain.tld"
+
+service:
+  type: LoadBalancer
+  loadBalancerIP: 167.235.1.216
+  p2p: 26656
+  rpc: 26657
+  grpc: 9090
+  rest: 1317
+  grpc: 909
