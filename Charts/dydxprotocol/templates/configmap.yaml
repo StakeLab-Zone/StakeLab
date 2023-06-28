@@ -34,7 +34,7 @@ data:
     filter_peers = {{ .Values.filter_peers | default false }}
     [rpc]
     laddr = "{{ .Values.dydxprotocol_node.rpc.laddr | default "tcp://127.0.0.1:26657" }}"
-    cors_allowed_origins = {{ .Values.dydxprotocol_node.rpc.cors_allowed_origins | default "[]" }}
+    cors_allowed_origins = {{ .Values.dydxprotocol_node.rpc.cors_allowed_origins | default "[]" | quote }}
     cors_allowed_methods = {{ .Values.dydxprotocol_node.rpc.cors_allowed_methods | default "['HEAD', 'GET', 'POST']" }}
     cors_allowed_headers = {{ .Values.dydxprotocol_node.rpc.cors_allowed_headers | default "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']" }}
     grpc_laddr = "{{ .Values.dydxprotocol_node.rpc.grpc_laddr | default "" }}"
@@ -90,11 +90,11 @@ data:
     size = {{ .Values.dydxprotocol_node.mempool.size | default 5000 }}
     max_txs_bytes = {{ .Values.dydxprotocol_node.mempool.max_txs_bytes | default 1073741824 | int }}
     cache_size = {{ .Values.dydxprotocol_node.mempool.cache_size | default 10000 }}
-    keep-invalid-txs-in-cache = {{ .Values.dydxprotocol_node.mempool.keep_invalid_txs_in_cache | default false }}
+    keep-invalid-txs-in-cache = {{ .Values.dydxprotocol_node.mempool.keep_invalid_txs_in_cache | default true }}
     max_tx_bytes = {{ .Values.dydxprotocol_node.mempool.max_tx_bytes | default 1048576 }}
     max_batch_bytes = {{ .Values.dydxprotocol_node.mempool.max_batch_bytes | default 1048576 }}
     ttl-duration = {{ .Values.dydxprotocol_node.mempool.ttl_duration | default "0s" | quote }}
-    ttl-num-blocks = {{ .Values.dydxprotocol_node.mempool.ttl_num_blocks | default 0 }}
+    ttl-num-blocks = {{ .Values.dydxprotocol_node.mempool.ttl_num_blocks | default 20 }}
     [statesync]
     enable = {{ .Values.dydxprotocol_node.statesync.enable | default false }}
     rpc_servers = {{ .Values.dydxprotocol_node.statesync.rpc_servers | default "" |quote}}
@@ -105,8 +105,8 @@ data:
     temp_dir = {{ .Values.dydxprotocol_node.statesync.temp_dir | default "data/statesync" | quote }}
     chunk_request_timeout = {{ .Values.dydxprotocol_node.statesync.chunk_request_timeout | default "10s" | quote }}
     chunk_fetchers = {{ .Values.dydxprotocol_node.statesync.chunk_fetchers | default 4 | quote}}
-    [fastsync]
-    version = "{{ .Values.dydxprotocol_node.fastsync.version | default "v0" }}"
+    [[blocksync]
+    version = "{{ .Values.dydxprotocol_node.blocksync.version | default "v0" }}"
     [consensus]
     wal_file = "{{ .Values.dydxprotocol_node.consensus.wal_file | default "data/cs.wal/wal" }}"
     timeout_propose = "{{ .Values.dydxprotocol_node.consensus.timeout_propose | default "3s" }}"
@@ -154,6 +154,8 @@ data:
     index-events = {{ .Values.dydxprotocol_node.index_events }}
     iavl-cache-size = {{ .Values.dydxprotocol_node.iavl_cache_size }}
     iavl-disable-fastnode = {{ .Values.dydxprotocol_node.iavl_disable_fastnode }}
+    iavl-lazy-loading = {{ .Values.dydxprotocol_node.iavl_lazy_loading }}
+    app-db-backend = {{ .Values.dydxprotocol_node.app_db_backend | quote }}
     [telemetry]
     service-name = "{{ .Values.dydxprotocol_node.telemetry.serviceName }}"
     enabled = {{ .Values.dydxprotocol_node.telemetry.enabled }}
@@ -178,9 +180,14 @@ data:
     network = "{{ .Values.dydxprotocol_node.rosetta.network }}"
     retries = {{ .Values.dydxprotocol_node.rosetta.retries }}
     offline = {{ .Values.dydxprotocol_node.rosetta.offline }}
+    enable-fee-suggestion = {{ .Values.dydxprotocol_node.rosetta.enable_fee_suggestion }}
+    gas-to-suggest = {{ .Values.dydxprotocol_node.rosetta.gas_to_suggest }}
+    denom-to-suggest = {{ .Values.dydxprotocol_node.rosetta.denom_to_suggest |quote }}
     [grpc]
     enable = {{ .Values.dydxprotocol_node.grpc.enable }}
     address = "{{ .Values.dydxprotocol_node.grpc.address }}"
+    max-recv-msg-size = {{ .Values.dydxprotocol_node.grpc.max_recv_msg_size | int | quote }}
+    max-send-msg-size = {{ .Values.dydxprotocol_node.grpc.max_send_msg_size| int | quote }}
     [grpc-web]
     enable = {{ .Values.dydxprotocol_node.grpcWeb.enable }}
     address = "{{ .Values.dydxprotocol_node.grpcWeb.address }}"
@@ -198,3 +205,6 @@ data:
     output-metadata = {{ .Values.dydxprotocol_node.streamers.file.outputMetadata | default true |quote }}
     stop-node-on-error = {{ .Values.dydxprotocol_node.streamers.file.stopNodeOnError | default true |quote }}
     fsync = {{ .Values.dydxprotocol_node.streamers.file.fsync | default false | quote }}
+    [mempool]
+    max-txs = {{ .Values.dydxprotocol_node.mempool.max_txs | default 5000 | quote }}
+
