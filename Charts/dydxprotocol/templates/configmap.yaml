@@ -105,7 +105,7 @@ data:
     temp_dir = {{ .Values.dydxprotocol_node.statesync.temp_dir | default "data/statesync" | quote }}
     chunk_request_timeout = {{ .Values.dydxprotocol_node.statesync.chunk_request_timeout | default "10s" | quote }}
     chunk_fetchers = {{ .Values.dydxprotocol_node.statesync.chunk_fetchers | default 4 | quote}}
-    [[blocksync]
+    [blocksync]
     version = "{{ .Values.dydxprotocol_node.blocksync.version | default "v0" }}"
     [consensus]
     wal_file = "{{ .Values.dydxprotocol_node.consensus.wal_file | default "data/cs.wal/wal" }}"
@@ -207,4 +207,3 @@ data:
     fsync = {{ .Values.dydxprotocol_node.streamers.file.fsync | default false | quote }}
     [mempool]
     max-txs = {{ .Values.dydxprotocol_node.mempool.max_txs | default 5000 | quote }}
-
