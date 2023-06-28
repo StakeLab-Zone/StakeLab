@@ -149,7 +149,7 @@ dydxprotocol_node:
   iavl_cache_size: 781250
 
   telemetry:
-    enabled: false
+    enabled: true
     serviceName: ""
     enableHostname: false
     enableHostnameLabel: false
@@ -158,7 +158,7 @@ dydxprotocol_node:
     globalLabels: "[]"
 
   api:
-    enable: false
+    enable: true
     swagger: false
     address: "tcp://0.0.0.0:1317"
     maxOpenConnections: 1000
