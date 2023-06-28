@@ -20,7 +20,7 @@ mkdir -p $DYDX_HOME/data
 # Init the chain
 /bin/dydxprotocold init --chain-id "$DYDX_CHAIN_ID" "$DYDX_MONIKER"
 cd "$DYDX_HOME/data" || exit
-curl -s "$DYDX_NET/genesis.json" > "$DYDX_HOME/config/genesis.json"
+curl -s "$DYDX_NET" > "$DYDX_HOME/config/genesis.json"
 else
   echo "Found dydx data folder!"
   cd "$DYDX_HOME/data" || exit
