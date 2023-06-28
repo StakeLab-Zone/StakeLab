@@ -209,12 +209,14 @@ spec:
             - name: DYDX_API_ENABLE
               value: "{{ .Values.dydxprotocol_node.api_enable }}"
           ports:
+            - containerPort: 1517
+              name: api
             - containerPort: 26656
-              name: dydxprotocol-p2p
+              name: p2p
             - containerPort: 26659
-              name: dydxprotocol-kms
+              name: kms
             - containerPort: 26660
-              name: dydxprotocol-metrics
+              name: metrics
           volumeMounts:
             - name: config
               mountPath: /config
