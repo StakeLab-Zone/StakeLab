@@ -106,10 +106,10 @@ spec:
               mountPath: /config
               readOnly: true
             - name: dydxprotocol-validator-config-toml
-              mountPath: /root/.bcna/config/config.toml
+              mountPath: /root/.dydxprotocol/config/config.toml
               subPath: config.toml
             - name: dydxprotocol-validator-app-toml
-              mountPath: /root/.bcna/config/app.toml
+              mountPath: /root/.dydxprotocol/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
@@ -120,10 +120,10 @@ spec:
           {{- end }}
           {{- if .Values.validator.enabled }}
             - name: node-key
-              mountPath: /root/.bcna/config/node_key.json
+              mountPath: /root/.dydxprotocol/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
-              mountPath: /root/.bcna/config/priv_validator_key.json
+              mountPath: /root/.dydxprotocol/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
           resources:
@@ -133,7 +133,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/bcnad" , "start" ]
+          command: [ "/bin/dydxprotocold" , "start" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
@@ -220,17 +220,17 @@ spec:
               mountPath: /config
               readOnly: true
             - name: dydxprotocol-validator-config-toml
-              mountPath: /root/.bcna/config/config.toml
+              mountPath: /root/.dydxprotocol/config/config.toml
               subPath: config.toml
             - name: dydxprotocol-validator-app-toml
-              mountPath: /root/.bcna/config/app.toml
+              mountPath: /root/.dydxprotocol/config/app.toml
               subPath: app.toml
           {{- if .Values.validator.enabled }}
             - name: node-key
-              mountPath: /root/.bcna/config/node_key.json
+              mountPath: /root/.dydxprotocol/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
-              mountPath: /root/.bcna/config/priv_validator_key.json
+              mountPath: /root/.dydxprotocol/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
           {{- if .Values.local_storage.enabled }}
