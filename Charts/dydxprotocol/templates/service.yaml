@@ -32,6 +32,8 @@ spec:
       name: api
     - port: 26656
       name: p2p
+    - port: 26657
+      name: rpc
     - port: 26660
       name: metrics
     {{- if .Values.validator.tmkms }}
