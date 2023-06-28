@@ -209,7 +209,7 @@ spec:
             - name: DYDX_API_ENABLE
               value: "{{ .Values.dydxprotocol_node.api_enable }}"
           ports:
-            - containerPort: 1517
+            - containerPort: 1317
               name: api
             - containerPort: 26656
               name: p2p
