@@ -3,7 +3,7 @@ StakeLab is the first product of the StakeLab Hub which is related to the valida
 
 ## Summary
 1. [Charts](https://github.com/StakeLab-Hub/StakeLab/blob/main/Charts/README.md)  
-
+Run nodes and validators using our Kubernetes configurations
 
 2. [Interact with a node](https://github.com/StakeLab-Hub/StakeLab/blob/main/Interact%20with%20a%20node/README.md)  
 Learn the basics to interact with a Cosmos node
