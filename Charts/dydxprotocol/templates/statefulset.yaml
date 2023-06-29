@@ -275,7 +275,7 @@ spec:
           configMap:
             name: dydxprotocol-validator-config-toml
         {{- else }}
-          name: dydxprotocol-fullnode-config-toml
+        - name: dydxprotocol-fullnode-config-toml
           configMap:
             name: dydxprotocol-fullnode-config-toml
         {{- end }}

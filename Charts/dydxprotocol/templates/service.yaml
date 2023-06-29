@@ -29,7 +29,7 @@ spec:
     name: rpc
   selector:
     dydxprotocol.network/fullnode: "{{ .Values.dydxprotocol_node.moniker }}"
-{{- end }}
+{{- else }}
 ---
 apiVersion: v1
 kind: Service
@@ -60,3 +60,4 @@ spec:
     name: rpc
   selector:
     app: "dydxprotocol-validator"
+{{- end }}
