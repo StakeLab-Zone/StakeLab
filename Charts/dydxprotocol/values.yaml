@@ -231,7 +231,10 @@ validator:
   node_key: ""
   priv_key: ""
   tmkms: false
-  
+
+fullnode:
+  enabled: false
+
 # If the node is a fullnode (non-validator)
 fullnode:
   enabled: false
