@@ -169,7 +169,19 @@ chains:
         enabled: no
     nodes:
       - url: https://rpc.mainnet.desmos.network:443
-
+      
+  "DYDX":
+    chain_id: dydx-testnet-1
+    valoper_address: dydxvaloper1cquvgx2y9k9qvqgnukqjrlltrk667cgsjrm5nx
+    public_fallback: no
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 100
+      pagerduty:
+        enabled: no
+    nodes:
+      - url: http://dydx-rpc.chuck-dev.xyz:80
+      
   "Emoney":
     chain_id: emoney-3
     valoper_address: emoneyvaloper1fskgtauswg2d0p79d9gdqj2yjyfulg3d65dtue
