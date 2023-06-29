@@ -12,7 +12,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.validator.enabled }}
   name: dydxprotocol-validator-config-toml
+  {{- else }}
+  name: dydxprotocol-fullnode-config-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "dydxprotocol-node.labels" . | nindent 4 }}
@@ -136,7 +140,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.validator.enabled }}
   name: dydxprotocol-validator-app-toml
+  {{- else }}
+  name: dydxprotocol-fullnode-app-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "dydxprotocol-node.labels" . | nindent 4 }}
@@ -207,3 +215,90 @@ data:
     fsync = {{ .Values.dydxprotocol_node.streamers.file.fsync | default false | quote }}
     [mempool]
     max-txs = {{ .Values.dydxprotocol_node.mempool.max_txs | default 5000 | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dydxprotocol-pricefeed-exchange-toml
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dydxprotocol-node.labels" . | nindent 4 }}
+data:
+  pricefeed_exchange_config.toml: |-
+    # This is a TOML config file.
+    # StaticExchangeStartupConfig represents the mapping of exchanges to the parameters for
+    # querying from them.
+    #
+    # ExchangeFeedId - Unique uint32 identifying an exchange.
+    #
+    # IntervalMs - Delays between sending API requests to get exchange market prices - cannot be 0.
+    #
+    # TimeoutMs - Max time to wait on an API call to an exchange - cannot be 0.
+    #
+    # MaxQueries - Max api calls to get market prices for an exchange to make in a task-loop -
+    # cannot be 0. For multi-market API exchanges, the behavior will default to 1.
+    [[exchanges]]
+    ExchangeFeedId = 0
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 3
+    [[exchanges]]
+    ExchangeFeedId = 1
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 3
+    [[exchanges]]
+    ExchangeFeedId = 2
+    IntervalMs = 2500
+    TimeoutMs = 3000
+    MaxQueries = 2
+    [[exchanges]]
+    ExchangeFeedId = 3
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 4
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 5
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 6
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 7
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 8
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 9
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 10
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 11
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeFeedId = 12
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 3

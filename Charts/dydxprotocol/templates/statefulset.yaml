@@ -109,12 +109,23 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: dydxprotocol-validator-config-toml
+            {{- else }}
+            - name: dydxprotocol-fullnode-config-toml
+            {{- end }}
               mountPath: /root/.dydxprotocol/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: dydxprotocol-validator-app-toml
+            {{- else }}
+            - name: dydxprotocol-fullnode-app-toml
+            {{- end }}
               mountPath: /root/.dydxprotocol/config/app.toml
               subPath: app.toml
+            - name: dydxprotocol-pricefeed-exchange-toml
+              mountPath: /root/.dydxprotocol/config/pricefeed_exchange_config.toml
+              subPath: pricefeed_exchange_config.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
@@ -217,12 +228,23 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: dydxprotocol-validator-config-toml
+            {{- else }}
+            - name: dydxprotocol-fullnode-config-toml
+            {{- end }}
               mountPath: /root/.dydxprotocol/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: dydxprotocol-validator-app-toml
+            {{- else }}
+            - name: dydxprotocol-fullnode-app-toml
+            {{- end }}
               mountPath: /root/.dydxprotocol/config/app.toml
               subPath: app.toml
+            - name: dydxprotocol-pricefeed-exchange-toml
+              mountPath: /root/.dydxprotocol/config/pricefeed_exchange_config.toml
+              subPath: pricefeed_exchange_config.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
@@ -248,12 +270,27 @@ spec:
         - name: config
           configMap:
             name: dydxprotocol-node-config
+        {{- if .Values.validator.enabled }}
         - name: dydxprotocol-validator-config-toml
           configMap:
             name: dydxprotocol-validator-config-toml
+        {{- else }}
+          name: dydxprotocol-fullnode-config-toml
+          configMap:
+            name: dydxprotocol-fullnode-config-toml
+        {{- end }}
+        {{- if .Values.validator.enabled }}
         - name: dydxprotocol-validator-app-toml
           configMap:
             name: dydxprotocol-validator-app-toml
+        {{- else }}
+        - name: dydxprotocol-fullnode-app-toml
+          configMap:
+            name: dydxprotocol-fullnode-app-toml
+        {{- end }}
+        - name: dydxprotocol-pricefeed-exchange-toml
+          configMap:
+            name: dydxprotocol-pricefeed-exchange-toml
       {{- if .Values.microk8s.enabled }}
         - name: home
           hostPath:
