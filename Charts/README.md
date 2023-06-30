@@ -14,3 +14,4 @@ Helm chart to run nodes on Kubernetes
 ## Tools:
 - [Tenderduty](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/tenderduty)
 - [Uptime-Kuma](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/uptime-kuma)
+- [Cosmos endpoint cache](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-endpoint-cache)
