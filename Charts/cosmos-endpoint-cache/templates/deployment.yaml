@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cosmos-endpoint-cache.fullname" . }}
+  labels:
+    {{- include "cosmos-endpoint-cache.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "cosmos-endpoint-cache.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "cosmos-endpoint-cache.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "cosmos-endpoint-cache.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+      {{- if .Values.rpcCache.enabled }}
+        - name: rpc-cache
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: REMOTE_CONFIG_TIME_FILE
+              value: {{ .Values.rpcCache.remoteConfigTimeFile }}
+            - name: RPC_PREFIX
+              value: {{ .Values.rpcCache.rpcPrefix | quote }}
+            - name: ENABLE_COUNTER
+              value: {{ .Values.rpcCache.enableCounter | quote}}
+            - name: USE_BACKUP_AS_PRIMARY
+              value: {{ .Values.rpcCache.useBackupAsPrimary | quote }}
+            - name: RPC_URL
+              value: {{ .Values.rpcCache.rpcUrl | quote }}
+            - name: BACKUP_RPC_URL
+              value: {{ .Values.rpcCache.backupRpcUrl | quote }}
+            - name: RPC_WEBSOCKET
+              value: {{ .Values.rpcCache.rpcWebsocket | quote }}
+            - name: NODE_MONIKER
+              value: {{ .Values.rpcCache.nodeMoniker | quote }}
+            - name: RPC_LISTEN_ADDRESS
+              value: {{ .Values.rpcCache.rpcListenAddress | quote }}
+            - name: NODE_TM_VERSION
+              value: {{ .Values.rpcCache.nodeTmVersion | quote }}
+            - name: COINGECKO_ENABLED
+              value: {{ .Values.rpcCache.coingeckoEnabled | quote }}
+            - name: COINGECKO_CACHE_SECONDS
+              value: {{ .Values.rpcCache.coingeckoCacheSeconds | quote }}
+            - name: COINGECKO_IDS
+              value: {{ .Values.rpcCache.coingeckoIds | quote }}
+            - name: COINGECKO_FIAT
+              value: {{ .Values.rpcCache.coinGeckoFiat | quote }}
+            - name: RPC_TITLE
+              value: {{ .Values.rpcCache.rpcTitle | quote }}
+          ports:
+            - name: rpc
+              containerPort: {{ .Values.rpcCache.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: rpc
+          readinessProbe:
+            httpGet:
+              path: /
+              port: rpc
+      {{- end }}
+      {{ if .Values.restApiCache.enabled }}
+        - name: rest-cache
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: REMOTE_CONFIG_TIME_FILE
+              value: {{ .Values.restApiCache.remoteConfigTimeFile }}
+            - name: REST_PREFIX
+              value: {{ .Values.restApiCache.restApiPrefix | quote }}
+            - name: USE_BACKUP_AS_PRIMARY
+              value: {{ .Values.restApiCache.useBackupAsPrimary | quote }}
+            - name: REST_URL
+              value: {{ .Values.restApiCache.restApiUrl | quote }}
+            - name: BACKUP_REST_URL
+              value: {{ .Values.restApiCache.backupRestApiUrl | quote }}
+            - name: NODE_MONIKER
+              value: {{ .Values.restApiCache.nodeMoniker | quote }}
+            - name: ENABLE_COUNTER
+              value: {{ .Values.restApiCache.enableCounter |quote }}
+            - name: API_TITLE
+              value: {{ .Values.restApiCache.apiTitle | quote }}
+            - name: DISABLE_SWAGGER_UI
+              value: {{ .Values.restApiCache.disableSwagger | quote }}
+          ports:
+            - name: rest
+              containerPort: {{ .Values.restApiCache.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: rest
+          readinessProbe:
+            httpGet:
+              path: /
+              port: rest
+      {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
