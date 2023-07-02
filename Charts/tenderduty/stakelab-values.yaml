@@ -241,6 +241,7 @@ chains:
         enabled: no
     nodes:
       - url: https://rpc.humans-mainnet.stake-take.com:443
+      - url: https://rpc.humans.nodestake.top:443
 
   "Injective":
     chain_id: injective-1
