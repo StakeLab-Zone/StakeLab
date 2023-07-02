@@ -253,7 +253,7 @@ chains:
         enabled: no
     nodes:
       - url: https://injective-rpc.polkachu.com:443
-      - url: https://injective-rpc.polkachu.com:443
+      - url: https://rpc-injective.goldenratiostaking.net:443
       - url: https://injective-rpc.quickapi.com:443
 
   "Iris":
