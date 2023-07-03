@@ -399,6 +399,7 @@ chains:
         enabled: no
     nodes:
       - url: https://rpc-passage.ecostake.com:443
+      - url: https://passage-rpc.lavenderfive.com:443
 
   "Persistence":
     chain_id: core-1
