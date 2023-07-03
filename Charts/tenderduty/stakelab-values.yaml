@@ -34,7 +34,7 @@ chains:
       pagerduty:
         enabled: no
     nodes:
-      - url: https://rpc-axelar.imperator.co:443
+      - url: https://rpc-axelar-ia.cosmosia.notional.ventures:443
 
   "Band":
     chain_id: laozi-mainnet
@@ -154,7 +154,7 @@ chains:
       pagerduty:
         enabled: no
     nodes:
-      - url: https://rpc.decentr.nodexcapital.com:443
+      - url: https://poseidon.mainnet.decentr.xyz:443
 
   "Desmos":
     chain_id: desmos-mainnet
