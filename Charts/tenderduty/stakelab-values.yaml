@@ -251,6 +251,7 @@ chains:
         enabled: no
     nodes:
       - url: https://rpc-injective-ia.cosmosia.notional.ventures:443
+      - url: https://injective-mainnet-rpc.autostake.com:443
 
   "Iris":
     chain_id: irishub-1
