@@ -242,7 +242,7 @@ chains:
 
   "Injective":
     chain_id: injective-1
-    valoper_address: iva1d3z30ndxuqas8vr3mrc7028ykvfaukal0tnj0p
+    valoper_address: injvaloper1r3lgsyq49zvl36cnevjx3q6u2ep897rws9hauk
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
@@ -338,7 +338,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-kyve.imperator.co:443
+      - url: https://rpc-kyve.ecostake.com:443
 
   "Lum":
     chain_id: lum-network-1
