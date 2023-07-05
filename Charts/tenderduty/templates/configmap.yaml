@@ -72,7 +72,7 @@ data:
           consecutive_missed: {{ $chainData.alerts.consecutive_missed | default 100 }}
           consecutive_priority: {{ $chainData.alerts.consecutive_priority | default "critical" }}
           percentage_enabled: {{ $chainData.alerts.percentage_enabled | default "no" }}
-          percentage_missed: {{ $chainData.alerts.percentage_missed | default 10 }}
+          percentage_missed: {{ $chainData.alerts.percentage_missed | default 1 }}
           percentage_priority: {{ $chainData.alerts.percentage_priority | default "warning" }}
           alert_if_inactive: {{ $chainData.alerts.alert_if_inactive | default "yes" }}
           alert_if_no_servers: {{ $chainData.alerts.alert_if_no_servers | default "yes" }}
