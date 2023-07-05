@@ -67,7 +67,7 @@ data:
         public_fallback: {{ $chainData.public_fallback }}
         alerts:
           stalled_enabled: {{ $chainData.alerts.stalled_enabled | default "yes" }}
-          stalled_minutes: {{ $chainData.alerts.stalled_minutes | default 10 }}
+          stalled_minutes: {{ $chainData.alerts.stalled_minutes | default 0 }}
           consecutive_enabled: {{ $chainData.alerts.consecutive_enabled | default "yes" }}
           consecutive_missed: {{ $chainData.alerts.consecutive_missed | default 100 }}
           consecutive_priority: {{ $chainData.alerts.consecutive_priority | default "critical" }}
