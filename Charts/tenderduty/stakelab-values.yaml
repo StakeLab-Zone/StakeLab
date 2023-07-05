@@ -54,7 +54,9 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      # consecutive_missed: 100
+      # Added for testing
+      consecutive_missed: 2
       slack:
         enabled: yes
     nodes:
@@ -258,7 +260,9 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      # consecutive_missed: 100
+      # Added for testing
+      consecutive_missed: 2
       slack:
         enabled: yes
     nodes:
