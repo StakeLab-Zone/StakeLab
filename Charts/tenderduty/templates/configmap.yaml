@@ -79,6 +79,6 @@ data:
         nodes:
           {{- range $chainData.nodes }}
           - url: {{ .url | quote }}
-            alert_if_down: {{ .alert_if_down | quote }}
+            alert_if_down: {{ .alert_if_down | quote | default "yes" }}
           {{- end }}
       {{- end }}
