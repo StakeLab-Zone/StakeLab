@@ -9,7 +9,7 @@ image:
 enable_dashboard: yes
 listen_port: 8888
 hide_logs: yes
-node_down_alert_minutes: 3
+node_down_alert_minutes: 0
 node_down_alert_severity: critical
 prometheus_enabled: yes
 prometheus_listen_port: 28686
@@ -37,9 +37,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://osmosis-rpc.lavenderfive.com:443
   "Asset Mantle":
@@ -48,9 +46,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.akash.forbole.com:443
 
@@ -60,9 +56,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc-axelar.imperator.co:443
 
@@ -72,9 +66,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: http://rpc.laozi1.bandchain.org:80
 
@@ -84,9 +76,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.bitcanna.io:443
 
@@ -96,9 +86,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://bitsong-rpc.validatrium.club:443
 
@@ -108,9 +96,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://canto-rpc.polkachu.com/
 
@@ -120,9 +106,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://chihuahua-rpc.polkachu.com:443
       - url: https://rpc-chihuahua.whispernode.com:443
@@ -134,9 +118,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc-comdex.carbonzero.zone:443
 
@@ -146,9 +128,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://full-node.mainnet-1.coreum.dev:26657
 
@@ -158,9 +138,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.cosmoshub.strange.love:443
   
@@ -170,9 +148,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://crescent-rpc.polkachu.com:443
 
@@ -182,9 +158,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.decentr.nodexcapital.com:443
 
@@ -194,9 +168,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.mainnet.desmos.network:443
 
@@ -206,9 +178,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.akash.forbole.com:443
   "Quicksilver":
@@ -217,8 +187,6 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 1000
-      pagerduty:
-        enabled: no
+      consecutive_missed: 100
     nodes:
       - url: https://rpc.quicksilver.zone:443
