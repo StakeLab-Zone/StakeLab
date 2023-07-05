@@ -6,7 +6,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -18,7 +18,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -30,7 +30,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -42,7 +42,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -54,9 +54,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      # consecutive_missed: 100
-      # Added for testing
-      consecutive_missed: 2
+      consecutive_missed: `0
       slack:
         enabled: yes
     nodes:
@@ -68,7 +66,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -80,7 +78,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -92,7 +90,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -104,7 +102,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -116,7 +114,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -128,7 +126,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -140,7 +138,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -152,7 +150,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -164,7 +162,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -176,7 +174,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -188,7 +186,7 @@ chains:
     public_fallback: no
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -200,7 +198,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -212,7 +210,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -224,7 +222,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -236,7 +234,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -248,7 +246,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -260,9 +258,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      # consecutive_missed: 100
-      # Added for testing
-      consecutive_missed: 2
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -275,7 +271,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -289,7 +285,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -301,7 +297,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -313,7 +309,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -325,7 +321,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -338,7 +334,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -350,7 +346,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -362,7 +358,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -374,7 +370,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -386,7 +382,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -398,7 +394,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -410,7 +406,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -423,7 +419,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -435,7 +431,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -447,7 +443,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -459,7 +455,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -471,7 +467,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -483,7 +479,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -495,7 +491,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -507,7 +503,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -519,7 +515,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -531,7 +527,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -543,7 +539,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -555,7 +551,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -567,7 +563,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
@@ -579,7 +575,7 @@ chains:
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
-      consecutive_missed: 100
+      consecutive_missed: 10
       slack:
         enabled: yes
     nodes:
