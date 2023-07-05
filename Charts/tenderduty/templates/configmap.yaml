@@ -72,16 +72,12 @@ data:
           {{- end }} 
           slack:
             enabled: {{ $.Values.slack.enabled }}
-          
           telegram:
             enabled: {{ $.Values.telegram.enabled }}
-          
           discord:
             enabled: {{ $.Values.discord.enabled }}
-          
           pagerduty:
             enabled: {{ $.Values.pagerduty.enabled }}
-
           consecutive_enabled: {{ $chainData.alerts.consecutive_enabled | default "yes" }}
           consecutive_missed: {{ $chainData.alerts.consecutive_missed | default 100 }}
           consecutive_priority: {{ $chainData.alerts.consecutive_priority | default "critical" }}
