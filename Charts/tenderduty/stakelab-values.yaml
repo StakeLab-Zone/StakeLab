@@ -12,6 +12,18 @@ chains:
     nodes:
       - url: https://rpc.akash.forbole.com:443
 
+  "Archway":
+    chain_id: archway-1
+    valoper_address: archwayvaloper1pvsfagv958ynnfa2fdj8rnf556awlg9symmv6z
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 100
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc-1.archway.nodes.guru/websocket
+
   "Asset Mantle":
     chain_id: mantle-1
     valoper_address: mantlevaloper1uy0q4859hw5f90peraexmdanyrt8tazz7vheg9
