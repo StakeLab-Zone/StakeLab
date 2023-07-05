@@ -22,7 +22,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-1.archway.nodes.guru/websocket
+      - url: https://rpc-1.archway.nodes.guru:443
 
   "Asset Mantle":
     chain_id: mantle-1
@@ -34,7 +34,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc.akash.forbole.com:443
+      - url: https://rpc-assetmantle-ia.cosmosia.notional.ventures:443
 
   "Axelar":
     chain_id: axelar-dojo-1
