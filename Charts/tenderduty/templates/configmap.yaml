@@ -70,6 +70,14 @@ data:
           stalled_enabled: {{ $chainData.alerts.stalled_enabled | default "yes" }}
           stalled_minutes: {{ $chainData.alerts.stalled_minutes | default 0 }}
           {{- end }} 
+          {{- if eq .Values.slack "yes" }}
+          slack:
+            enabled: yes
+          }}
+          {{- if eq .Values.telegram "yes" }}
+          telegram:
+            enabled: yes
+          }}
           consecutive_enabled: {{ $chainData.alerts.consecutive_enabled | default "yes" }}
           consecutive_missed: {{ $chainData.alerts.consecutive_missed | default 100 }}
           consecutive_priority: {{ $chainData.alerts.consecutive_priority | default "critical" }}
