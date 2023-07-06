@@ -86,8 +86,8 @@ data:
           percentage_missed: {{ $chainData.alerts.percentage_missed | default 1 }}
           percentage_priority: {{ $chainData.alerts.percentage_priority | default "warning" }}
           {{- end }}
-          alert_if_inactive: {{ $chainData.alerts.alert_if_inactive | default "yes" }}
-          alert_if_no_servers: {{ $chainData.alerts.alert_if_no_servers | default "yes" }}
+          alert_if_inactive: {{ $chainData.alerts.alert_if_inactive | default "no" }}
+          alert_if_no_servers: {{ $chainData.alerts.alert_if_no_servers | default "no" }}
         nodes:
           {{- range $chainData.nodes }}
           - url: {{ .url | quote }}
