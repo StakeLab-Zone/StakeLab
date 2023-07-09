@@ -1,0 +1,308 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bitsong-node-validator
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: bitsong-validator
+    bitsong.network/validator: "{{ .Values.bitsong_node.moniker }}"
+  {{- else }}
+    app: bitsong-fullnode
+    bitsong.network/fullnode: "{{ .Values.bitsong_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: bitsong-validator
+  {{- else }}
+  serviceName: bitsong-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: bitsong-validator
+      bitsong.network/validator: "{{ .Values.bitsong_node.moniker }}"
+    {{- else }}
+      app: bitsong-fullnode
+      bitsong.network/fullnode: "{{ .Values.bitsong_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: bitsong-validator
+        bitsong.network/validator: "{{ .Values.bitsong_node.moniker }}"
+      {{- else }}
+        app: bitsong-fullnode
+        bitsong.network/fullnode: "{{ .Values.bitsong_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: bitsong-validator
+    {{- else }}
+      ServiceAccountName: bitsong-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: BITSONG_MONIKER
+              value: {{ .Values.bitsong_node.moniker }}
+            - name: BITSONG_NET
+              value: {{ .Values.bitsong_node.net }}
+            - name: BITSONG_HOME
+              value: {{ .Values.home }}
+            - name: BITSONG_CHAIN_ID
+              value: {{ .Values.bitsong_node.chainid }}
+            - name: BITSONG_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: BITSONG_ADDRBOOK_ENABLED
+              value: "{{ .Values.bitsong_node.addrbook.enabled }}"
+            - name: BITSONG_ADDRBOOK_URL
+              value: {{ .Values.bitsong_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: BITSONG_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitsong_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.bitsong_node.addrbook.enabled }}
+            - name: BITSONG_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitsong_node.peers }}
+            {{- end }}
+            - name: BITSONG_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.bitsong_node.iavl_disable_fastnode }}"
+            - name: BITSONG_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: BITSONG_MINIMUM_GAS_PRICES
+              value: "{{ .Values.bitsong_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.bitsong_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: BITSONG_STATESYNC_ENABLE
+              value: "true"
+            - name: BITSONG_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+          {{- if .Values.validator.enabled }}
+            - name: bitsong-validator-config-toml
+              mountPath: /root/.bitsongd/config/config.toml
+              subPath: config.toml
+            - name: bitsong-validator-app-toml
+              mountPath: /root/.bitsongd/config/app.toml
+              subPath: app.toml
+          {{- else }}
+            - name: bitsong-fullnode-config-toml
+              mountPath: /root/.bitsongd/config/config.toml
+              subPath: config.toml
+            - name: bitsong-fullnode-app-toml
+              mountPath: /root/.bitsongd/config/app.toml
+              subPath: app.toml
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.bitsongd/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.bitsongd/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bitsongd" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: BITSONG_MONIKER
+              value: {{ .Values.bitsong_node.moniker }}
+            - name: BITSONG_NET
+              value: {{ .Values.bitsong_node.net }}
+            - name: BITSONG_HOME
+              value: {{ .Values.home }}
+            - name: BITSONG_CHAIN_ID
+              value: {{ .Values.bitsong_node.chainid }}
+            - name: BITSONG_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: BITSONG_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitsong_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.bitsong_node.addrbook.enabled }}
+            - name: BITSONG_P2P_PERSISTENT_PEERS
+              value: {{ .Values.bitsong_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: BITSONG_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: BITSONG_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: BITSONG_PRUNING
+              value: "custom"
+            - name: BITSONG_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: BITSONG_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: BITSONG_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: BITSONG_PRUNING
+              value: "{{ .Values.bitsong_node.pruning }}"
+            - name: BITSONG_PRUNING_KEEP_RECENT
+              value: "{{ .Values.bitsong_node.pruning_keep_recent }}"
+            - name: BITSONG_PRUNING_KEEP_EVERY
+              value: "{{ .Values.bitsong_node.pruning_keep_every }}"
+            - name: BITSONG_PRUNING_INTERVAL
+              value: "{{ .Values.bitsong_node.pruning_interval }}"
+            {{- end }}
+            - name: BITSONG_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.bitsong_node.iavl_disable_fastnode }}"
+            - name: BITSONG_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: BITSONG_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: BITSONG_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: BITSONG_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: BITSONG_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: BITSONG_ROSETTA_ENABLE
+              value: "false"
+            - name: BITSONG_P2P_SEED_MODE
+              value: "true"
+            - name: BITSONG_P2P_PEX
+              value: "{{ .Values.bitsong_node.p2p.pex }}"
+            - name: BITSONG_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: BITSONG_MINIMUM_GAS_PRICES
+              value: "{{ .Values.bitsong_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.bitsong_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: BITSONG_STATESYNC_ENABLE
+              value: "true"
+            - name: BITSONG_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }}"
+            {{- end }}
+            - name: BITSONG_API_ENABLE
+              value: "{{ .Values.bitsong_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: bitsong-p2p
+            - containerPort: 26659
+              name: bitsong-kms
+            - containerPort: 26660
+              name: bitsong-metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+          {{- if .Values.validator.enabled }}
+            - name: bitsong-validator-config-toml
+              mountPath: /root/.bitsongd/config/config.toml
+              subPath: config.toml
+            - name: bitsong-validator-app-toml
+              mountPath: /root/.bitsongd/config/app.toml
+              subPath: app.toml
+          {{- else }}
+            - name: bitsong-fullnode-config-toml
+              mountPath: /root/.bitsongd/config/config.toml
+              subPath: config.toml
+            - name: bitsong-fullnode-app-toml
+              mountPath: /root/.bitsongd/config/app.toml
+              subPath: app.toml
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.bitsongd/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.bitsongd/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: bitsong-node-config
+      {{- if .Values.validator.enabled }}
+        - name: bitsong-validator-config-toml
+          configMap:
+            name: bitsong-validator-config-toml
+        - name: bitsong-validator-app-toml
+          configMap:
+            name: bitsong-validator-app-toml
+      {{- else }}
+        - name: bitsong-fullnode-config-toml
+          configMap:
+            name: bitsong-fullnode-config-toml
+        - name: bitsong-fullnode-app-toml
+          configMap:
+            name: bitsong-fullnode-app-toml
+      {{- end }}
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}

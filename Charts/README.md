@@ -5,6 +5,7 @@ Helm chart to run nodes on Kubernetes
 # Supported charts
 ## Blockchains (mainnet):
 - [Bitcanna](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitcanna)
+- [Bitsong](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitsong)
 - [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
 - [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)
