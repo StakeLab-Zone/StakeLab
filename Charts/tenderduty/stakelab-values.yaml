@@ -437,6 +437,18 @@ chains:
     nodes:
       - url: https://rpc.quicksilver.zone:443
 
+  "Rebus":
+    chain_id: reb_1111-1
+    valoper_address: rebusvaloper1mz4lyh4m0qe3snskl4fj0yy9zrnrffrkqysl2c
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc.rebus.nodestake.top:443
+
   "Regen":
     chain_id: regen-1
     valoper_address: regenvaloper1gjvu75cq6qxyrtdv66lx9xe92jw9gqdetagaze
