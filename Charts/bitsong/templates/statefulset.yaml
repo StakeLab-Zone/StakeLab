@@ -219,11 +219,13 @@ spec:
               value: "{{ .Values.bitsong_node.api_enable }}"
           ports:
             - containerPort: 26656
-              name: bitsong-p2p
+              name: p2p
+            {{- if .Values.validator.tmkms }}
             - containerPort: 26659
-              name: bitsong-kms
+              name: kms
+            {{- end }}
             - containerPort: 26660
-              name: bitsong-metrics
+              name: metrics
           volumeMounts:
             - name: config
               mountPath: /config
