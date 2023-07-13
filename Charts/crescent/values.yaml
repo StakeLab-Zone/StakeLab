@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: "ghcr.io/fix-me"
-  tag: "crescent-v4.2.0"
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.3.40-crescent-v4.2.0"
   pullPolicy: IfNotPresent
 
 # Common Values
