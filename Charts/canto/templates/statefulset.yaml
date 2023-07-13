@@ -1,0 +1,281 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cantod-node-validator
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: cantod-validator
+    cantod.network/validator: "{{ .Values.canto_node.moniker }}"
+  {{- else }}
+    app: cantod-fullnode
+    cantod.network/fullnode: "{{ .Values.canto_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: cantod-validator
+  {{- else }}
+  serviceName: cantod-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: cantod-validator
+      cantod.network/validator: "{{ .Values.canto_node.moniker }}"
+    {{- else }}
+      app: cantod-fullnode
+      cantod.network/fullnode: "{{ .Values.canto_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: cantod-validator
+        cantod.network/validator: "{{ .Values.canto_node.moniker }}"
+      {{- else }}
+        app: cantod-fullnode
+        cantod.network/fullnode: "{{ .Values.canto_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: cantod-validator
+    {{- else }}
+      ServiceAccountName: cantod-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CANTO_MONIKER
+              value: {{ .Values.canto_node.moniker }}
+            - name: CANTO_NET
+              value: {{ .Values.canto_node.net }}
+            - name: CANTO_HOME
+              value: {{ .Values.home }}
+            - name: CANTO_CHAIN_ID
+              value: {{ .Values.canto_node.chainid }}
+            - name: CANTO_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: CANTO_ADDRBOOK_ENABLED
+              value: "{{ .Values.canto_node.addrbook.enabled }}"
+            - name: CANTO_ADDRBOOK_URL
+              value: {{ .Values.canto_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: CANTO_P2P_PERSISTENT_PEERS
+              value: {{ .Values.canto_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.canto_node.addrbook.enabled }}
+            - name: CANTO_P2P_PERSISTENT_PEERS
+              value: {{ .Values.canto_node.peers }}
+            {{- end }}
+            - name: CANTO_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.canto_node.iavl_disable_fastnode }}"
+            - name: CANTO_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: CANTO_MINIMUM_GAS_PRICES
+              value: "{{ .Values.canto_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.canto_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: CANTO_STATESYNC_ENABLE
+              value: "true"
+            - name: CANTO_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: cantod-validator-config-toml
+              mountPath: /root/.cantod/config/config.toml
+              subPath: config.toml
+            - name: cantod-validator-app-toml
+              mountPath: /root/.cantod/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.cantod/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.cantod/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/cantod" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CANTO_MONIKER
+              value: {{ .Values.canto_node.moniker }}
+            - name: CANTO_NET
+              value: {{ .Values.canto_node.net }}
+            - name: CANTO_HOME
+              value: {{ .Values.home }}
+            - name: CANTO_CHAIN_ID
+              value: {{ .Values.canto_node.chainid }}
+            - name: CANTO_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: CANTO_P2P_PERSISTENT_PEERS
+              value: {{ .Values.canto_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.canto_node.addrbook.enabled }}
+            - name: CANTO_P2P_PERSISTENT_PEERS
+              value: {{ .Values.canto_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: CANTO_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: CANTO_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: CANTO_PRUNING
+              value: "custom"
+            - name: CANTO_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: CANTO_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: CANTO_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: CANTO_PRUNING
+              value: "{{ .Values.canto_node.pruning }}"
+            - name: CANTO_PRUNING_KEEP_RECENT
+              value: "{{ .Values.canto_node.pruning_keep_recent }}"
+            - name: CANTO_PRUNING_KEEP_EVERY
+              value: "{{ .Values.canto_node.pruning_keep_every }}"
+            - name: CANTO_PRUNING_INTERVAL
+              value: "{{ .Values.canto_node.pruning_interval }}"
+            {{- end }}
+            - name: CANTO_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.canto_node.iavl_disable_fastnode }}"
+            - name: CANTO_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: CANTO_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: CANTO_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: CANTO_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: CANTO_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: CANTO_ROSETTA_ENABLE
+              value: "false"
+            - name: CANTO_P2P_SEED_MODE
+              value: "true"
+            - name: CANTO_P2P_PEX
+              value: "{{ .Values.canto_node.p2p.pex }}"
+            - name: CANTO_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: CANTO_MINIMUM_GAS_PRICES
+              value: "{{ .Values.canto_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.canto_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: CANTO_STATESYNC_ENABLE
+              value: "true"
+            - name: CANTO_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: CANTO_API_ENABLE
+              value: "{{ .Values.canto_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: p2p
+            - containerPort: 26659
+              name: kms
+            - containerPort: 26660
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: cantod-validator-config-toml
+              mountPath: /root/.cantod/config/config.toml
+              subPath: config.toml
+            - name: cantod-validator-app-toml
+              mountPath: /root/.cantod/config/app.toml
+              subPath: app.toml
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: /root/.cantod/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: /root/.cantod/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: cantod-node-config
+        - name: cantod-validator-config-toml
+          configMap:
+            name: cantod-validator-config-toml
+        - name: cantod-validator-app-toml
+          configMap:
+            name: cantod-validator-app-toml
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}
