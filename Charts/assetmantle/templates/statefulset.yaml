@@ -1,0 +1,291 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: assetmantle-node-validator
+  {{- else }}
+  name: assetmantle-fullnode
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: assetmantle-validator
+    assetmantle.network/validator: "{{ .Values.assetmantle_node.moniker }}"
+  {{- else }}
+    app: assetmantle-fullnode
+    assetmantle.network/fullnode: "{{ .Values.assetmantle_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: assetmantle-validator
+  {{- else }}
+  serviceName: assetmantle-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: assetmantle-validator
+      assetmantle.network/validator: "{{ .Values.assetmantle_node.moniker }}"
+    {{- else }}
+      app: assetmantle-fullnode
+      assetmantle.network/fullnode: "{{ .Values.assetmantle_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: assetmantle-validator
+        assetmantle.network/validator: "{{ .Values.assetmantle_node.moniker }}"
+      {{- else }}
+        app: assetmantle-fullnode
+        assetmantle.network/fullnode: "{{ .Values.assetmantle_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: assetmantle-validator
+    {{- else }}
+      ServiceAccountName: assetmantle-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ASSETMANTLE_MONIKER
+              value: {{ .Values.assetmantle_node.moniker }}
+            - name: ASSETMANTLE_NET
+              value: {{ .Values.assetmantle_node.net }}
+            - name: ASSETMANTLE_HOME
+              value: {{ .Values.home }}
+            - name: ASSETMANTLE_CHAIN_ID
+              value: {{ .Values.assetmantle_node.chainid }}
+            - name: ASSETMANTLE_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: ASSETMANTLE_ADDRBOOK_ENABLED
+              value: "{{ .Values.assetmantle_node.addrbook.enabled }}"
+            - name: ASSETMANTLE_ADDRBOOK_URL
+              value: {{ .Values.assetmantle_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: ASSETMANTLE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.assetmantle_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.assetmantle_node.addrbook.enabled }}
+            - name: ASSETMANTLE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.assetmantle_node.peers }}
+            {{- end }}
+            - name: ASSETMANTLE_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.assetmantle_node.iavl_disable_fastnode }}"
+            - name: ASSETMANTLE_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: ASSETMANTLE_MINIMUM_GAS_PRICES
+              value: "{{ .Values.assetmantle_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.assetmantle_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: ASSETMANTLE_STATESYNC_ENABLE
+              value: "true"
+            - name: ASSETMANTLE_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: assetmantle-validator-config-toml
+            {{- else }}
+            - name: assetmantle-fullnode-config-toml
+            {{- end }}
+              mountPath: /root/.mantleNode/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: assetmantle-validator-app-toml
+            {{- else }}
+            - name: assetmantle-fullnode-app-toml
+            {{- end }}
+              mountPath: /root/.mantleNode/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/mantleNode" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: ASSETMANTLE_MONIKER
+              value: {{ .Values.assetmantle_node.moniker }}
+            - name: ASSETMANTLE_NET
+              value: {{ .Values.assetmantle_node.net }}
+            - name: ASSETMANTLE_HOME
+              value: {{ .Values.home }}
+            - name: ASSETMANTLE_CHAIN_ID
+              value: {{ .Values.assetmantle_node.chainid }}
+            - name: ASSETMANTLE_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: ASSETMANTLE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.assetmantle_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.assetmantle_node.addrbook.enabled }}
+            - name: ASSETMANTLE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.assetmantle_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: ASSETMANTLE_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: ASSETMANTLE_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: ASSETMANTLE_PRUNING
+              value: "custom"
+            - name: ASSETMANTLE_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: ASSETMANTLE_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: ASSETMANTLE_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: ASSETMANTLE_PRUNING
+              value: "{{ .Values.assetmantle_node.pruning }}"
+            - name: ASSETMANTLE_PRUNING_KEEP_RECENT
+              value: "{{ .Values.assetmantle_node.pruning_keep_recent }}"
+            - name: ASSETMANTLE_PRUNING_KEEP_EVERY
+              value: "{{ .Values.assetmantle_node.pruning_keep_every }}"
+            - name: ASSETMANTLE_PRUNING_INTERVAL
+              value: "{{ .Values.assetmantle_node.pruning_interval }}"
+            {{- end }}
+            - name: ASSETMANTLE_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.assetmantle_node.iavl_disable_fastnode }}"
+            - name: ASSETMANTLE_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: ASSETMANTLE_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: ASSETMANTLE_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: ASSETMANTLE_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: ASSETMANTLE_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: ASSETMANTLE_ROSETTA_ENABLE
+              value: "false"
+            - name: ASSETMANTLE_P2P_SEED_MODE
+              value: "true"
+            - name: ASSETMANTLE_P2P_PEX
+              value: "{{ .Values.assetmantle_node.p2p.pex }}"
+            - name: ASSETMANTLE_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: ASSETMANTLE_MINIMUM_GAS_PRICES
+              value: "{{ .Values.assetmantle_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.assetmantle_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: ASSETMANTLE_STATESYNC_ENABLE
+              value: "true"
+            - name: ASSETMANTLE_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: ASSETMANTLE_API_ENABLE
+              value: "{{ .Values.assetmantle_node.api_enable }}"
+          ports:
+            - containerPort: 1317
+              name: api
+            - containerPort: 26656
+              name: p2p
+            - containerPort: 26657
+              name: rpc
+            - containerPort: 26660
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: assetmantle-validator-config-toml
+            {{- else }}
+            - name: assetmantle-fullnode-config-toml
+            {{- end }}
+              mountPath: /root/.mantleNode/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: assetmantle-validator-app-toml
+            {{- else }}
+            - name: assetmantle-fullnode-app-toml
+            {{- end }}
+              mountPath: /root/.mantleNode/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: assetmantle-node-config
+        {{- if .Values.validator.enabled }}
+        - name: assetmantle-validator-config-toml
+          configMap:
+            name: assetmantle-validator-config-toml
+        {{- else }}
+        - name: assetmantle-fullnode-config-toml
+          configMap:
+            name: assetmantle-fullnode-config-toml
+        {{- end }}
+        {{- if .Values.validator.enabled }}
+        - name: assetmantle-validator-app-toml
+          configMap:
+            name: assetmantle-validator-app-toml
+        {{- else }}
+        - name: assetmantle-fullnode-app-toml
+          configMap:
+            name: assetmantle-fullnode-app-toml
+        {{- end }}
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
