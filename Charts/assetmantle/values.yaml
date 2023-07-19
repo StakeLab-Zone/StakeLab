@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.40-assetmantle-v0.3.0"
+  tag: "v0.3.41-assetmantle-v0.3.0"
   pullPolicy: IfNotPresent
 
 # Common Values
