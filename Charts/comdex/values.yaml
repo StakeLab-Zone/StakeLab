@@ -1,0 +1,266 @@
+# Default values for comdex-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.3.41-comdex-v11.5.0"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.comdex"
+debug: "false"
+
+# Set Values to run a single comdex node connected to an existing network
+# Defaults to mainnet
+comdex_node:
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: comdex-1
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices: 0.25ucmdx
+  net: https://snapshots.polkachu.com/genesis/comdex/genesis.json
+  peers: 07a0c21617e583c390ec0fd2afc4ba71941c6a0d@65.108.101.19:26656,abf7faa9922bfaa288f091e10c61c3e61c1f2e54@135.181.215.62:3040,261e571925261dcb6f6505733fc86fb9f6dd3fc1@142.132.158.93:13156,2872228249428a2fa06cf3c92b3a3f1523339d5d@65.108.103.184:22656,641c012766b33b94ac6461921602a79db4939795@142.132.209.97:26656,7a0cb2144a384d4359e67733e08c10fa916ee77a@65.108.122.246:26706,79d327b3216984f80bcaa2bcaeccf2729ebd1b00@142.132.248.138:26179,60a81c444496d46090bb4539f9fabbd578c33257@79.61.63.25:26656,336b3bfd3d206023c6e2be63f0fc6577531b1525@46.166.172.230:26656,85b3679a59221f2f349062c8e20e8e943e0585c5@149.202.72.193:26614,a6da9c608d54ce51c0cc7d311741bc1c3657df73@157.245.57.113:26656,8c7404e643a8c6b18d5bc01797942efc33fb3359@65.108.14.140:26656,9ce9ac98d927786517689fa5897ea0fb628e4ba9@5.79.79.80:26095,882b30a1c4f80351b56ea1ed354be5735aebbba9@65.109.37.154:2000,c124ce0b508e8b9ed1c5b6957f362225659b5343@169.155.44.175:26656,a76a4bf87828c067acbadd921ed3bc04ee484004@51.91.118.17:28656,2a10dbc9db601eb4afd2f9e92332dc4ae0574070@51.81.155.189:10356,b43441ca4475a8396ba39be2d1360dfdcd1e167e@116.202.174.253:26656,d8b74791ee56f1b345d822f62bd9bc969668d8df@194.163.128.55:36656,caf6786fdf644333de37c7d6d6f4c3f50d4766bb@85.208.51.49:26656,d0ba3862f18890fe00d38fb930f1483cd6a75c26@65.108.232.104:13156,89757803f40da51678451735445ad40d5b15e059@134.65.193.21:26656,4e4929786927c9d9ba4cf29ce7fab14dda4ebdd8@65.109.89.19:13156,97e4468ac589eac505a800411c635b14511a61bb@164.152.163.200:26656,89763aa7dc65b79bb5075d410c2eb3194aef1fbe@107.135.15.67:26686,b99b6831355ad05ce04996092f2ebf66da7e99db@178.18.255.244:36656,89819962814669f41dc8e62809505fa6eb9b8dfa@148.113.162.234:29756,31ee17bced245bd401b99565b62f378e6d1a0cb5@65.108.236.164:26656,0b5c2acbe802bafd5c93de42c71ebfc3d2cf442b@15.235.114.86:26656,382474b127efc4d5deb252e3329f36907d24042b@193.70.45.106:13156,9801ce908f110b0f1694d703d6bc5a0177479939@135.181.138.95:12040,9d043d1c5faa2cb17c15d6aca705e4bf76abbd74@135.125.188.66:26656,be5dd72685203006bd0af81d2ef506530a7ea92a@185.119.118.117:2000,2eb59d0997a391eccda93cea97a08c909582b461@135.181.166.19:25656,584e0fcd77994ec1c163313e1f6fb4c7b195f117@150.136.150.206:26656,e1b058e5cfa2b836ddaa496b10911da62dcf182e@138.201.8.248:26656,453e3bf267ae68518b1a0186830bbed0033de28a@15.235.114.194:10556,4bdfa22198c1dbecb2ee6f38b6e094e017604764@37.252.184.233:26656,944af4307943629014af52160fd1407699959fb6@148.251.13.186:13156,15b54b89e9172c43bad6e5aef20b1049081c9421@209.126.7.118:26656,8219959b2ef075100ca80c66be806cd2fab70ca5@95.216.72.28:22656,2d358074a74e0786a3b3a807605bf2f5d1ecaf54@85.237.193.103:26656,287eed114ed23274966b43a9e5287e28ea41fa0d@213.239.214.73:26095,a059679b87a8e4dde7c6474c562abf90377384f7@93.115.25.178:26661,105010176d103e997a30d0c1ea387280536b8144@65.21.225.207:10456,e726816f42831689eab9378d5d577f1d06d25716@176.9.188.21:26656,a5f76ed639688d6753462aa0402b16302b7ebbad@51.210.240.201:10156,7b397982e6a7505fd1155cca6a78ded5fb05607b@5.9.99.172:13156,55b750e80ddf3d8d35b88a72923527fae61604fc@198.244.165.175:14656,5e091c274da21b4a4b309bb76e854d58f1c800df@116.202.36.240:10556
+  seeds:
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/addrbook/comdex/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+state_sync:
+  enabled: false
+  rpc1: "https://comdex-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the COMDEX_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/comdex-validator
+
+# Used for mounting COMDEX_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/comdex-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"
