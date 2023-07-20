@@ -40,7 +40,7 @@ mkdir -p $BITCANNA_HOME/data
 # fi
 
 cd "$BITCANNA_HOME/data" || exit
-curl -s "$BITCANNA_NET/genesis.json" > "$BITCANNA_HOME/config/genesis.json"
+curl -s "$BITCANNA_NET" > "$BITCANNA_HOME/config/genesis.json"
 if [ "$BITCANNA_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
