@@ -21,7 +21,7 @@ mkdir -p $ASSETMANTLE_HOME/data
 /bin/mantleNode init --chain-id "$ASSETMANTLE_CHAIN_ID" "$ASSETMANTLE_MONIKER"
 
 cd "$ASSETMANTLE_HOME/data" || exit
-curl -s "$ASSETMANTLE_NET/genesis.json" > "$ASSETMANTLE_HOME/config/genesis.json"
+curl -s "$ASSETMANTLE_NET" > "$ASSETMANTLE_HOME/config/genesis.json"
 if [ "$ASSETMANTLE_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
