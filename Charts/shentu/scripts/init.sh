@@ -21,7 +21,7 @@ mkdir -p $SHENTU_HOME/data
 /bin/certik init --chain-id "$SHENTU_CHAIN_ID" "$SHENTU_MONIKER"
 
 cd "$SHENTU_HOME/data" || exit
-curl -s "$SHENTU_NET/genesis.json" > "$SHENTU_HOME/config/genesis.json"
+curl -s "$SHENTU_NET" > "$SHENTU_HOME/config/genesis.json"
 if [ "$SHENTU_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
