@@ -21,7 +21,7 @@ mkdir -p $CANTO_HOME/data
 /bin/cantod init --chain-id "$CANTO_CHAIN_ID" "$CANTO_MONIKER"
 
 cd "$CANTO_HOME/data" || exit
-curl -s "$CANTO_NET/genesis.json" > "$CANTO_HOME/config/genesis.json"
+curl -s "$CANTO_NET" > "$CANTO_HOME/config/genesis.json"
 if [ "$CANTO_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
