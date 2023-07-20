@@ -21,7 +21,7 @@ mkdir -p $CRESCENT_HOME/data
 /bin/crescentd init --chain-id "$CRESCENT_CHAIN_ID" "$CRESCENT_MONIKER"
 
 cd "$CRESCENT_HOME/data" || exit
-curl -s "$CRESCENT_NET/genesis.json" > "$CRESCENT_HOME/config/genesis.json"
+curl -s "$CRESCENT_NET" > "$CRESCENT_HOME/config/genesis.json"
 if [ "$CRESCENT_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
