@@ -21,7 +21,7 @@ mkdir -p $BITSONG_HOME/data
 /bin/bitsongd init --chain-id "$BITSONG_CHAIN_ID" "$BITSONG_MONIKER"
 
 cd "$BITSONG_HOME/data" || exit
-curl -s "$BITSONG_NET/genesis.json" > "$BITSONG_HOME/config/genesis.json"
+curl -s "$BITSONG_NET" > "$BITSONG_HOME/config/genesis.json"
 if [ "$BITSONG_STATESYNC_ENABLE" == true ]; then
   echo "state-sync is enabled, figure the right trust height & derive its hash"
 
