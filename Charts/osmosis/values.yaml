@@ -1,0 +1,280 @@
+# Default values for osmosis-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.3.41-osmosis-v16.1.0"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.osmosisd"
+debug: "false"
+
+# Set Values to run a single osmosis node connected to an existing network
+# Defaults to mainnet
+osmosis_node:
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: osmosis-1
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices: 0.025uosmo
+  net: https://snapshots.polkachu.com/genesis/osmosis/genesis.json
+  peers: 5c5b17f3a61816031cbcacdc65f295dcf53e91f2@74.118.139.213:26656,b82821cc8716bbc649c0d76165028a1c3e21b6eb@3.68.149.159:26656,9f2df25f380a7e67a92c3dc5e7c33c08555b30dc@5.9.108.19:26656,ab4ea418db1c65c2517975988e2f35891637ff4a@185.111.159.235:2000,a4bbd6acbf667cac630e748da7bda09c8f404135@65.108.106.172:26656,d33410f7ee9f7f46cceb19deb0e3e047bd430606@195.189.96.117:34656,120908ac6e79df7ad48b3954474afeca0401682a@141.94.248.63:26656,f95d9634ad68b8f0ac80ce308adb71d8c119ada5@141.98.219.104:26656,e324e57d81984d72f2112a8209dd65a653ba9dc8@77.54.1.75:1241,12f9113ec10e2cda7c0023a6de6c59ac1ba2ea16@100.26.5.185:26656,b69e57cd6f796ac5d6efb1a834163365c37cbfa8@78.46.69.29:26656,d215dbe3293656f0e56898d868e86f86263b0b3a@15.204.47.112:26756,ba90bda66b2436e42f07da1659c715aa1e7e98b3@15.235.14.240:26656,2ff9bc1740a721a9baeda01abee181997bb65568@142.132.140.20:26656,6b1dd134b30aeaeb2f21f33bd2cd0370a2275501@138.68.6.165:26656,7c5459ea4bbc41aa4d86ffe8126f0651155227c8@85.195.102.127:26656,4cccbb26639559c39f44758d246c5ed928f7717f@176.9.19.66:26656,b37a3c92c039de2582edd120b16afa3f462ecf3e@23.88.69.22:27166,e2c9ab85c94b30bea0b6205d9131b356bdb037c5@54.36.104.223:12556,ebc272824924ea1a27ea3183dd0b9ba713494f83@178.211.139.77:26716,a5a4a5abe197153c9414e5fbf3a817305839aa84@35.79.41.69:26656,23a0f85a17f140f90a56b3e1c1cc7c2a58bc6ba2@128.199.144.199:26656,1bea2bb6afb2a51ab8fb820a03ee9f4fe219dbeb@52.50.12.143:26656,0b859e6004143ce8f629d636a5b2e53d681a72ec@88.198.35.12:56656,3e35d14e36f4da4dcb3aa035091168a322ffa915@15.164.13.43:26656,cdadf7f0984971ab78903f473366d0abb42df244@37.59.21.96:12556,8df03c283680dd2ed139a6415a61bcbec5349b38@95.217.8.91:26656,e6b9d01d5adc8ab1106f142b18f5ea5da00ec306@144.76.82.52:26656,004ce11e789d437ff74f7e6a6aebf12a7aa3e2b0@65.108.229.244:26656,f9a920a61ee994b12b77178dd5f1fc1ed39b7cd2@142.132.255.49:26656,77bb5fb9b6964d6e861e91c1d55cf82b67d838b5@35.212.77.47:26656,c124ce0b508e8b9ed1c5b6957f362225659b5343@169.155.169.186:26656,6d2769b070df0cdea85b0bd2c39235fc3b8eccc9@178.63.21.33:26656,ec929701754be057fb38c824fc127e26add9c900@138.201.121.185:26666,89d56cedcebfd6e962278a95238ef1c8abe809b7@51.79.79.68:26656,830acc854d8936c4f147e7e6e6254feae395da66@142.132.199.236:28656,f1fe0a080d561d37a94bea6022cbc0972395a0f4@65.108.121.190:2000,d0c050f33b7aa1032a3763da0e7eb8df0ac72a2c@162.55.92.114:12000,ac9bdea2b76a40832223111c45ba764ee6f9cb89@65.109.68.185:2000,e00f2355d2ec91555100459e9649386a40885422@65.21.24.59:26656,a0c215431ff502d780a8832437ed4806a40c31ed@147.182.230.87:26656,4d659b7b244a68913bfbdc6c9e7aa1a64391238e@74.118.139.59:26656,1a4706c2194cbc055adf4eb89a7b24493bcf33f8@15.235.9.22:26656,ea811a04ec2ce7b226840013fb4e295c1ea7a0e3@13.251.173.250:26656,8fc327fab277ee56862bb9753bfab66e0854c48f@185.242.112.32:36656,3918d0e114ce819644e966141a5f5229d4248da8@135.181.138.95:2000,ed49ce10d8787011c03883846f5cccfcf184e3dc@202.182.125.232:26756,80e0c2e408f9c356a7663c83f0dc6d74511d5d87@65.21.201.244:26776,e1b058e5cfa2b836ddaa496b10911da62dcf182e@23.88.21.234:26656,a2024229e2eed1650ba3a3ea9db67fa318dc232e@142.132.199.3:26656,8a6d1179752c44d6cee9a900bbe88956486dd724@139.180.185.11:26619,fe7873a8c6c4e2bda68a53c83d35fbf52016441c@185.119.118.110:2000,7b9c493b17a55beaa61d635edc167f58c77be141@23.88.44.37:26656,59ddc5ffdf97faea92c56fc2c968e67d2cda61d8@52.174.58.218:26656,bad5234dab1ce51a860671c21922b2d930fd274d@65.109.101.177:26656,67acaf16cfe0313688ff7cb563737497efde8015@46.4.91.49:29656,6178f129efa76d235436e2156959d0acb4772c6a@65.108.128.168:36656,5550af699e55f6132acf15172575963989445b37@162.55.245.149:12000,bfcbd83f2ecfc2e839b246a001e355079e66f0fd@24.199.110.108:30799,d011c34ee72767d7a33d94b79ef158eb49c9a7bf@164.92.70.57:31316,d9bfa29e0cf9c4ce0cc9c26d98e5d97228f93b0b@65.108.233.103:12956,980b15331dece2aa8020c1800b9c00ddb273c872@138.201.32.103:30656,7d0e0410ee66fc54ea4bd4aa6443ebb66ad77b97@168.119.106.234:26656,5462597450ccd3aeef4dbaba8e692e9e530a7c90@148.251.183.254:12000,13832193ba6d478e53b3887fd0452dca9f494acc@147.182.231.31:26656,807eda3abecff79df294d127cf58d6d5e07393ee@67.209.54.21:26656,4c927f93d430baf31e6d6418e62c56f442f092bc@46.4.28.42:26656,a50c8dcd0e83032b5e29d5c5beef6e54ddafb508@35.83.253.164:26656,2e9ae601cbbcfa296a3a5f3dd088422d3fcda9e7@198.244.215.124:12556,69cbb2a95b7d72e90156d25f4de2242030c84501@65.108.103.227:10256
+  seeds: 
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/addrbook/osmosis/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+  store:
+    streamers: "[]"
+  streamers:
+    file:
+      keys: "['*', ]"
+      writeDir: ""
+      prefix: ""
+      outputMetadata: true
+      stopNodeOnError: true
+      fsync: false
+
+# If your node gets connection troubles to Polkachu,
+# make sure to get through the trouble-shooting section at
+# https://polkachu.com/state_sync/osmosis
+state_sync:
+  enabled: false
+  rpc1: "https://osmosis-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the OSMOSIS_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/osmosis-validator
+
+# Used for mounting OSMOSIS_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/osmosis-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"
