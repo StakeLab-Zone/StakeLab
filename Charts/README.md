@@ -9,6 +9,7 @@ Helm chart to run nodes on Kubernetes
 - [Bitsong](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitsong)
 - [Canto](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/canto)
 - [Comdex](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/comdex)
+- [Cosmos Hub](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-hub)
 - [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
 - [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)

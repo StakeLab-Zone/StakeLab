@@ -1,0 +1,280 @@
+# Default values for cosmoshub-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.3.41-cosmoshub-v10.0.2"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.gaia"
+debug: "false"
+
+# Set Values to run a single cosmoshub node connected to an existing network
+# Defaults to mainnet
+cosmoshub_node:
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: cosmoshub-4
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices: 0.0025uatom
+  net: https://snapshots.polkachu.com/genesis/cosmos/genesis.json
+  peers: c1e437f73b8889b78ea34981e7c349157ad80284@107.135.15.66:26656,5dec3f53ee44689531cf1e16d89f6b0fe559ead9@168.119.71.45:26656,cf395b1ba2b8f9fe74fbd85b265b0e83c6a4771b@198.244.213.94:22256,6f473f7156b9e0a460f5ab9d5b8bba2412058974@93.159.134.158:36656,44390f449904199d22148d07822b1462048a38ef@74.118.139.150:26656,66248ea4d70c4b8fd6c9ba848895a0332a3a345e@74.118.140.203:26656,1cce99042f884d669e7287e3e362bff8e385c63e@46.4.79.183:26726,e66d3c9d0f420744d34b1f08f0fed9cfcf433460@162.19.238.186:26656,b79e1d3a621bdafd3a8d9a49dff8f4737d0bedc9@52.73.168.104:26656,57b3ec821a394c243a856b2c82cfb59b7830b0ac@65.108.98.218:19095,2829c09558d0f0623b6086cf3625d051cbdd1b69@198.244.228.53:26656,56a863685d72cb7b76ece450969c3de49fd6f19f@107.155.81.106:26656,966df04206d6e70713fcf6cf14591787c2cd71da@142.132.138.18:26656,1733aef88702bd8326bea0e1dc403d3dbb6f5d8a@158.247.202.33:26656,538348fa1eac998dad392a3f00f7b957042c3e84@15.235.53.86:11156,01e9e9bd09fb7460b7f961a51406a49d6fb800dd@95.217.150.168:26656,8427864515c65d495d1ccf92bd4fc2ef2d53f83c@157.245.149.27:46656,c36b51c5e02c6fdfde90248a034b70474fd9c13f@43.135.150.95:26656,1f1bd2088351943c4a90036531bc027aa9860abc@134.65.192.166:26656,992db7238f37c0197f5c57d44926cec289f1805e@23.88.18.142:26656,535aa40d68d54584e6d95e7600cccbe3e27e0a23@142.44.213.82:1100,ab7370e0af17b3fb10c912e722ff05e6e6505fc4@52.76.189.151:26656,f58fa3aa606d321863effe34cfc7b22cfbfcbc2c@51.91.7.44:26656,ec17f77c5e834642c171ab01629de60dd3c51c81@98.97.35.78:26665,b9b99fbf40189c604ea618c4b99c61abc1489b70@18.140.125.215:26656,0ecd1883e4a0bfad8021a8caac404b33e820276c@148.251.121.154:26656,ed28237c092fbf1c06a3c31706088018447151de@65.109.21.76:26656,ec39fae6c161dea476d50bbaffa1ca0e7fbcb21f@65.21.200.7:1100,0a4f90327645e5db649e9f89dd0d4c8594dc21d1@35.232.126.230:26656,e8976e3f18896892a36287eda9824bb6a7b4a171@167.179.70.149:26656,6ea2ef7d3dd5d6967708a0b31eed85ba090a90a1@65.108.121.190:12010,7806b5376a6b89d0197ac20d709add797ad9e5de@51.195.61.202:26656,9a9c79c1a920bb60717bcdaf2aa9f21441f3c3ba@65.109.157.115:26656,5b143d463427d9ad0b621f97c0b8933643e293da@35.212.90.144:26656,9c840e03ce50c65450720fff2a791f786a99c913@138.201.255.249:26656,7b15dce221b13ca353187b4f7219a94db6b71ad3@185.119.118.109:2000,81062b9a8807a1229543b84bae2898c50a1b1dfc@52.211.169.132:26656,daa6d8314246ad65037a48ec2e2266eeea9d46f8@154.53.63.50:26656,7fbd001395634160be66bbcf08651fed5e0b9b64@162.19.18.137:7001,27ad834c62dbefc5beb74be7575515927bd07c58@193.176.85.151:26656,c35d12225bb9257d42fa5cc05fff64a1597dadcf@164.152.163.157:26656,7abab0475a506ed3b9ab2ad40948bfe53b797e13@128.199.128.15:26090,dff07399aeadf3f1b6edfac07f92a238112d3036@93.189.30.120:26656,ca5011c44fd74d95e7fca487c69e301df195750c@65.108.122.246:26726,9edd51012df3a09395a48eb68a84723d6308e08c@35.212.116.100:26656,6ecca845883e9273062ee515d2657080e6539d9e@65.109.32.148:26726,f50db75f8e1793581796474b88f4d32dff2e4515@80.190.129.50:56656,b154cda91774fe6b665ba14a91e64a40a44ea955@136.38.55.33:26656,7dd34d8d3880bc48eff3e47b941d06bd1941a962@93.115.25.106:26656,e2b3cba06a28ff811e72f23d0e025c9354ed680d@35.206.163.4:26656,37dfe1ec33e9f88f378a61a32462d57d2baa5e74@65.108.99.140:26656,f46dc46d2f93d12c2045a722706a898f2bb65792@149.202.72.186:26615,9d899bc09a5612062fd172c62391e4e671c4d834@18.140.170.32:26656,b858ca4f3fed2c36b949cf67188b126e2542a39a@135.181.215.115:26726,3450293ebc89d869ada0627ac9d4d2ff49c51a58@15.164.93.116:26656,d881ebf3f803f9de15e439b4fe9e916d07dc74b2@18.214.25.66:40656,2fd6fdff3cbe8436397af3255ac7f95e7bfe2fc6@54.251.217.58:26656,8c4796383c67f75cbdfe8c89a3990fe01b6d511f@192.145.37.4:26656,b8b8e899663296024709e186fc393b8d8020d136@65.109.68.185:2010,547a1165e390a14d70e7de0cbf1708fea80eb44d@172.104.115.76:26656,d53ecee926a66a4a6b1858004f5f22f77faca036@3.69.52.20:26656,53e53f044c818ee5dfdaaa09c1e611af54d959b8@35.213.140.7:26656,89757803f40da51678451735445ad40d5b15e059@169.155.168.135:26656,bcc31cf6af907b163b0ec591f1314796862fece4@129.213.158.8:26656,160524d2ad8e475dadfa64db9c341767064b5e92@148.251.183.254:12010,ecefa81a237e5e5bc217ec88ad7f7ad63222d702@176.103.223.230:26656,6395f3d2e3d314dd642448918078e611056d0d26@94.250.201.132:26656,f05ddce65f1e75babe01d05fef1bce5d8ffe0972@54.177.181.170:26656,c5ccf0aaf81e5e523a56bd676822c9f73abcb833@18.143.53.64:26656,396694706ef7535dfc3d01e0ecd5a9b7a2525356@34.81.59.36:26656,e1b058e5cfa2b836ddaa496b10911da62dcf182e@164.152.161.249:26656,aa61bc0e8a42eda6ac1276c4279941714a4a38f4@168.119.138.215:26656,c8ad0e1076e0b1f3c18aa234f042af6d00bbb74a@65.108.137.22:26656,6fe1585040f121411cf57571bf8881d9975ef2b8@204.16.247.254:26656,611bf873e43eee7c403b521ef04614a9c1423f27@54.150.142.243:26656
+  seeds: 
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/addrbook/cosmos/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+  store:
+    streamers: "[]"
+  streamers:
+    file:
+      keys: "['*', ]"
+      writeDir: ""
+      prefix: ""
+      outputMetadata: true
+      stopNodeOnError: true
+      fsync: false
+
+# If your node gets connection troubles to Polkachu,
+# make sure to get through the trouble-shooting section at
+# https://polkachu.com/state_sync/cosmos
+state_sync:
+  enabled: false
+  rpc1: "https://cosmos-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the COSMOSHUB_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/cosmoshub-validator
+
+# Used for mounting COSMOSHUB_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/cosmoshub-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"
