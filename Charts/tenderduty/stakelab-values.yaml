@@ -374,7 +374,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: 
+      - url: "https://rpc.gopanacea.org:443"
 
   "Neutron":
     chain_id: neutron-1
@@ -423,7 +423,6 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-passage.ecostake.com:443
-      - url: https://passage-rpc.lavenderfive.com:443
 
   "Persistence":
     chain_id: core-1
