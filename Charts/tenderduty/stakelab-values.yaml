@@ -386,7 +386,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: wss://rpc.novel.remedy.tm.p2p.org/websocket:443
+      - url: https://rpc.novel.remedy.tm.p2p.org:443
 
   "OmniFlix":
     chain_id: omniflixhub-1
