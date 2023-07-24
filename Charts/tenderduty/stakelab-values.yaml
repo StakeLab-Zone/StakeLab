@@ -376,6 +376,18 @@ chains:
     nodes:
       - url: 
 
+  "Neutron":
+    chain_id: neutron-1
+    valoper_address: 
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: wss://rpc.novel.remedy.tm.p2p.org/websocket:443
+
   "OmniFlix":
     chain_id: omniflixhub-1
     valoper_address: omniflixvaloper1pzkx9p2upmrrscwxvwgrmvmfrgcnfskxfzm3z0
