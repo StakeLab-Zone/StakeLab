@@ -106,10 +106,10 @@ spec:
               mountPath: /config
               readOnly: true
             - name: crescent-validator-config-toml
-              mountPath: /root/.crescent/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: crescent-validator-app-toml
-              mountPath: /root/.crescent/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
@@ -120,10 +120,10 @@ spec:
           {{- end }}
           {{- if .Values.validator.enabled }}
             - name: node-key
-              mountPath: /root/.crescent/config/node_key.json
+              mountPath: {{ .Values.home }}/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
-              mountPath: /root/.crescent/config/priv_validator_key.json
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
           resources:
@@ -220,17 +220,17 @@ spec:
               mountPath: /config
               readOnly: true
             - name: crescent-validator-config-toml
-              mountPath: /root/.crescent/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: crescent-validator-app-toml
-              mountPath: /root/.crescent/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.validator.enabled }}
             - name: node-key
-              mountPath: /root/.crescent/config/node_key.json
+              mountPath: {{ .Values.home }}/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
-              mountPath: /root/.crescent/config/priv_validator_key.json
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
           {{- if .Values.local_storage.enabled }}

@@ -107,17 +107,17 @@ spec:
               readOnly: true
           {{- if .Values.validator.enabled }}
             - name: bitsong-validator-config-toml
-              mountPath: /root/.bitsongd/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: bitsong-validator-app-toml
-              mountPath: /root/.bitsongd/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- else }}
             - name: bitsong-fullnode-config-toml
-              mountPath: /root/.bitsongd/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: bitsong-fullnode-app-toml
-              mountPath: /root/.bitsongd/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- end }}
           {{- if .Values.local_storage.enabled }}
@@ -129,10 +129,10 @@ spec:
           {{- end }}
           {{- if .Values.validator.enabled }}
             - name: node-key
-              mountPath: /root/.bitsongd/config/node_key.json
+              mountPath: {{ .Values.home }}/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
-              mountPath: /root/.bitsongd/config/priv_validator_key.json
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
           resources:
@@ -232,25 +232,25 @@ spec:
               readOnly: true
           {{- if .Values.validator.enabled }}
             - name: bitsong-validator-config-toml
-              mountPath: /root/.bitsongd/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: bitsong-validator-app-toml
-              mountPath: /root/.bitsongd/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- else }}
             - name: bitsong-fullnode-config-toml
-              mountPath: /root/.bitsongd/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: bitsong-fullnode-app-toml
-              mountPath: /root/.bitsongd/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- end }}
           {{- if .Values.validator.enabled }}
             - name: node-key
-              mountPath: /root/.bitsongd/config/node_key.json
+              mountPath: {{ .Values.home }}/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
-              mountPath: /root/.bitsongd/config/priv_validator_key.json
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
           {{- if .Values.local_storage.enabled }}
