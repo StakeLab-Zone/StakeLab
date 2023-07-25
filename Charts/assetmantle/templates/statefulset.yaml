@@ -114,14 +114,14 @@ spec:
             {{- else }}
             - name: assetmantle-fullnode-config-toml
             {{- end }}
-              mountPath: /root/.mantleNode/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             {{- if .Values.validator.enabled }}
             - name: assetmantle-validator-app-toml
             {{- else }}
             - name: assetmantle-fullnode-app-toml
             {{- end }}
-              mountPath: /root/.mantleNode/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
@@ -230,14 +230,14 @@ spec:
             {{- else }}
             - name: assetmantle-fullnode-config-toml
             {{- end }}
-              mountPath: /root/.mantleNode/config/config.toml
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             {{- if .Values.validator.enabled }}
             - name: assetmantle-validator-app-toml
             {{- else }}
             - name: assetmantle-fullnode-app-toml
             {{- end }}
-              mountPath: /root/.mantleNode/config/app.toml
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
