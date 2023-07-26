@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.41-bitcanna-v2.0.2"
+  tag: "v0.3.42-bitcanna-v2.0.2"
   pullPolicy: IfNotPresent
 
 # Common Values
