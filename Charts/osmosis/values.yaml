@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.41-osmosis-v16.1.0"
+  tag: "v0.3.42-osmosis-v16.1.0"
   pullPolicy: IfNotPresent
 
 # Common Values
