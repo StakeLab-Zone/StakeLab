@@ -2,7 +2,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  {{- if .Values.validator.enabled }}
   name: cosmoshub-node-validator
+  {{- else }}
+  name: cosmoshub-node-fullnode
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
   {{- if .Values.validator.enabled }}
