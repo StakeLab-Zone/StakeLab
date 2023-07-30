@@ -2,7 +2,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  {{- if .Values.validator.enabled }}
   name: comdex-node-validator
+  {{- else }}
+  name: comdex-node-fullnode
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
   {{- if .Values.validator.enabled }}
