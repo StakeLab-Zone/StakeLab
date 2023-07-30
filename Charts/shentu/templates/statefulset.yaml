@@ -109,12 +109,6 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
-            - name: shentu-validator-config-toml
-              mountPath: {{ .Values.home }}/config/config.toml
-              subPath: config.toml
-            - name: shentu-validator-app-toml
-              mountPath: {{ .Values.home }}/config/app.toml
-              subPath: app.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
@@ -129,6 +123,19 @@ spec:
             - name: priv-validator-key
               mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
+            - name: shentu-validator-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: shentu-validator-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- else }}
+            - name: shentu-fullnode-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: shentu-fullnode-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -223,19 +230,26 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+          {{- if .Values.validator.enabled }}
             - name: shentu-validator-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: shentu-validator-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
-          {{- if .Values.validator.enabled }}
             - name: node-key
               mountPath: {{ .Values.home }}/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
               mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
+          {{- else }}
+            - name: shentu-fullnode-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: shentu-fullnode-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
           {{- end }}
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
@@ -262,12 +276,21 @@ spec:
         - name: config
           configMap:
             name: shentu-node-config
+        {{- if .Values.validator.enabled }}
         - name: shentu-validator-config-toml
           configMap:
             name: shentu-validator-config-toml
         - name: shentu-validator-app-toml
           configMap:
             name: shentu-validator-app-toml
+        {{- else }}
+        - name: shentu-fullnode-config-toml
+          configMap:
+            name: shentu-fullnode-config-toml
+        - name: shentu-fullnode-app-toml
+          configMap:
+            name: shentu-fullnode-app-toml
+        {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
           hostPath:

@@ -12,7 +12,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.validator.enabled }}
   name: shentu-validator-config-toml
+  {{- else }}
+  name: shentu-fullnode-config-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "shentu-node.labels" . | nindent 4 }}
@@ -136,7 +140,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.validator.enabled }}
   name: shentu-validator-app-toml
+  {{- else }}
+  name: shentu-fullnode-app-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "shentu-node.labels" . | nindent 4 }}
