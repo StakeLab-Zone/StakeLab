@@ -118,7 +118,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-comdex.carbonzero.zone:443
+      - url: https://rpc.comdex.one:443
 
   "Coreum":
     chain_id: coreum-mainnet-1
