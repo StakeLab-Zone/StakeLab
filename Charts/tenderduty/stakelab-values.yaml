@@ -362,7 +362,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://node0.mainnet.lum.network/rpc:443
+      - url: https://lum-rpc.ibs.team:443
 
   "Medibloc":
     chain_id: panacea-3
