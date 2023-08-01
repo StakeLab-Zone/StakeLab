@@ -94,7 +94,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://canto-rpc.polkachu.com/
+      - url: https://rpc.canto.nodestake.top:443
 
   "Chihuahua":
     chain_id: chihuahua-1
