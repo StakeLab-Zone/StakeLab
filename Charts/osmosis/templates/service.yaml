@@ -19,6 +19,7 @@ spec:
   selector:
     osmosis.network/fullnode: "{{ .Values.osmosis_node.moniker }}"
 {{- end }}
+{{- if .Values.validator.enabled -}}
 ---
 apiVersion: v1
 kind: Service
@@ -38,3 +39,4 @@ spec:
     {{- end }}
   selector:
     app: "osmosis-validator"
+{{- end }}

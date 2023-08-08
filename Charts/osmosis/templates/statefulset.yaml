@@ -109,10 +109,18 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: osmosis-validator-config-toml
+            {{- else }}
+            - name: osmosis-fullnode-config-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: osmosis-validator-app-toml
+            {{- else }}
+            - name: osmosis-fullnode-app-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
@@ -223,10 +231,18 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: osmosis-validator-config-toml
+            {{- else }}
+            - name: osmosis-fullnode-config-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: osmosis-validator-app-toml
+            {{- else }}
+            - name: osmosis-fullnode-app-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.validator.enabled }}
@@ -262,12 +278,21 @@ spec:
         - name: config
           configMap:
             name: osmosis-node-config
+        {{- if .Values.validator.enabled }}
         - name: osmosis-validator-config-toml
           configMap:
             name: osmosis-validator-config-toml
         - name: osmosis-validator-app-toml
           configMap:
             name: osmosis-validator-app-toml
+        {{- else }}
+        - name: osmosis-fullnode-config-toml
+          configMap:
+            name: osmosis-fullnode-config-toml
+        - name: osmosis-fullnode-app-toml
+          configMap:
+            name: osmosis-fullnode-app-toml
+        {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
           hostPath:
