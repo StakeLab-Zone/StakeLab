@@ -109,10 +109,18 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: cosmoshub-validator-config-toml
+            {{- else }}
+            - name: cosmoshub-fullnode-config-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: cosmoshub-validator-app-toml
+            {{- else }}
+            - name: cosmoshub-fullnode-app-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
@@ -223,10 +231,18 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: cosmoshub-validator-config-toml
+            {{- else }}
+            - name: cosmoshub-fullnode-config-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: cosmoshub-validator-app-toml
+            {{- else }}
+            - name: cosmoshub-fullnode-app-toml
+            {{- end }}
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.validator.enabled }}

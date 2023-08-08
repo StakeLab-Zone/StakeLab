@@ -12,7 +12,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.validator.enabled }}
   name: cosmoshub-validator-config-toml
+  {{- else }}
+  name: cosmoshub-fullnode-config-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "cosmoshub-node.labels" . | nindent 4 }}
@@ -136,7 +140,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  {{- if .Values.validator.enabled }}
   name: cosmoshub-validator-app-toml
+  {{- else }}
+  name: cosmoshub-fullnode-app-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "cosmoshub-node.labels" . | nindent 4 }}
