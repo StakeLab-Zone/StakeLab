@@ -278,12 +278,21 @@ spec:
         - name: config
           configMap:
             name: cosmoshub-node-config
+        {{- if .Values.validator.enabled }}
         - name: cosmoshub-validator-config-toml
           configMap:
             name: cosmoshub-validator-config-toml
         - name: cosmoshub-validator-app-toml
           configMap:
             name: cosmoshub-validator-app-toml
+        {{- else }}
+        - name: cosmoshub-fullnode-config-toml
+          configMap:
+            name: cosmoshub-fullnode-config-toml
+        - name: cosmoshub-fullnode-app-toml
+          configMap:
+            name: cosmoshub-fullnode-app-toml
+        {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
           hostPath:
