@@ -225,7 +225,7 @@ metadata:
     {{- include "dydxprotocol-node.labels" . | nindent 4 }}
 data:
   pricefeed_exchange_config.toml: |-
-  # This is a TOML config file.
+    # This is a TOML config file.
     # StaticExchangeStartupConfig represents the mapping of exchanges to the parameters for
     # querying from them.
     #
