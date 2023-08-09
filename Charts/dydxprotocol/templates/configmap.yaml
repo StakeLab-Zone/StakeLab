@@ -225,11 +225,11 @@ metadata:
     {{- include "dydxprotocol-node.labels" . | nindent 4 }}
 data:
   pricefeed_exchange_config.toml: |-
-    # This is a TOML config file.
+  # This is a TOML config file.
     # StaticExchangeStartupConfig represents the mapping of exchanges to the parameters for
     # querying from them.
     #
-    # ExchangeFeedId - Unique uint32 identifying an exchange.
+    # ExchangeId - Unique string identifying an exchange.
     #
     # IntervalMs - Delays between sending API requests to get exchange market prices - cannot be 0.
     #
@@ -238,67 +238,67 @@ data:
     # MaxQueries - Max api calls to get market prices for an exchange to make in a task-loop -
     # cannot be 0. For multi-market API exchanges, the behavior will default to 1.
     [[exchanges]]
-    ExchangeFeedId = 0
-    IntervalMs = 2000
+    ExchangeId = "Binance"
+    IntervalMs = 4250
     TimeoutMs = 3000
-    MaxQueries = 3
+    MaxQueries = 1
     [[exchanges]]
-    ExchangeFeedId = 1
-    IntervalMs = 2000
+    ExchangeId = "BinanceUS"
+    IntervalMs = 4250
     TimeoutMs = 3000
-    MaxQueries = 3
+    MaxQueries = 1
     [[exchanges]]
-    ExchangeFeedId = 2
+    ExchangeId = "Bitfinex"
     IntervalMs = 2500
     TimeoutMs = 3000
-    MaxQueries = 2
+    MaxQueries = 1
     [[exchanges]]
-    ExchangeFeedId = 3
+    ExchangeId = "Bitstamp"
     IntervalMs = 2000
     TimeoutMs = 3000
     MaxQueries = 1
     [[exchanges]]
-    ExchangeFeedId = 4
+    ExchangeId = "Bybit"
     IntervalMs = 2000
     TimeoutMs = 3000
     MaxQueries = 1
     [[exchanges]]
-    ExchangeFeedId = 5
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 6
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 7
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 8
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 9
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 10
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 11
-    IntervalMs = 2000
-    TimeoutMs = 3000
-    MaxQueries = 1
-    [[exchanges]]
-    ExchangeFeedId = 12
+    ExchangeId = "CoinbasePro"
     IntervalMs = 2000
     TimeoutMs = 3000
     MaxQueries = 3
+    [[exchanges]]
+    ExchangeId = "CryptoCom"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeId = "Gate"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeId = "Huobi"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeId = "Kraken"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeId = "Kucoin"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeId = "Mexc"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
+    [[exchanges]]
+    ExchangeId = "Okx"
+    IntervalMs = 2000
+    TimeoutMs = 3000
+    MaxQueries = 1
