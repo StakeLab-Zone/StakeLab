@@ -9,7 +9,7 @@ image:
 
 # Common Values
 
-keyring_backend: "test"
+keyring_backend: "os"
 home: "/root/.dydxprotocol"
 debug: "false"
 
