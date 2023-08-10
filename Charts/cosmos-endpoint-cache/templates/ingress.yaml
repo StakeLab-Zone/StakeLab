@@ -11,7 +11,7 @@ spec:
   ingressClassName: nginx
   rules:
     {{ if .Values.rpcCache.enabled }}
-    - host: {{ .Values.ingress.chain }}.rpc.{{ .Values.ingress.domain }}
+    - host: rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -23,7 +23,7 @@ spec:
                   number: 5001
     {{- end }}
     {{ if .Values.restApiCache.enabled }}
-    - host: {{ .Values.ingress.chain }}.api.{{ .Values.ingress.domain }}
+    - host: api.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
