@@ -109,11 +109,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /status
               port: rest
           readinessProbe:
             httpGet:
-              path: /
+              path: /status
               port: rest
       {{- end }}
           resources:
