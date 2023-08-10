@@ -5,10 +5,15 @@
 replicaCount: 1
 
 image:
-  repository: reecepbcups/rpc-cache
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.0.10"
+  rpc:
+    repository: reecepbcups/rpc-cache
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.0.10"
+  api:
+    repository: reecepbcups/api-cache
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "0.0.10"
 
 imagePullSecrets: []
 nameOverride: ""

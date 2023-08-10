@@ -32,7 +32,7 @@ spec:
         - name: rpc-cache
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.rpc.repository }}:{{ .Values.image.rpc.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: REMOTE_CONFIG_TIME_FILE
@@ -82,7 +82,7 @@ spec:
         - name: rest-cache
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.api.repository }}:{{ .Values.image.api.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: REMOTE_CONFIG_TIME_FILE
@@ -109,11 +109,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /status
+              path: /
               port: rest
           readinessProbe:
             httpGet:
-              path: /status
+              path: /
               port: rest
       {{- end }}
           resources:
