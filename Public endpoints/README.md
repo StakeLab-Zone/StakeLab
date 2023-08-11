@@ -13,8 +13,8 @@ If you are one of our supported network, or one we don't support but would like 
 ## Supported networks:  
 
 ### _Cosmos Hub_  
-- [RPC](http://rpc.cosmoshub.stakelab.fr/)  
-- [API](http://api.cosmoshub.stakelab.fr/)  
+- [RPC](http://rpc.cosmoshub.stakelab.zone/)  
+- [API](http://api.cosmoshub.stakelab.zone/)  
 
 ### _Crescent_  
 - [RPC](http://rpc.crescent.stakelab.fr/)  
@@ -25,5 +25,5 @@ If you are one of our supported network, or one we don't support but would like 
 - [API](http://api.evmos.stakelab.fr/)  
 
 ### _Osmosis_  
-- [RPC](http://rpc.osmosis.stakelab.fr/)  
-- [API](http://api.osmosis.stakelab.fr/)  
+- [RPC](http://rpc.osmosis.stakelab.zone/)  
+- [API](http://api.osmosis.stakelab.zone/)  
