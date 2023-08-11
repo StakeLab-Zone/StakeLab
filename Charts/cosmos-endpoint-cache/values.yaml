@@ -83,6 +83,11 @@ ingress:
   enabled: false
   domain: "domain.tld"
   chain: juno
+  tls: false
+  annotations:
+    #cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

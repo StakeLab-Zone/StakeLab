@@ -5,12 +5,20 @@ metadata:
   name: {{ include "cosmos-endpoint-cache.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - api.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
+    secretName: cosmoshub-api-tls
+  - hosts:
+    - rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
+    secretName: cosmoshub-rpc-tls    
+  {{- end }}
   rules:
-    {{ if .Values.rpcCache.enabled }}
+    {{- if .Values.rpcCache.enabled }}
     - host: rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
         paths:
@@ -22,7 +30,7 @@ spec:
                 port:
                   number: 5001
     {{- end }}
-    {{ if .Values.rpcCache.rpcWebsocketEnabled }}
+    {{- if .Values.rpcCache.rpcWebsocketEnabled }}
     - host: rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
         paths:
@@ -34,7 +42,7 @@ spec:
                 port:
                   number: {{ .Values.rpcCache.rpcWebsocketServicePort }}
     {{- end }}
-    {{ if .Values.restApiCache.enabled }}
+    {{- if .Values.restApiCache.enabled }}
     - host: api.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
         paths:
