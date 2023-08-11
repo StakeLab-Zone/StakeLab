@@ -10,12 +10,16 @@ spec:
   ingressClassName: nginx
   {{- if .Values.ingress.tls }}
   tls:
+  {{- if .Values.restApiCache.enabled }}
   - hosts:
     - api.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
     secretName: cosmoshub-api-tls
+  {{- end }}
+  {{- if .Values.rpcCache.enabled }}
   - hosts:
     - rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
-    secretName: cosmoshub-rpc-tls    
+    secretName: cosmoshub-rpc-tls
+  {{- end }}
   {{- end }}
   rules:
     {{- if .Values.rpcCache.enabled }}
