@@ -22,6 +22,18 @@ spec:
                 port:
                   number: 5001
     {{- end }}
+    {{ if .Values.rpcCache.rpcWebsocketEnabled }}
+    - host: rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /websocket
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.rpcCache.rpcWebsocketServiceName }}
+                port:
+                  number: {{ .Values.rpcCache.rpcWebsocketServicePort }}
+    {{- end }}
     {{ if .Values.restApiCache.enabled }}
     - host: api.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:

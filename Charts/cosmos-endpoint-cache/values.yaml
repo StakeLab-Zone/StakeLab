@@ -59,6 +59,9 @@ rpcCache:
   enableCounter: false
   port: 5001
   rpcTitle: "JUNO RPC"
+  rpcWebsocketEnabled: true
+  rpcWebsocketServiceName: "juno-fullnode"
+  rpcWebsocketServicePort: 26657
 
 restApiCache:
   enabled: true
