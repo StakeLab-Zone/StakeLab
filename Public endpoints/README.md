@@ -6,8 +6,6 @@ If you are one of our supported network, or one we don't support but would like 
 
 ## Public endpoints chains  
 [Cosmos Hub](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#cosmos-hub)  
-[Crescent](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#crescent)   
-[Evmos](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#evmos)  
 [Osmosis](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#osmosis)   
 
 ## Supported networks:  
@@ -15,14 +13,6 @@ If you are one of our supported network, or one we don't support but would like 
 ### _Cosmos Hub_  
 - [RPC](http://rpc.cosmoshub.stakelab.zone/)  
 - [API](http://api.cosmoshub.stakelab.zone/)  
-
-### _Crescent_  
-- [RPC](http://rpc.crescent.stakelab.fr/)  
-- [API](http://api.crescent.stakelab.fr/)  
-
-### _Evmos_  
-- [RPC](http://rpc.evmos.stakelab.fr/)  
-- [API](http://api.evmos.stakelab.fr/)  
 
 ### _Osmosis_  
 - [RPC](http://rpc.osmosis.stakelab.zone/)  
