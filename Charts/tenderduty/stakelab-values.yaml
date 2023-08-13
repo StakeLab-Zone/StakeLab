@@ -1,3 +1,9 @@
+ingress:
+  enabled: true
+  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
 chains:
 
   "Akash":
@@ -143,6 +149,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.cosmoshub.strange.love:443
+      - url: https://rpc.cosmoshub.stakelab.zone:443
   
   "Crescent":
     chain_id: crescent-1
@@ -411,6 +418,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://osmosis-rpc.lavenderfive.com:443
+      - url: https://rpc.osmosis.stakelab.zone:443
 
   "Passage":
     chain_id: passage-2
