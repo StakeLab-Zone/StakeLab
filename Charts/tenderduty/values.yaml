@@ -1,6 +1,9 @@
 ingress:
-  enabled: true
+  enabled: false
   hostname: example.com
+  tls: false
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 
 image:
   repository: ghcr.io/blockpane/tenderduty

@@ -359,6 +359,18 @@ chains:
     nodes:
       - url: https://rpc-kyve.ecostake.com:443
 
+  "Lava":
+    chain_id: lava-testnet-2
+    valoper_address: lava@valoper1p3r3ah5ddjtuemdwt0x0nhyljlmsu6nark8j5l
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc-1.lava.nodes.guru:443
+
   "Lum":
     chain_id: lum-network-1
     valoper_address: lumvaloper1axqn30kead92gdsg7pusc6ezxx8ltq465r3hv3
