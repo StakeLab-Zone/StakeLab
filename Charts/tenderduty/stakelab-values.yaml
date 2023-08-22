@@ -197,7 +197,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://dydx-rpc.chuck-dev.xyz:443
+      - url: https://rpc.dydx.chuck-dev.xyz:443
       
   "Emoney":
     chain_id: emoney-3
