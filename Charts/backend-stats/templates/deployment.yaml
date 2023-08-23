@@ -65,7 +65,7 @@ spec:
           ports:
             - name: backend
               containerPort: {{ .Values.backendService.servicePort }}
-              protocol: HTTP
+              protocol: TCP
           livenessProbe:
             httpGet:
               path: /
