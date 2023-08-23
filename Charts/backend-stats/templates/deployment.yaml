@@ -37,9 +37,9 @@ spec:
             - name: REDIS_PASSWORD
               value: {{ .Values.redis.password | quote }}
             - name: REDIS_AOF_ENABLED
-              value: {{ .Values.redis.aofEnabled }}
+              value: {{ .Values.redis.aofEnabled | quote }}
             - name: ALLOW_EMPTY_PASSWORD
-              value: {{ .Values.redis.allowEmptyPassword }}
+              value: {{ .Values.redis.allowEmptyPassword | quote }}
           ports:
             - name: redis
               containerPort: {{ .Values.redis.port }}
@@ -58,9 +58,9 @@ spec:
           imagePullPolicy: {{ .Values.pullPolicy }}
           env:
             - name: REDIS_PORT
-              value: {{ .Values.backendService.redisPort }}
+              value: {{ .Values.backendService.redisPort | quote }}
             - name: REDIS_HOST
-              value: {{ .Values.backendService.redisHost }}
+              value: {{ .Values.backendService.redisHost | quote }}
             - name: REDIS_PASSWORD
               value: {{ .Values.backendService.redisPassword | quote }}
             - name: DRIVE_DISK
