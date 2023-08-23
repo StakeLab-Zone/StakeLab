@@ -1,0 +1,28 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "backend-stats.fullname" . }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - {{ .Values.backendService.ingressHost }}.{{ .Values.ingress.domain }}
+    secretName: backend-stats-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.backendService.ingressHost }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "backend-stats.fullname" . }}
+                port:
+                  number: {{ .Values.backendService.servicePort }}
+{{- end }}
