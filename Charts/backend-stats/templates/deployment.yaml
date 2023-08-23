@@ -44,13 +44,6 @@ spec:
             - name: redis
               containerPort: {{ .Values.redis.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: redis
-          readinessProbe:
-            httpGet:
-              path: /
         - name: backend-service
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -72,7 +65,7 @@ spec:
           ports:
             - name: backend
               containerPort: {{ .Values.backendService.servicePort }}
-              protocol: TCP
+              protocol: HTTP
           livenessProbe:
             httpGet:
               path: /
