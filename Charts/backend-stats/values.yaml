@@ -25,7 +25,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # Docker image pull policy
-pullPolicy: IfNotPresent
+pullPolicy: Always
 
 serviceAccount:
   # Specifies whether a service account should be created
