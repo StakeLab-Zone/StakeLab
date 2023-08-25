@@ -43,6 +43,11 @@ securityContext: {}
 grpc:
   enabled: false
   port: 9090
+  ingress:
+    enabled: false
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPCS"
 
 rpcCache:
   enabled: true

@@ -20,11 +20,6 @@ spec:
     - rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
     secretName: cosmoshub-rpc-tls
   {{- end }}
-  {{- if .Values.grpc.enabled }}
-  - hosts:
-    - grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
-    secretName: cosmoshub-grpc-tls
-  {{- end }}
   {{- end }}
   rules:
     {{- if .Values.rpcCache.enabled }}
@@ -63,6 +58,27 @@ spec:
                 port:
                   number: 5000
     {{- end }}
+{{- end }}
+{{- if .Values.grpc.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "cosmos-endpoint-cache.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- toYaml .Values.grpc.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  {{- if .Values.grpc.enabled }}
+  tls:
+  - hosts:
+    - grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
+    secretName: cosmoshub-grpc-tls
+  {{- end }}
+  {{- end }}
+  rules:
     {{- if .Values.grpc.enabled }}
     - host: grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
