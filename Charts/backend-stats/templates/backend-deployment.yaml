@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend-stats.fullname" . }}
+  labels:
+    app: backend
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: backend
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: backend-service
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.backendService.image }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          env:
+            - name: REDIS_PORT
+              value: {{ .Values.backendService.redisPort | quote }}
+            - name: REDIS_HOST
+              value: {{ .Values.backendService.redisHost | quote }}
+            - name: REDIS_PASSWORD
+              value: {{ .Values.backendService.redisPassword | quote }}
+            - name: DRIVE_DISK
+              value: {{ .Values.backendService.driveDisk | quote }}
+            - name: REDIS_CONNECTION
+              value: {{ .Values.backendService.redisConnection | quote }}
+            - name: APP_KEY
+              value: {{ .Values.backendService.appKey | quote }}
+          ports:
+            - name: backend
+              containerPort: {{ .Values.backendService.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: backend
+          readinessProbe:
+            httpGet:
+              path: /
+              port: backend
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
