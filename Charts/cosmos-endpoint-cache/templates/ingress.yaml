@@ -58,4 +58,16 @@ spec:
                 port:
                   number: 5000
     {{- end }}
+    {{- if .Values.grpc.enabled }}
+    - host: grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.rpcCache.rpcWebsocketServiceName }}
+                port:
+                  number: {{ .Values.grpc.port }}
+    {{- end }}
 {{- end }}

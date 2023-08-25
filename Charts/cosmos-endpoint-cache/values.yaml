@@ -40,6 +40,9 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+grpc:
+  enabled: false
+  port: 9090
 
 rpcCache:
   enabled: true
