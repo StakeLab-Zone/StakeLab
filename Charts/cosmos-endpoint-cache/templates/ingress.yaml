@@ -13,12 +13,12 @@ spec:
   {{- if .Values.restApiCache.enabled }}
   - hosts:
     - api.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
-    secretName: cosmoshub-api-tls
+    secretName: {{ .Values.ingress.chain }}-api-tls
   {{- end }}
   {{- if .Values.rpcCache.enabled }}
   - hosts:
     - rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
-    secretName: cosmoshub-rpc-tls
+    secretName: {{ .Values.ingress.chain }}-rpc-tls
   {{- end }}
   {{- end }}
   rules:
@@ -60,6 +60,7 @@ spec:
     {{- end }}
 {{- end }}
 {{- if .Values.grpc.ingress.enabled -}}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -75,11 +76,10 @@ spec:
   tls:
   - hosts:
     - grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
-    secretName: cosmoshub-grpc-tls
+    secretName: {{ .Values.ingress.chain }}-grpc-tls
   {{- end }}
   {{- end }}
   rules:
-    {{- if .Values.grpc.enabled }}
     - host: grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
       http:
         paths:
@@ -90,5 +90,4 @@ spec:
                 name: {{ .Values.rpcCache.rpcWebsocketServiceName }}
                 port:
                   number: {{ .Values.grpc.port }}
-    {{- end }}
 {{- end }}
