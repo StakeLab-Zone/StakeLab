@@ -20,6 +20,11 @@ spec:
     - rpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
     secretName: cosmoshub-rpc-tls
   {{- end }}
+  {{- if .Values.grpc.enabled }}
+  - hosts:
+    - grpc.{{ .Values.ingress.chain }}.{{ .Values.ingress.domain }}
+    secretName: cosmoshub-grpc-tls
+  {{- end }}
   {{- end }}
   rules:
     {{- if .Values.rpcCache.enabled }}
