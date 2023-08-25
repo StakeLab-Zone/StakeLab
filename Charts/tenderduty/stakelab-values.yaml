@@ -335,18 +335,6 @@ chains:
       - url: https://rpc-kichain-ia.cosmosia.notional.ventures:443
       - url: https://ki-rpc.ibs.team:443
 
-  "Konstellation":
-    chain_id: darchub
-    valoper_address: darcvaloper1pk8e47hdlw9mtnphz3klhkeed8wlq8gwjw7m0w
-    public_fallback: yes
-    alerts:
-      consecutive_enabled: yes
-      consecutive_missed: 10
-      slack:
-        enabled: yes
-    nodes:
-      - url: https://konstellation-rpc.polkachu.com:443
-
   "Kyve":
     chain_id: kyve-1
     valoper_address: kyvevaloper1v7l3znt0ynf7ppp7gaw8d8vlkpfhrnypawg6vr
