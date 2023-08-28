@@ -235,6 +235,18 @@ chains:
     nodes:
       - url: https://rpc-fetchhub.fetch.ai:443
 
+  "Gitopia":
+    chain_id: gitopia
+    valoper_address: gitopiavaloper1vzn4rauhrhggek4nlzneyxyjmvk32yzvwa23le
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc.gitopia.nodestake.top:443
+
   "Gravity Bridge":
     chain_id: gravity-bridge-3
     valoper_address: gravityvaloper1d63hvdgwy64sfex2kyujd0xyfhmu7r7cgxt5ru
