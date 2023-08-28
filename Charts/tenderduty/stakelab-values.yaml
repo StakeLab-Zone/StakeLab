@@ -590,7 +590,7 @@ chains:
 
   "Stride":
     chain_id: stride-1
-    valoper_address: stridevaloper1mjr7m233g7yklzvfjp7jvtpsjm286dv2rcytjj
+    valoper_address: 
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
