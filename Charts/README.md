@@ -14,6 +14,7 @@ Helm chart to run nodes on Kubernetes
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
 - [Osmosis](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/osmosis)
 - [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)
+- [Ununifi](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/ununifi)
 
 ## Blockchains (testnet):
 - [dYdX](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/dydxprotocol)

@@ -1,0 +1,280 @@
+# Default values for ununifi-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.3.44-ununifi-v3.2.1"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.ununifi"
+debug: "false"
+
+# Set Values to run a single ununifi node connected to an existing network
+# Defaults to mainnet
+ununifi_node:
+  # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: ununifi-beta-v1
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices:
+  net: https://snapshots.polkachu.com/genesis/ununifi/genesis.json
+  peers: 658677f79deb348e164ff90147eed9350abbc096@34.143.217.140:26656,7fcfaf5941c0a4c22d39ec239862a97fda5dc5d8@159.69.59.89:26676,cb643cbdb62c26d4dc0b01e5fa35000f8e920a8e@176.9.72.53:26656,67899600321bc673dce01489f0a79007cb44da96@139.144.77.82:26656,aee7f463e32c8867fbb9a3336344d7e517aee79c@65.108.238.29:23256,ed7e91350c4086fa1a2237978d4fbda50f9620a1@51.195.145.109:26656,ea2aec01419f310feeef016769d4ca50fb9533b7@213.32.24.201:35656,5a644f0c3c33b3f6ae212417a7dbe38c5bfed314@65.108.65.229:55656,6031e074a44b10563209a0fb81a1fc08323796d7@192.99.44.79:23256,6e5a35bab96f208cda96c2e3def1cd24b191d34b@65.109.82.112:23256,9c77ae6ee315abb561c8d0626ad5af5a604b8ca6@144.91.66.143:26656,553d7226aaee5a043b234300f57f99e74c81f10c@88.99.69.190:26656,9847dd6f3228a5edcd910a080b28667de24cb18c@65.108.8.247:23256,f5e0742423299ff330b633aca6fd6a2a8956d3f4@113.43.231.41:38656,f9dd8e11496fa1fcbac6f486bbd11a75f9466ad6@65.108.70.119:41656,d8fa92209fde3f19667f5d466c855a4c24405d49@45.77.43.48:26656,ec6d512fb5618e0d2fe253bcec9744130349e7d8@133.167.74.211:26656,b1888101a21ed188a4741c332ef6799275f612d4@94.130.148.251:26656,2d5d596edfa7e8f5d241c58677cb65b629fb0a56@157.90.116.92:26656,c23c1909cf536048d03795511acbd6e2557a3f4a@94.130.108.145:26656,79fd0e04900864c901c67e1c4f113c74ba95df7c@185.227.135.21:26656,ebc272824924ea1a27ea3183dd0b9ba713494f83@185.16.39.158:26746,9b5380d4bbfc19397b1116b21b3c5fa644d4dfea@65.109.159.69:30656,e9539642f4ca58bb6dc09257d4ba8fc00467235f@65.108.199.120:60656,72db07465b8377cf727bd7d2bb5ed5381268a9c9@93.189.30.115:26656,6247d2014fca694e37792f75e2d518d93082f777@185.227.135.24:26656,a1ca995e440086e65f33307f2019eb050f5f2f01@52.14.144.192:26656,a91794ed350d9d1a5d4fea7d2653f944883b784b@95.214.55.138:54656,e8d87b10f29f36f9c9aefbfcdc13029bcf75a844@65.108.71.163:2660,c6aec3ba92aaba45d630d9487df7bed424d0bdb9@185.248.24.19:26746,f7928a3699a2afd66da8e54c6a84b973e06378ac@65.109.95.26:30656,7063922f0ac2571a93fff7e841cee31ed516f480@34.124.145.84:26656,1bdbce11ab9726341b34e8912dc9111056f6e878@34.142.212.42:26656,b8f39137d7a6206c2b352a80a28572166da06b53@116.202.85.52:35656,1aa44b9aecebe7952bc9e2acb45a8222f22f4479@2.59.156.131:26656,006993451fdb98ea6edea95cdcd836917f886a80@144.202.97.14:26656,c25eea256d716ced4a156515bffe74709700d752@54.86.9.250:26656,ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@135.181.5.219:23256
+  seeds: 
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/addrbook/ununifi/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+  store:
+    streamers: "[]"
+  streamers:
+    file:
+      keys: "['*', ]"
+      writeDir: ""
+      prefix: ""
+      outputMetadata: true
+      stopNodeOnError: true
+      fsync: false
+
+# If your node gets connection troubles to Polkachu,
+# make sure to get through the trouble-shooting section at
+# https://ununifi-rpc.polkachu.com/
+state_sync:
+  enabled: false
+  rpc1: "https://ununifi-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the UNUNIFI_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/ununifi-validator
+
+# Used for mounting UNUNIFI_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/ununifi-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"
