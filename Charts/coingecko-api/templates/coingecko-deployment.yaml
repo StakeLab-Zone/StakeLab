@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "coingecko-api.fullname" . }}
+  labels:
+    app: coingecko-api
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: coingecko-api
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: coingecko-api
+    spec:
+      replicas: {{ .Values.coingeckoApi.replicaCount }}
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: {{ .Values.coingeckoApi.strategy.maxSurge }}
+          maxUnavailable: {{ .Values.coingeckoApi.strategy.maxUnavailable }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: coingecko-api-service
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.coingeckoApi.image }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          env:
+            - name: REDIS_PORT
+              value: {{ .Values.coingeckoApi.redisPort | quote }}
+            - name: REDIS_HOST
+              value: {{ .Values.coingeckoApi.redisHost | quote }}
+            - name: REDIS_PASSWORD
+              value: {{ .Values.coingeckoApi.redisPassword | quote }}
+          ports:
+            - name: coingecko-api
+              containerPort: {{ .Values.coingeckoApi.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: coingecko-api
+          readinessProbe:
+            httpGet:
+              path: /
+              port: coingecko-api
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}

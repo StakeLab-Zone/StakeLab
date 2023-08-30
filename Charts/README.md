@@ -7,6 +7,7 @@ Helm chart to run nodes on Kubernetes
 - [Assetmantle](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/assetmantle)
 - [Bitcanna](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitcanna)
 - [Bitsong](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitsong)
+- [coingecko-api](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/coingecko-api)
 - [Canto](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/canto)
 - [Comdex](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/comdex)
 - [Cosmos Hub](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-hub)
