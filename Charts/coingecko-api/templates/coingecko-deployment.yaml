@@ -36,7 +36,7 @@ spec:
         - name: coingecko-api-service
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.coingeckoApi.image }}"
+          image: "{{ .Values.coingeckoApi.image }}:{{ .Values.coingeckoApi.tag }}"
           imagePullPolicy: {{ .Values.pullPolicy }}
           env:
             - name: REDIS_PORT
