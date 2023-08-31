@@ -45,6 +45,8 @@ spec:
               value: {{ .Values.coingeckoApi.redisHost | quote }}
             - name: REDIS_PASSWORD
               value: {{ .Values.coingeckoApi.redisPassword | quote }}
+            - name: CACHE_EXPIRATION_TIME
+              value: {{ .Values.coingeckoApi.cacheExpirationTime | quote }}
           ports:
             - name: coingecko-api
               containerPort: {{ .Values.coingeckoApi.servicePort }}
