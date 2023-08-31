@@ -11,18 +11,18 @@ spec:
   {{- if .Values.ingress.tls }}
   tls:
   - hosts:
-    - {{ .Values.backendService.ingressHost }}.{{ .Values.ingress.domain }}
-    secretName: coingecko-api-tls
+    - {{ .Values.ingress.host }}.{{ .Values.ingress.domain }}
+    secretName: {{ .Values.ingress.host }}-{{ .Values.ingress.domain }}-tls
   {{- end }}
   rules:
-    - host: {{ .Values.backendService.ingressHost }}.{{ .Values.ingress.domain }}
+    - host: {{ .Values.ingress.host }}.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ include "coingecko-api.fullname" . }}
+                name: coingecko-api
                 port:
-                  number: {{ .Values.backendService.servicePort }}
+                  number: {{ .Values.coingeckoApi.servicePort }}
 {{- end }}

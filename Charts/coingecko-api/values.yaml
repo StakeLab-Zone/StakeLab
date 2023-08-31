@@ -48,6 +48,7 @@ service:
 ingress:
   enabled: false
   domain: "domain.tld"
+  host: "coingecko-api"
   tls: false
   annotations:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
