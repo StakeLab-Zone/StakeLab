@@ -15,7 +15,7 @@ coingeckoApi:
   redisHost: localhost
   redisDb: 1
   servicePort: 8000
-  cacheExpirationTime: 500
+  cacheExpirationTime: 600
   strategy:
     maxSurge: 1
     maxUnavailable: 0
