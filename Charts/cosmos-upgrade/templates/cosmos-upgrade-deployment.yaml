@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cosmos-upgrade.fullname" . }}
+  labels:
+    app: cosmos-upgrade
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: cosmos-upgrade
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: cosmos-upgrade
+    spec:
+      replicas: {{ .Values.cosmosUpgrade.replicaCount }}
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: {{ .Values.cosmosUpgrade.strategy.maxSurge }}
+          maxUnavailable: {{ .Values.cosmosUpgrade.strategy.maxUnavailable }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: cosmos-upgrade-service
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.cosmosUpgrade.image }}:{{ .Values.cosmosUpgrade.tag }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          env:
+            - name: REDIS_PORT
+              value: {{ .Values.cosmosUpgrade.redisPort | quote }}
+            - name: REDIS_HOST
+              value: {{ .Values.cosmosUpgrade.redisHost | quote }}
+            - name: REDIS_PASSWORD
+              value: {{ .Values.cosmosUpgrade.redisPassword | quote }}
+            - name: CACHE_EXPIRATION_TIME
+              value: {{ .Values.cosmosUpgrade.cacheExpirationTime | quote }}
+          ports:
+            - name: cosmos-upgrade
+              containerPort: {{ .Values.cosmosUpgrade.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: cosmos-upgrade
+          readinessProbe:
+            httpGet:
+              path: /
+              port: cosmos-upgrade
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}

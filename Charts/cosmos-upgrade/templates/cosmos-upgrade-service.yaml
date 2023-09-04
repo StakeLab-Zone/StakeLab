@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cosmos-upgrade
+  labels:
+    app: cosmos-upgrade
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.cosmosUpgrade.servicePort }}
+      targetPort: {{ .Values.cosmosUpgrade.servicePort }}
+      protocol: TCP
+      name: cosmos-upgrade
+  selector:
+    app: cosmos-upgrade

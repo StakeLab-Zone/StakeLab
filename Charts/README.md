@@ -11,6 +11,7 @@ Helm chart to run nodes on Kubernetes
 - [Canto](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/canto)
 - [Comdex](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/comdex)
 - [Cosmos Hub](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-hub)
+- [Cosmos-upgrade](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-upgrade)
 - [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
 - [Osmosis](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/osmosis)

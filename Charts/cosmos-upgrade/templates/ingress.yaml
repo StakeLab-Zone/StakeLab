@@ -1,0 +1,28 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "cosmos-upgrade.fullname" . }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - {{ .Values.ingress.host }}.{{ .Values.ingress.domain }}
+    secretName: {{ .Values.ingress.host }}-{{ .Values.ingress.domain }}-tls
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.host }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cosmos-upgrade
+                port:
+                  number: {{ .Values.cosmosUpgrade.servicePort }}
+{{- end }}

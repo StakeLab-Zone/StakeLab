@@ -1,0 +1,76 @@
+redis:
+  image: redis
+  tag: latest
+  password: yourpassword
+  aofEnabled: no
+  allowEmptyPassword: no
+  port: 6379
+  enabled: false
+
+cosmosUpgrade:
+  image: ghcr.io/defiantlabs/cosmos-upgrades
+  tag: main
+  replicaCount: 1
+  redisPort: 6379 
+  redisHost: localhost
+  redisDb: 1
+  servicePort: 5000
+  cacheExpirationTime: 300
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Docker image pull policy
+pullPolicy: Always
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+  domain: "domain.tld"
+  host: "cosmos-upgrade"
+  tls: false
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "256Mi"
+  limits:
+    cpu: "1"
+    memory: "1Gi"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
