@@ -480,6 +480,18 @@ chains:
     nodes:
       - url: https://rpc.quicksilver.zone:443
 
+  "Qwoyn":
+    chain_id: qwoyn-1
+    valoper_address: qwoynvaloper1ljnsredmhxtfvmtxyml8hh7gwz6k5spt36hshm
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: http://142.132.132.184:12257
+
   "Rebus":
     chain_id: reb_1111-1
     valoper_address: rebusvaloper1mz4lyh4m0qe3snskl4fj0yy9zrnrffrkqysl2c
