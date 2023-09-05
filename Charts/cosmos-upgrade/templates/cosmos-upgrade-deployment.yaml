@@ -38,6 +38,7 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.cosmosUpgrade.image }}:{{ .Values.cosmosUpgrade.tag }}"
           imagePullPolicy: {{ .Values.pullPolicy }}
+          {{- if .Values.redis.enabled }}
           env:
             - name: REDIS_PORT
               value: {{ .Values.cosmosUpgrade.redisPort | quote }}
@@ -47,17 +48,18 @@ spec:
               value: {{ .Values.cosmosUpgrade.redisPassword | quote }}
             - name: CACHE_EXPIRATION_TIME
               value: {{ .Values.cosmosUpgrade.cacheExpirationTime | quote }}
+          {{- end }}
           ports:
             - name: cosmos-upgrade
               containerPort: {{ .Values.cosmosUpgrade.servicePort }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: cosmos-upgrade
           readinessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: cosmos-upgrade
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
