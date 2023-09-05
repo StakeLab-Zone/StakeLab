@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.44-ununifi-v3.2.1"
+  tag: "v0.3.47-rc1-ununifi-v3.2.1"
   pullPolicy: IfNotPresent
 
 # Common Values
