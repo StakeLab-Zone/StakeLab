@@ -90,6 +90,18 @@ chains:
     nodes:
       - url: https://bitsong-rpc.lavenderfive.com:443
 
+  "Burnt":
+    chain_id: xion-testnet-1
+    valoper_address: xionvaloper1ypwfnfuldmlp9u8asqzz6qx29p0utqzer5678k
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://testnet-burnt-rpc.lavenderfive.com:443
+
   "Canto":
     chain_id: canto_7700-1
     valoper_address: cantovaloper1ctc7cuvzkwhdnfg87u0fp8746cg5d95zyjcr9u
