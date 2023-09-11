@@ -22,7 +22,7 @@ dydxprotocol_node:
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
   minimum_gas_prices: "0.025ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5,0.025dv4tnt"
   net: https://raw.githubusercontent.com/CharlesJUDITH/dydxprotocol-docker/main/genesis.json
-  peers: 178b7abe7b6fbde8620588246ee7b63ed58feae1@35.79.71.58:26656,3f667030ddd9c561ec66f35e8221be0178cf62c4@3.139.242.161:26656
+  peers: 178b7abe7b6fbde8620588246ee7b63ed58feae1@35.79.71.58:26656,3f667030ddd9c561ec66f35e8221be0178cf62c4@3.139.242.161:26656,178b7abe7b6fbde8620588246ee7b63ed58feae1@35.79.71.58:26656,3f667030ddd9c561ec66f35e8221be0178cf62c4@3.139.242.161:26656,f3a15e80d5bdb03a313fd86bff0215c048513824@65.109.97.62:26656,3de1111e56f8dc4ac3e4d68198577bcf72745574@88.198.8.79:2110,f32ade43f3f5633de090c38dd7ec12dedb4972c4@131.153.203.245:26656,87ee8de5f0f82af6ee6740a30f8844bbe6434413@seed.dydx-testnet.cros-nest.com
   seeds: 
   addrbook:
     enabled: false
@@ -224,6 +224,8 @@ local_storage:
   capacity: 100Gi
   path: /data/dydx-validator
   host: ""
+
+ethRpcEndpoint: "https://eth-sepolia.public.blastapi.io"
 
 # If the node is a validator
 validator:

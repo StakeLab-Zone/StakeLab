@@ -140,7 +140,10 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/dydxprotocold" , "start", "--bridge-daemon-eth-rpc-endpoint", "https://eth-sepolia.public.blastapi.io" ]
+          command: ["/bin/dydxprotocold", "start"]
+          args:
+            - "--bridge-daemon-eth-rpc-endpoint"
+            - {{ .Values.ethRpcEndpoint | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
