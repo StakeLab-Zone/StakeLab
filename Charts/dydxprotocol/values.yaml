@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/charlesjudith/dydxprotocol-docker"
-  tag: "v0.1.4"
+  tag: "v0.2.1"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -18,11 +18,11 @@ debug: "false"
 dydxprotocol_node:
   api_enable: "true"
   moniker: StakeLab
-  chainid: dydx-testnet-2
+  chainid: dydx-testnet-3
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
-  minimum_gas_prices: "0ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5"
+  minimum_gas_prices: "0.025ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5,0.025dv4tnt"
   net: https://raw.githubusercontent.com/CharlesJUDITH/dydxprotocol-docker/main/genesis.json
-  peers: 20b4f9207cdc9d0310399f848f057621f7251846@158.247.233.222:26656,651e482fcc61aa9f2d8f01f7307368106f4573e5@173.234.17.224:26656,cb6ae22e1e89d029c55f2cb400b0caa19cbe5523@172.111.52.50:32667,beafc6cd6c5dc28e2c262dfbc8903bda91852ece@[2001:bc8:1203:2c8::1]:26656,ba319c7d8f4a8804962d50e2c5e01d77e25a1654@dydx-testnet.nodes.guru:55836,4f278c2cfd6b5b72819ddaca8695f0a47505befa@65.109.97.62:26656,0a3c8d2e42c6a1861173349c82e5b2d8625f0da0@dydx-p2p-val.enigma-validator.com:3090,20e1000e88125698264454a884812746c2eb4807@seeds.lavenderfive.com:23856,4945f5e47c70729b414c0732c6ac1094ed59c641@43.200.158.38:26656,a6e993cc6f50b15cc076e9bd06f6ed02daa7cd86@165.22.73.158:26656,30687f26e3bf77258eeb58c371f26417463fcbc6@213.246.39.171:26656,c559c899bbd6e18762bb95698572bcf1a9dc75ae@dydx-node01.kingnodes.com:26656,48b6304511cbe0edac124f1692b27216602ac389@185.119.116.235:26656,807136aeb3c4d41e75bc8f3ecc4ab4b67d4c5edb@155.133.23.89:2690,ebe127a8556969792d855a1f3935a6ffcc0aff86@51.210.146.190:26656
+  peers: 178b7abe7b6fbde8620588246ee7b63ed58feae1@35.79.71.58:26656,3f667030ddd9c561ec66f35e8221be0178cf62c4@3.139.242.161:26656
   seeds: 
   addrbook:
     enabled: false
@@ -122,7 +122,7 @@ dydxprotocol_node:
     timeout_prevote_delta: "500ms"
     timeout_precommit: "1s"
     timeout_precommit_delta: "500ms"
-    timeout_commit: "999ms"
+    timeout_commit: "500ms"
     double_sign_check_height: 0
     skip_timeout_commit: false
     create_empty_blocks: true
@@ -288,4 +288,3 @@ service:
   rpc: 26657
   grpc: 9090
   rest: 1317
-  grpc: 909

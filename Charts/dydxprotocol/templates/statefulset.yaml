@@ -62,12 +62,85 @@ spec:
       nodeSelector:
         kubernetes.io/hostname: {{ $.Values.local_storage.host }}
       {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: DYDX_MONIKER
+              value: {{ .Values.dydxprotocol_node.moniker }}
+            - name: DYDX_NET
+              value: {{ .Values.dydxprotocol_node.net }}
+            - name: DYDX_HOME
+              value: {{ .Values.home }}
+            - name: DYDX_CHAIN_ID
+              value: {{ .Values.dydxprotocol_node.chainid }}
+            - name: DYDX_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: DYDX_ADDRBOOK_ENABLED
+              value: "{{ .Values.dydxprotocol_node.addrbook.enabled }}"
+            - name: DYDX_ADDRBOOK_URL
+              value: {{ .Values.dydxprotocol_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: DYDX_P2P_PERSISTENT_PEERS
+              value: {{ .Values.dydxprotocol_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.dydxprotocol_node.addrbook.enabled }}
+            - name: DYDX_P2P_PERSISTENT_PEERS
+              value: {{ .Values.dydxprotocol_node.peers }}
+            {{- end }}
+            - name: DYDX_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.dydxprotocol_node.iavl_disable_fastnode }}"
+            - name: DYDX_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: DYDX_MINIMUM_GAS_PRICES
+              value: "{{ .Values.dydxprotocol_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.dydxprotocol_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: DYDX_STATESYNC_ENABLE
+              value: "true"
+            - name: DYDX_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: dydxprotocol-validator-config-toml
+            {{- else }}
+            - name: dydxprotocol-fullnode-config-toml
+            {{- end }}
+              mountPath: /root/.dydxprotocol/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: dydxprotocol-validator-app-toml
+            {{- else }}
+            - name: dydxprotocol-fullnode-app-toml
+            {{- end }}
+              mountPath: /root/.dydxprotocol/config/app.toml
+              subPath: app.toml
+            - name: dydxprotocol-pricefeed-exchange-toml
+              mountPath: /root/.dydxprotocol/config/pricefeed_exchange_config.toml
+              subPath: pricefeed_exchange_config.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/dydxprotocold" , "start" ]
+          command: [ "/bin/dydxprotocold" , "start", "--bridge-daemon-eth-rpc-endpoint", "https://eth-sepolia.public.blastapi.io" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
@@ -151,6 +224,8 @@ spec:
               name: rpc
             - containerPort: 26660
               name: metrics
+            - containerPort: 9090
+              name: grpc
           volumeMounts:
             - name: config
               mountPath: /config

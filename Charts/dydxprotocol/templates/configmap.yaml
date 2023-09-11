@@ -119,7 +119,7 @@ data:
     timeout_prevote_delta = "{{ .Values.dydxprotocol_node.consensus.timeout_prevote_delta | default "500ms" }}"
     timeout_precommit = "{{ .Values.dydxprotocol_node.consensus.timeout_precommit | default "1s" }}"
     timeout_precommit_delta = "{{ .Values.dydxprotocol_node.consensus.timeout_precommit_delta | default "500ms" }}"
-    timeout_commit = "{{ .Values.dydxprotocol_node.consensus.timeout_commit | default "999ms" }}"
+    timeout_commit = "{{ .Values.dydxprotocol_node.consensus.timeout_commit | default "500ms" }}"
     double_sign_check_height = {{ .Values.dydxprotocol_node.consensus.double_sign_check_height | default 0 }}
     skip_timeout_commit = {{ .Values.dydxprotocol_node.consensus.skip_timeout_commit | default false }}
     create_empty_blocks = {{ .Values.dydxprotocol_node.consensus.create_empty_blocks | default true}}
