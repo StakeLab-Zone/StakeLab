@@ -225,7 +225,7 @@ local_storage:
   path: /data/dydx-validator
   host: ""
 
-ethRpcEndpoint: "https://rpc2.sepolia.org"
+ethRpcEndpoint: "https://eth-sepolia.public.blastapi.io"
 
 # If the node is a validator
 validator:
