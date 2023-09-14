@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.47-rc1-shentu-v2.7.2"
+  tag: "v0.3.47-shentu-v2.7.2"
   pullPolicy: IfNotPresent
 
 # Common Values
