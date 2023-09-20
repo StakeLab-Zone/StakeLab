@@ -1,0 +1,266 @@
+# Default values for lava-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/charlesjudith/lavanetwork"
+  tag: "v0.23.5"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.lava"
+debug: "false"
+
+# Set Values to run a single lava node connected to an existing network
+# Defaults to mainnet
+lava_node:
+  # snapshot_provider can be polkachu or "kjnodes" for now. Otherwise it'll default to a much larger in size.
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: lava-testnet-2
+  # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
+  minimum_gas_prices: 0ulava
+  net: https://snapshots.polkachu.com/testnet-genesis/lava/genesis.json
+  peers: b16eb3c538b9a460612a4cea37c2657f15579126@65.109.30.90:11656,10ff3886c6304556101d5ffa060e32929a82769f@65.108.229.93:34656,0a528da95ca8025ef4043b6e73f1e789f4102940@176.103.222.22:26656,6ba3b6ec03839afffa64c83e18ff80a681f4968d@65.108.194.40:21756,39a1bf76897610a2966356ebfd6251fdc0a79aae@62.171.170.79:656,07277038190e9eb8855a49b1a13d742d18d9bea5@65.108.41.172:26656,4c9f80e1cf08c85d8870981afad061cfac30cfc6@65.108.86.122:26656,7902b049bae54b62ca6a70f5f4c60411cf13ae52@65.109.33.48:20656,149f9f017344ce9cebb637baa7cab57a28f3a8c3@86.111.48.159:26656,c4a52f63ee4aa5a9b651abc18b594b82f4378e3a@164.68.98.110:656,d1730b774b7c1d52dd9f6ae874a56de958aa147e@195.201.76.69:36656,20c13bd0d972acba5588493fb528b558a0317013@38.242.133.203:26656,bcd4ba964227bb51eec47053ea24e67a53dc867a@144.126.140.252:32656,152227a66b571478ecf9811a626a95e7da7e2cb2@78.46.72.114:21656,af2416c4e39ed4b6bd57346a0f3297c10f4f007a@81.30.157.35:29656,97b3648ef143d537e6aee3b11f054a0e6b6be691@141.94.65.136:26656,01de00cfc08ac2318183917cb75abc913ea74162@154.53.54.154:656,99327e5cf0f31ac3bb1ca8e39cc9f17c823b7ec1@109.236.88.8:26656,da4a5f1cc07ed8c7e6b9ec03f5f3b6e1b3ddd97d@167.86.85.247:656,daf1720b75cd6f200daac9c453910257e20e6e52@161.97.74.88:26256,a07a0a85799af2e3bbd535bdc4a375e10624ce6d@158.220.89.86:26686,779aa493ad13b8235e8e5f8b6340795864091605@65.108.72.233:16656,aa5ada2c19585b0d288a4d0069922f0ac5d848e2@154.53.55.21:656,f7f37cb4ed4bfea09a91032c39324a33ce59b5df@144.126.138.62:656,58469d4c8c2f352fca6d846225914af7fcd11e91@154.12.245.42:656,eb7832932626c1c636d16e0beb49e0e4498fbd5e@65.108.231.124:20656,2c2353c872b0c5af562c518b1aa48a2649a4c927@65.108.199.62:11656,e111325b22de27c1de47b2e805ef4a93292b9dfa@194.163.187.219:26666,2379ef55fe705241ddaadf8652e608545141a63c@176.103.222.18:26656,46c9cd18c7a2c154873dde9a3f081706ee7e5ce0@144.91.80.32:26656,3306e10f1635f71e1d93219a369f4907ec062ad5@167.235.14.83:17656,34a0258d5f63b9033aeb71226a6fb1e4c4138682@52.14.52.73:26656,49c90b2abc2be170fee595ef5bb5eb94f87e3c38@167.114.119.77:14556,afb9a75c56dc5bcbdfe36d7dc8dfcab31f7c69b3@154.12.245.38:656,5585de73ef537dcbbe8ae04392ccea3a112cc6e6@65.109.85.170:49656,913656c2a2e5a8446070a6461b0a5a1786dee328@213.133.100.172:27262,f1bb78a30c9381bed392fda141a5c1f6fa4d25e6@144.76.114.49:36656,39b3929bf87e8501797c6c7cb44833953f1d96a0@65.108.206.118:60956,0d08a1b452e6d7ccdfbc9b54658b5f9ed24eff7b@135.181.138.160:29956,84703bfb1edf4ed437f37bb7c7e632d0647f2b78@154.12.245.39:656,adccf17b34252c931e4c29d53e22df5a94e1abcd@144.91.89.149:656,57d64cbf5a16820aa9a0582335705f37dde4c18b@190.15.217.229:26656,a98484ac9cb8235bd6a65cdf7648107e3d14dab4@116.202.231.58:14456,810bdfb3e88f4872995f9a05b6298c1bf3d20fe0@65.108.105.48:19956,2a588e5ddcfd8c9095cc6f34b5b6966e31020cfd@65.21.123.172:11656,6bdc7ae7de872000ac6b0b074f27adf76d68af68@144.91.89.158:656,d173f4545d5b5ae23ee085dc44f1e1ce5608d462@136.243.80.114:14556,5a3293c04ed8cf022e2c04d6d85db60a5c6abdc3@52.37.107.186:26656,0cd6f6ada07090fa4355079ad1454348fe40082a@159.69.72.220:14456,0f9f0fb4b9371a65bdf1c883a2a7dc52d0023019@34.233.69.21:26656,653bb90f4e8a1db9dbbeadd7bd5ae7fd1e1bb7e6@65.108.101.4:23356,f68d235d77018cc0ac0cf4c667ffb224da99b8e3@154.53.55.128:656,1754b04d76e90bd4d1fa9ca9ac24b3376355af43@5.75.237.45:26656,d7f81b585ed4d6f1ebb860f5b3d78f3c2d7b9e7b@144.126.138.107:656,881982c3dcb7fa94f09cf9e738c1ec6cba9a203a@144.91.99.234:656,d796c20b5bdb8f1633c2a13afbf12314a77b668c@91.107.148.113:26656,b92ff54b33185ac94e0cc1991198561ab94abc91@154.53.55.91:656,57ec649bf3f38567392c98cb0154a992e2ddbbc7@144.126.157.206:656,d5519e378247dfb61dfe90652d1fe3e2b3005a5b@65.109.68.190:14456,abef1d647b77b701d81ae15e093bf00d29cc56e1@46.4.50.247:13656,65b57e09f6aaf85ca35c397d835ebdf8718a29d5@62.171.138.196:656,ed295c3ece2ded17ea4007a680154db83abeca13@95.217.114.220:13656,3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@34.75.214.127:26656,824d2fc1a31e3d2637b23e33e0ae69934f9a161b@65.108.230.113:197,5c2a752c9b1952dbed075c56c600c3a79b58c395@185.16.39.172:27066,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@35.205.49.53:26656,1f704611e8aa4a53504fac1b80eb55c876dae8bd@65.108.13.154:30656,0b82cd622aec9a7b690a8a30a7121306a0261a9a@173.212.243.149:26656,d9dee947a5e64850708dbddf1b13f593b759367c@95.111.241.122:656,112fba64a7e5e27b0cf8f02c634334c957891abf@75.119.146.244:28656,1b913d5181bb489214f5bf2eb7ebdf6b2a9fa0a2@95.214.55.138:1656
+  seeds: 3a445bfdbe2d0c8ee82461633aa3af31bc2b4dc0@testnet2-seed-node.lavanet.xyz:26656,e593c7a9ca61f5616119d6beb5bd8ef5dd28d62d@testnet2-seed-node2.lavanet.xyz:26656
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/testnet-addrbook/lava/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  # priv_validator_key_file: ""
+  # priv_validator_laddr: "tcp://127.0.0.1:26659"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "10s"
+    max_body_bytes: 1000000
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v0"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 1073741824
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 1048576
+    max_batch_bytes: 0
+    ttl-duration: "0s"
+    ttl-num-blocks: 0
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: false
+  tx_index:
+    indexer: "null"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "tendermint"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+state_sync:
+  enabled: false
+  rpc1: "https://rpc-1.lava.nodes.guru"
+  node_id: ""
+  # height_offset should equal the LAVA_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/lava-validator
+
+# Used for mounting LAVA_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/lava-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  domain: "dmain.tld"
