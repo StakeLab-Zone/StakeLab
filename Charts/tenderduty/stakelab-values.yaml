@@ -646,4 +646,5 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-umee-ia.cosmosia.notional.ventures:443
+      #- url: https://rpc-umee-ia.cosmosia.notional.ventures:443
+      - url: https://umee-rpc.w3coins.io:443
