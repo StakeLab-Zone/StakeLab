@@ -1,0 +1,201 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: evmos-node-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "evmos-node.labels" . | nindent 4 }}
+data:
+  init.sh: |
+{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: evmos-validator-config-toml
+  {{- else }}
+  name: evmos-fullnode-config-toml
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "evmos-node.labels" . | nindent 4 }}
+data:
+  config.toml: |-
+    proxy_app = "{{ .Values.evmos_node.proxy_app | default "tcp://127.0.0.1:26658" }}"
+    moniker = "{{ .Values.evmos_node.moniker  | default "evmos-node" }}"
+    fast_sync = {{ .Values.evmos_node.fast_sync | default true}}
+    db_backend = "{{ .Values.evmos_node.db_backend | default "goleveldb" }}"
+    db_dir = "{{ .Values.evmos_node.db_dir | default "data" }}"
+    log_level = "{{ .Values.log_level | default "info" }}"
+    log_format = "{{ .Values.log_format | default "plain" }}"
+    genesis_file = "{{ .Values.genesis_file | default "config/genesis.json" }}"
+    priv_validator_key_file = "{{ .Values.evmos_node.priv_validator_key_file | default "config/priv_validator_key.json" }}"
+    priv_validator_state_file = "{{ .Values.priv_validator_state_file | default "data/priv_validator_state.json" }}"
+    priv_validator_laddr = "{{ .Values.evmos_node.priv_validator_laddr | default "" }}"
+    node_key_file = "{{ .Values.node_key_file | default "config/node_key.json" }}"
+    abci = "{{ .Values.abci | default "socket" }}"
+    filter_peers = {{ .Values.filter_peers | default false }}
+    [rpc]
+    laddr = "{{ .Values.evmos_node.rpc.laddr | default "tcp://127.0.0.1:26657" }}"
+    cors_allowed_origins = {{ .Values.evmos_node.rpc.cors_allowed_origins | default "[]" }}
+    cors_allowed_methods = {{ .Values.evmos_node.rpc.cors_allowed_methods | default "['HEAD', 'GET', 'POST']" }}
+    cors_allowed_headers = {{ .Values.evmos_node.rpc.cors_allowed_headers | default "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']" }}
+    grpc_laddr = "{{ .Values.evmos_node.rpc.grpc_laddr | default "" }}"
+    grpc_max_open_connections = {{ .Values.evmos_node.rpc.grpc_max_open_connections | default 900 }}
+    unsafe = {{ .Values.evmos_node.rpc.unsafe | default false }}
+    max_open_connections = {{ .Values.evmos_node.rpc.max_open_connections | default 900 }}
+    max_subscription_clients = {{ .Values.evmos_node.rpc.max_subscription_clients | default 100 }}
+    max_subscriptions_per_client = {{ .Values.evmos_node.rpc.max_subscriptions_per_client | default 5 }}
+    experimental_subscription_buffer_size = {{ .Values.evmos_node.rpc.experimental_subscription_buffer_size | default 200 }}
+    experimental_websocket_write_buffer_size = {{ .Values.evmos_node.rpc.experimental_websocket_write_buffer_size | default 200 }}
+    experimental_close_on_slow_client = {{ .Values.evmos_node.rpc.experimental_close_on_slow_client | default false }}
+    timeout_broadcast_tx_commit = "{{ .Values.evmos_node.rpc.timeout_broadcast_tx_commit | default "10s" }}"
+    max_body_bytes = {{ .Values.evmos_node.rpc.max_body_bytes | default 1000000 }}
+    max_header_bytes = {{ .Values.evmos_node.rpc.max_header_bytes | default 1048576 | int }}
+    tls_cert_file = "{{ .Values.evmos_node.rpc.tls_cert_file | default "" }}"
+    tls_key_file = "{{ .Values.evmos_node.rpc.tls_key_file | default "" }}"
+    pprof_laddr = "{{ .Values.evmos_node.rpc.pprof_laddr | default "localhost:6060" }}"
+    [p2p]
+    laddr = "{{ .Values.evmos_node.p2p.laddr | default "tcp://0.0.0.0:26656" }}"
+    external_address = "{{ .Values.evmos_node.p2p.external_address | default "" }}"
+    {{- if .Values.evmos_node.addrbook.enabled }}
+    seeds = ""
+    {{- else }}
+    seeds = "{{ .Values.evmos_node.seeds}}"
+    {{- end }}
+    {{- if .Values.evmos_node.addrbook.enabled }}
+    persistent_peers = ""
+    {{- else }}
+    persistent_peers = "{{ .Values.evmos_node.peers}}"
+    {{- end }}
+    upnp = {{ .Values.evmos_node.p2p.upnp | default false }}
+    addr_book_file = {{ .Values.evmos_node.p2p.addr_book_file | default "config/addrbook.json" | quote }}
+    addr_book_strict = {{ .Values.evmos_node.p2p.addr_book_strict | default true }}
+    max_num_inbound_peers = {{ .Values.evmos_node.p2p.max_num_inbound_peers | default 40 }}
+    max_num_outbound_peers = {{ .Values.evmos_node.p2p.max_num_outbound_peers | default 10 }}
+    unconditional_peer_ids = {{ .Values.evmos_node.p2p.unconditional_peer_ids | default "" |quote }}
+    persistent_peers_max_dial_period = {{ .Values.evmos_node.p2p.persistent_peers_max_dial_period | default "0s" | quote }}
+    flush_throttle_timeout = {{ .Values.evmos_node.p2p.flush_throttle_timeout | default "100ms" |quote }}
+    max_packet_msg_payload_size = {{ .Values.evmos_node.p2p.max_packet_msg_payload_size | default 1024 }}
+    send_rate = {{ .Values.evmos_node.p2p.send_rate | default 5120000 | int }}
+    recv_rate = {{ .Values.evmos_node.p2p.recv_rate | default 5120000 | int }}
+    pex = {{ .Values.evmos_node.p2p.pex | default true }}
+    seed_mode = {{ .Values.evmos_node.p2p.seed_mode | default false }}
+    private_peer_ids = {{ .Values.evmos_node.p2p.private_peer_ids | default "" |quote}}
+    allow_duplicate_ip = {{ .Values.evmos_node.p2p.allow_duplicate_ip | default false }}
+    handshake_timeout = {{ .Values.evmos_node.p2p.handshake_timeout | default "20s" |quote }}
+    dial_timeout = {{ .Values.evmos_node.p2p.dial_timeout | default "3s" |quote }}
+    [mempool]
+    version = {{ .Values.evmos_node.mempool.version | default 1 |quote }}
+    recheck = {{ .Values.evmos_node.mempool.recheck | default true }}
+    broadcast = {{ .Values.evmos_node.mempool.broadcast | default true }}
+    wal_dir = {{ .Values.evmos_node.mempool.wal_dir | default "" | quote }}
+    size = {{ .Values.evmos_node.mempool.size | default 5000 }}
+    max_txs_bytes = {{ .Values.evmos_node.mempool.max_txs_bytes | default 1073741824 | int }}
+    cache_size = {{ .Values.evmos_node.mempool.cache_size | default 10000 }}
+    keep-invalid-txs-in-cache = {{ .Values.evmos_node.mempool.keep_invalid_txs_in_cache | default false }}
+    max_tx_bytes = {{ .Values.evmos_node.mempool.max_tx_bytes | default 1048576 }}
+    max_batch_bytes = {{ .Values.evmos_node.mempool.max_batch_bytes | default 1048576 }}
+    ttl-duration = {{ .Values.evmos_node.mempool.ttl_duration | default "0s" | quote }}
+    ttl-num-blocks = {{ .Values.evmos_node.mempool.ttl_num_blocks | default 0 }}
+    [statesync]
+    enable = {{ .Values.evmos_node.statesync.enable | default false }}
+    rpc_servers = {{ .Values.evmos_node.statesync.rpc_servers | default "" |quote}}
+    trust_height = {{ .Values.evmos_node.statesync.trust_height | default 0 }}
+    trust_hash = {{ .Values.evmos_node.statesync.trust_hash | default "" |quote }}
+    trust_period = {{ .Values.evmos_node.statesync.trust_period | default "336h" | quote }}
+    discovery_time = {{ .Values.evmos_node.statesync.discovery_time | default "15s" | quote }}
+    temp_dir = {{ .Values.evmos_node.statesync.temp_dir | default "data/statesync" | quote }}
+    chunk_request_timeout = {{ .Values.evmos_node.statesync.chunk_request_timeout | default "10s" | quote }}
+    chunk_fetchers = {{ .Values.evmos_node.statesync.chunk_fetchers | default 4 | quote}}
+    [fastsync]
+    version = "{{ .Values.evmos_node.fastsync.version | default "v0" }}"
+    [consensus]
+    wal_file = "{{ .Values.evmos_node.consensus.wal_file | default "data/cs.wal/wal" }}"
+    timeout_propose = "{{ .Values.evmos_node.consensus.timeout_propose | default "3s" }}"
+    timeout_propose_delta = "{{ .Values.evmos_node.consensus.timeout_propose_delta | default "500ms" }}"
+    timeout_prevote = "{{ .Values.evmos_node.consensus.timeout_prevote | default "1s" }}"
+    timeout_prevote_delta = "{{ .Values.evmos_node.consensus.timeout_prevote_delta | default "500ms" }}"
+    timeout_precommit = "{{ .Values.evmos_node.consensus.timeout_precommit | default "1s" }}"
+    timeout_precommit_delta = "{{ .Values.evmos_node.consensus.timeout_precommit_delta | default "500ms" }}"
+    timeout_commit = "{{ .Values.evmos_node.consensus.timeout_commit | default "5s" }}"
+    double_sign_check_height = {{ .Values.evmos_node.consensus.double_sign_check_height | default 0 }}
+    skip_timeout_commit = {{ .Values.evmos_node.consensus.skip_timeout_commit | default false }}
+    create_empty_blocks = {{ .Values.evmos_node.consensus.create_empty_blocks | default true}}
+    create_empty_blocks_interval = "{{ .Values.evmos_node.consensus.create_empty_blocks_interval | default "0s" }}"
+    peer_gossip_sleep_duration = "{{ .Values.evmos_node.consensus.peer_gossip_sleep_duration | default "100ms" }}"
+    peer_query_maj23_sleep_duration = "{{ .Values.evmos_node.consensus.peer_query_maj23_sleep_duration | default "2s" }}"
+    [storage]
+    discard_abci_responses = {{ .Values.evmos_node.storage.discard_abci_responses | default false }}
+    [tx_index]
+    indexer = "{{ .Values.evmos_node.tx_index.indexer | default "kv" }}"
+    psql-conn = "{{ .Values.evmos_node.tx_index.psql_conn | default "" }}"
+    [instrumentation]
+    prometheus = {{ .Values.evmos_node.instrumentation.prometheus | default true }}
+    prometheus_listen_addr = "{{ .Values.evmos_node.instrumentation.prometheus_listen_addr | default ":26660" }}"
+    max_open_connections = {{ .Values.evmos_node.instrumentation.max_open_connections | default 3 }}
+    namespace = {{ .Values.evmos_node.instrumentation.namespace | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: evmos-validator-app-toml
+  {{- else }}
+  name: evmos-fullnode-app-toml
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "evmos-node.labels" . | nindent 4 }}
+data:
+  app.toml: |-
+    minimum-gas-prices = "{{ .Values.evmos_node.minimum_gas_prices }}"
+    pruning = "{{ .Values.evmos_node.pruning }}"
+    pruning-keep-recent = "{{ .Values.evmos_node.pruning_keep_recent}}"
+    pruning-keep-every = "{{ .Values.evmos_node.pruning_keep_every  }}"
+    pruning-interval = "{{ .Values.evmos_node.pruning_interval }}"
+    halt-height = {{ .Values.evmos_node.halt_height }}
+    halt-time = {{ .Values.evmos_node.halt_time }}
+    min-retain-blocks = {{ .Values.evmos_node.min_retain_blocks }}
+    inter-block-cache = {{ .Values.evmos_node.inter_block_cache }}
+    index-events = {{ .Values.evmos_node.index_events }}
+    iavl-cache-size = {{ .Values.evmos_node.iavl_cache_size }}
+    iavl-disable-fastnode = {{ .Values.evmos_node.iavl_disable_fastnode }}
+    [telemetry]
+    service-name = "{{ .Values.evmos_node.telemetry.serviceName }}"
+    enabled = {{ .Values.evmos_node.telemetry.enabled }}
+    enable-hostname = {{ .Values.evmos_node.telemetry.enableHostname }}
+    enable-hostname-label = {{ .Values.evmos_node.telemetry.enableHostnameLabel }}
+    enable-service-label = {{ .Values.evmos_node.telemetry.enableServiceLabel }}
+    prometheus-retention-time = {{ .Values.evmos_node.telemetry.prometheusRetentionTime }}
+    global-labels = {{ .Values.evmos_node.telemetry.globalLabels }}
+    [api]
+    enable = {{ .Values.evmos_node.api.enable }}
+    swagger = {{ .Values.evmos_node.api.swagger }}
+    address = "{{ .Values.evmos_node.api.address }}"
+    max-open-connections = {{ .Values.evmos_node.api.maxOpenConnections }}
+    rpc-read-timeout = {{ .Values.evmos_node.api.rpcReadTimeout }}
+    rpc-write-timeout = {{ .Values.evmos_node.api.rpcWriteTimeout }}
+    rpc-max-body-bytes = {{ .Values.evmos_node.api.rpcMaxBodyBytes }}
+    enabled-unsafe-cors = {{ .Values.evmos_node.api.enabledUnsafeCors }}
+    [rosetta]
+    enable = {{ .Values.evmos_node.rosetta.enable }}
+    address = "{{ .Values.evmos_node.rosetta.address }}"
+    blockchain = "{{ .Values.evmos_node.rosetta.blockchain }}"
+    network = "{{ .Values.evmos_node.rosetta.network }}"
+    retries = {{ .Values.evmos_node.rosetta.retries }}
+    offline = {{ .Values.evmos_node.rosetta.offline }}
+    [grpc]
+    enable = {{ .Values.evmos_node.grpc.enable }}
+    address = "{{ .Values.evmos_node.grpc.address }}"
+    [grpc-web]
+    enable = {{ .Values.evmos_node.grpcWeb.enable }}
+    address = "{{ .Values.evmos_node.grpcWeb.address }}"
+    enable-unsafe-cors = {{ .Values.evmos_node.grpcWeb.enableUnsafeCors }}
+    [state-sync]
+    snapshot-interval = {{ .Values.evmos_node.stateSync.snapshotInterval }}
+    snapshot-keep-recent = {{ .Values.evmos_node.stateSync.snapshotKeepRecent }}
+    [wasm]
+    query_gas_limit = 300000
+    lru_size = 0

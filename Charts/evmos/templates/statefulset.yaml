@@ -1,0 +1,281 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: evmosd-node-validator
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: evmosd-validator
+    evmosd.network/validator: "{{ .Values.evmos_node.moniker }}"
+  {{- else }}
+    app: evmosd-fullnode
+    evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: evmosd-validator
+  {{- else }}
+  serviceName: evmosd-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: evmosd-validator
+      evmosd.network/validator: "{{ .Values.evmos_node.moniker }}"
+    {{- else }}
+      app: evmosd-fullnode
+      evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: evmosd-validator
+        evmosd.network/validator: "{{ .Values.evmos_node.moniker }}"
+      {{- else }}
+        app: evmosd-fullnode
+        evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: evmosd-validator
+    {{- else }}
+      ServiceAccountName: evmosd-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: EVMOS_MONIKER
+              value: {{ .Values.evmos_node.moniker }}
+            - name: EVMOS_NET
+              value: {{ .Values.evmos_node.net }}
+            - name: EVMOS_HOME
+              value: {{ .Values.home }}
+            - name: EVMOS_CHAIN_ID
+              value: {{ .Values.evmos_node.chainid }}
+            - name: EVMOS_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: EVMOS_ADDRBOOK_ENABLED
+              value: "{{ .Values.evmos_node.addrbook.enabled }}"
+            - name: EVMOS_ADDRBOOK_URL
+              value: {{ .Values.evmos_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: EVMOS_P2P_PERSISTENT_PEERS
+              value: {{ .Values.evmos_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.evmos_node.addrbook.enabled }}
+            - name: EVMOS_P2P_PERSISTENT_PEERS
+              value: {{ .Values.evmos_node.peers }}
+            {{- end }}
+            - name: EVMOS_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.evmos_node.iavl_disable_fastnode }}"
+            - name: EVMOS_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: EVMOS_MINIMUM_GAS_PRICES
+              value: "{{ .Values.evmos_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.evmos_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: EVMOS_STATESYNC_ENABLE
+              value: "true"
+            - name: EVMOS_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: evmosd-validator-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: evmosd-validator-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/evmosd" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: EVMOS_MONIKER
+              value: {{ .Values.evmos_node.moniker }}
+            - name: EVMOS_NET
+              value: {{ .Values.evmos_node.net }}
+            - name: EVMOS_HOME
+              value: {{ .Values.home }}
+            - name: EVMOS_CHAIN_ID
+              value: {{ .Values.evmos_node.chainid }}
+            - name: EVMOS_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: EVMOS_P2P_PERSISTENT_PEERS
+              value: {{ .Values.evmos_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.evmos_node.addrbook.enabled }}
+            - name: EVMOS_P2P_PERSISTENT_PEERS
+              value: {{ .Values.evmos_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: EVMOS_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: EVMOS_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: EVMOS_PRUNING
+              value: "custom"
+            - name: EVMOS_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: EVMOS_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: EVMOS_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: EVMOS_PRUNING
+              value: "{{ .Values.evmos_node.pruning }}"
+            - name: EVMOS_PRUNING_KEEP_RECENT
+              value: "{{ .Values.evmos_node.pruning_keep_recent }}"
+            - name: EVMOS_PRUNING_KEEP_EVERY
+              value: "{{ .Values.evmos_node.pruning_keep_every }}"
+            - name: EVMOS_PRUNING_INTERVAL
+              value: "{{ .Values.evmos_node.pruning_interval }}"
+            {{- end }}
+            - name: EVMOS_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.evmos_node.iavl_disable_fastnode }}"
+            - name: EVMOS_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: EVMOS_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: EVMOS_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: EVMOS_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: EVMOS_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: EVMOS_ROSETTA_ENABLE
+              value: "false"
+            - name: EVMOS_P2P_SEED_MODE
+              value: "true"
+            - name: EVMOS_P2P_PEX
+              value: "{{ .Values.evmos_node.p2p.pex }}"
+            - name: EVMOS_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: EVMOS_MINIMUM_GAS_PRICES
+              value: "{{ .Values.evmos_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.evmos_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: EVMOS_STATESYNC_ENABLE
+              value: "true"
+            - name: EVMOS_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: EVMOS_API_ENABLE
+              value: "{{ .Values.evmos_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: p2p
+            - containerPort: 26659
+              name: kms
+            - containerPort: 26660
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: evmosd-validator-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: evmosd-validator-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: evmosd-node-config
+        - name: evmosd-validator-config-toml
+          configMap:
+            name: evmosd-validator-config-toml
+        - name: evmosd-validator-app-toml
+          configMap:
+            name: evmosd-validator-app-toml
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}
