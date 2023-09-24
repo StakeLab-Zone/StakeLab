@@ -16,6 +16,7 @@ Helm chart to run nodes on Kubernetes
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
 - [Osmosis](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/osmosis)
 - [Lava metwork](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/lava)
+- [Evmos](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/evmos)
 - [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)
 - [Ununifi](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/ununifi)
 
