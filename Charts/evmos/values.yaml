@@ -78,8 +78,8 @@ evmos_node:
     upnp: false
     addr_book_file: "config/addrbook.json"
     addr_book_strict: true
-    max_num_inbound_peers: 40
-    max_num_outbound_peers: 10
+    max_num_inbound_peers: 240
+    max_num_outbound_peers: 30
     unconditional_peer_ids: ""
     persistent_peers_max_dial_period: "0s"
     flush_throttle_timeout: "100ms"
@@ -97,7 +97,7 @@ evmos_node:
     recheck: true
     broadcast: true
     wal_dir: ""
-    size: 5000
+    size: 10000
     max_txs_bytes: 1073741824
     cache_size: 10000
     keep-invalid-txs-in-cache: false
@@ -110,12 +110,12 @@ evmos_node:
     rpc_servers: ""
     trust_height: 0
     trust_hash: ""
-    trust_period: "168h0m0s"
+    trust_period: "112h0m0s"
     discovery_time: "15s"
     temp_dir: ""
     chunk_request_timeout: "10s"
     chunk_fetchers: "4"
-  fastsync:
+  blocksync:
     version: "v0"
   consensus:
     wal_file: "data/cs.wal/wal"
@@ -125,7 +125,7 @@ evmos_node:
     timeout_prevote_delta: "500ms"
     timeout_precommit: "1s"
     timeout_precommit_delta: "500ms"
-    timeout_commit: "5s"
+    timeout_commit: "3s"
     double_sign_check_height: 0
     skip_timeout_commit: false
     create_empty_blocks: true

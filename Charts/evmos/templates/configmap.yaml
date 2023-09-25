@@ -72,8 +72,8 @@ data:
     upnp = {{ .Values.evmos_node.p2p.upnp | default false }}
     addr_book_file = {{ .Values.evmos_node.p2p.addr_book_file | default "config/addrbook.json" | quote }}
     addr_book_strict = {{ .Values.evmos_node.p2p.addr_book_strict | default true }}
-    max_num_inbound_peers = {{ .Values.evmos_node.p2p.max_num_inbound_peers | default 40 }}
-    max_num_outbound_peers = {{ .Values.evmos_node.p2p.max_num_outbound_peers | default 10 }}
+    max_num_inbound_peers = {{ .Values.evmos_node.p2p.max_num_inbound_peers | default 240 }}
+    max_num_outbound_peers = {{ .Values.evmos_node.p2p.max_num_outbound_peers | default 30 }}
     unconditional_peer_ids = {{ .Values.evmos_node.p2p.unconditional_peer_ids | default "" |quote }}
     persistent_peers_max_dial_period = {{ .Values.evmos_node.p2p.persistent_peers_max_dial_period | default "0s" | quote }}
     flush_throttle_timeout = {{ .Values.evmos_node.p2p.flush_throttle_timeout | default "100ms" |quote }}
@@ -87,11 +87,11 @@ data:
     handshake_timeout = {{ .Values.evmos_node.p2p.handshake_timeout | default "20s" |quote }}
     dial_timeout = {{ .Values.evmos_node.p2p.dial_timeout | default "3s" |quote }}
     [mempool]
-    version = {{ .Values.evmos_node.mempool.version | default 1 |quote }}
+    version = {{ .Values.evmos_node.mempool.version | default v0 |quote }}
     recheck = {{ .Values.evmos_node.mempool.recheck | default true }}
     broadcast = {{ .Values.evmos_node.mempool.broadcast | default true }}
     wal_dir = {{ .Values.evmos_node.mempool.wal_dir | default "" | quote }}
-    size = {{ .Values.evmos_node.mempool.size | default 5000 }}
+    size = {{ .Values.evmos_node.mempool.size | default 10000 }}
     max_txs_bytes = {{ .Values.evmos_node.mempool.max_txs_bytes | default 1073741824 | int }}
     cache_size = {{ .Values.evmos_node.mempool.cache_size | default 10000 }}
     keep-invalid-txs-in-cache = {{ .Values.evmos_node.mempool.keep_invalid_txs_in_cache | default false }}
@@ -104,13 +104,13 @@ data:
     rpc_servers = {{ .Values.evmos_node.statesync.rpc_servers | default "" |quote}}
     trust_height = {{ .Values.evmos_node.statesync.trust_height | default 0 }}
     trust_hash = {{ .Values.evmos_node.statesync.trust_hash | default "" |quote }}
-    trust_period = {{ .Values.evmos_node.statesync.trust_period | default "336h" | quote }}
+    trust_period = {{ .Values.evmos_node.statesync.trust_period | default "112h0m0s" | quote }}
     discovery_time = {{ .Values.evmos_node.statesync.discovery_time | default "15s" | quote }}
-    temp_dir = {{ .Values.evmos_node.statesync.temp_dir | default "data/statesync" | quote }}
+    temp_dir = {{ .Values.evmos_node.statesync.temp_dir | default "" | quote }}
     chunk_request_timeout = {{ .Values.evmos_node.statesync.chunk_request_timeout | default "10s" | quote }}
     chunk_fetchers = {{ .Values.evmos_node.statesync.chunk_fetchers | default 4 | quote}}
-    [fastsync]
-    version = "{{ .Values.evmos_node.fastsync.version | default "v0" }}"
+    [blocksync]
+    version = "{{ .Values.evmos_node.blocksync.version | default "v0" }}"
     [consensus]
     wal_file = "{{ .Values.evmos_node.consensus.wal_file | default "data/cs.wal/wal" }}"
     timeout_propose = "{{ .Values.evmos_node.consensus.timeout_propose | default "3s" }}"
@@ -119,7 +119,7 @@ data:
     timeout_prevote_delta = "{{ .Values.evmos_node.consensus.timeout_prevote_delta | default "500ms" }}"
     timeout_precommit = "{{ .Values.evmos_node.consensus.timeout_precommit | default "1s" }}"
     timeout_precommit_delta = "{{ .Values.evmos_node.consensus.timeout_precommit_delta | default "500ms" }}"
-    timeout_commit = "{{ .Values.evmos_node.consensus.timeout_commit | default "5s" }}"
+    timeout_commit = "{{ .Values.evmos_node.consensus.timeout_commit | default "3s" }}"
     double_sign_check_height = {{ .Values.evmos_node.consensus.double_sign_check_height | default 0 }}
     skip_timeout_commit = {{ .Values.evmos_node.consensus.skip_timeout_commit | default false }}
     create_empty_blocks = {{ .Values.evmos_node.consensus.create_empty_blocks | default true}}
@@ -196,6 +196,40 @@ data:
     [state-sync]
     snapshot-interval = {{ .Values.evmos_node.stateSync.snapshotInterval }}
     snapshot-keep-recent = {{ .Values.evmos_node.stateSync.snapshotKeepRecent }}
-    [wasm]
-    query_gas_limit = 300000
-    lru_size = 0
+    [store]
+    streamers = []
+    [streamers]
+    [streamers.file]
+    keys = ["*", ]
+    write_dir = ""
+    prefix = ""
+    output-metadata = "true"
+    stop-node-on-error = "true"
+    fsync = "false"
+    [mempool]
+    max-txs = "5000"
+    [evm]
+    tracer = ""
+    max-tx-gas-wanted = 0
+    [json-rpc]
+    enable = false
+    address = "127.0.0.1:8545"
+    ws-address = "127.0.0.1:8546"
+    api = "eth,net,web3"
+    gas-cap = 25000000
+    evm-timeout = "5s"
+    txfee-cap = 1
+    filter-cap = 200
+    feehistory-cap = 100
+    logs-cap = 10000
+    block-range-cap = 10000
+    http-timeout = "30s"
+    http-idle-timeout = "2m0s"
+    allow-unprotected-txs = false
+    max-open-connections = 0
+    enable-indexer = false
+    metrics-address = "127.0.0.1:6065"
+    fix-revert-gas-refund-height = 0
+    [tls]
+    certificate-path = ""
+    key-path = ""
