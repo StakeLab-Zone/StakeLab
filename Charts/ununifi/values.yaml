@@ -31,15 +31,15 @@ ununifi_node:
     url: https://snapshots.polkachu.com/addrbook/ununifi/addrbook.json
 
   # Pruning configuration
-  pruning: "custom"
-  pruning_keep_recent: "100"
+  pruning: "default"
+  pruning_keep_recent: "0"
   pruning_keep_every: "0"
-  pruning_interval: "10"
+  pruning_interval: "0"
 
-  iavl_disable_fastnode: true
+  iavl_disable_fastnode: false
 
   proxy_app: "tcp://127.0.0.1:26658"
-  fast_sync: true
+  block_sync: true
   db_backend: "goleveldb"
   db_dir: "data"
   log_level: "info"
@@ -141,7 +141,7 @@ ununifi_node:
     prometheus: true
     prometheus_listen_addr: ":26660"
     max_open_connections: 900
-    namespace: "tendermint"
+    namespace: "cometbft"
 
   halt_height: 0
   halt_time: 0

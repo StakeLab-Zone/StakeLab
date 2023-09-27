@@ -161,7 +161,9 @@ data:
     inter-block-cache = {{ .Values.ununifi_node.inter_block_cache }}
     index-events = {{ .Values.ununifi_node.index_events }}
     iavl-cache-size = {{ .Values.ununifi_node.iavl_cache_size }}
-    iavl-disable-fastnode = {{ .Values.ununifi_node.iavl_disable_fastnode }}
+    iavl-disable-fastnode = {{ .Values.ununifi_node.iavl_disable_fastnode | default false }}
+    iavl-lazy-loading = false
+    app-db-backend = ""
     [telemetry]
     service-name = "{{ .Values.ununifi_node.telemetry.serviceName }}"
     enabled = {{ .Values.ununifi_node.telemetry.enabled }}
@@ -186,9 +188,14 @@ data:
     network = "{{ .Values.ununifi_node.rosetta.network }}"
     retries = {{ .Values.ununifi_node.rosetta.retries }}
     offline = {{ .Values.ununifi_node.rosetta.offline }}
+    enable-fee-suggestion = false
+    gas-to-suggest = 200000
+    denom-to-suggest = "uatom"
     [grpc]
     enable = {{ .Values.ununifi_node.grpc.enable }}
     address = "{{ .Values.ununifi_node.grpc.address }}"
+    max-recv-msg-size = "10485760"
+    max-send-msg-size = "2147483647"
     [grpc-web]
     enable = {{ .Values.ununifi_node.grpcWeb.enable }}
     address = "{{ .Values.ununifi_node.grpcWeb.address }}"
@@ -206,3 +213,8 @@ data:
     output-metadata = {{ .Values.ununifi_node.streamers.file.outputMetadata | default true |quote }}
     stop-node-on-error = {{ .Values.ununifi_node.streamers.file.stopNodeOnError | default true |quote }}
     fsync = {{ .Values.ununifi_node.streamers.file.fsync | default false | quote }}
+    [mempool]
+    max-txs = "5000"
+    [wasm]
+    query_gas_limit = 3000000
+    memory_cache_size = 100
