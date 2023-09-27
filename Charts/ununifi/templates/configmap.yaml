@@ -177,7 +177,7 @@ data:
     max-open-connections = {{ .Values.ununifi_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.ununifi_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.ununifi_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.ununifi_node.api.rpcMaxBodyBytes }}
+    rpc-max-body-bytes = {{ .Values.ununifi_node.api.rpcMaxBodyBytes |int }}
     enabled-unsafe-cors = {{ .Values.ununifi_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.ununifi_node.rosetta.enable }}
