@@ -40,7 +40,7 @@ if [ "$EVMOS_STATESYNC_ENABLE" == true ]; then
   export EVMOS_STATESYNC_TRUST_HASH=$TRUST_HASH
 
 else
-  if [ "$EVMOS_CHAIN_ID" == "canto_7700-1" ]; then
+  if [ "$EVMOS_CHAIN_ID" == "evmos_7700-1" ]; then
     apt -y --no-install-recommends install aria2 lz4 liblz4-tool wget > /dev/null 2>&1
     case "$SNAPSHOT_PROVIDER" in
 
