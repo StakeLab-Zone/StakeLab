@@ -87,7 +87,7 @@ data:
     handshake_timeout = {{ .Values.evmos_node.p2p.handshake_timeout | default "20s" |quote }}
     dial_timeout = {{ .Values.evmos_node.p2p.dial_timeout | default "3s" |quote }}
     [mempool]
-    version = {{ .Values.evmos_node.mempool.version | default v0 |quote }}
+    version = {{ .Values.evmos_node.mempool.version | default "v0" |quote }}
     recheck = {{ .Values.evmos_node.mempool.recheck | default true }}
     broadcast = {{ .Values.evmos_node.mempool.broadcast | default true }}
     wal_dir = {{ .Values.evmos_node.mempool.wal_dir | default "" | quote }}
