@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.49-rc1-evmos-v14.0.0"
+  tag: "v0.3.49-evmos-v14.1.0"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -20,7 +20,7 @@ evmos_node:
   snapshot_provider: "polkachu"
   api_enable: "false"
   moniker: yourminikerhere
-  chainid: evmos_7700-1
+  chainid: evmos_9001-2
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
   minimum_gas_prices: 1500000000000aevmos
   net: https://snapshots.polkachu.com/genesis/evmos/genesis.json
