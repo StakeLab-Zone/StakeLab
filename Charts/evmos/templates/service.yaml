@@ -17,7 +17,7 @@ spec:
     - port: 26657
       name: rpc
   selector:
-    evmos.network/fullnode: "{{ .Values.evmos_node.moniker }}"
+    evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
 {{- end }}
 {{- if .Values.validator.enabled -}}
 ---
