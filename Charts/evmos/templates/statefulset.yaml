@@ -2,7 +2,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  {{- if .Values.validator.enabled }}
   name: evmosd-node-validator
+  {{- else }}
+  name: evmosd-node-fullnode
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
   {{- if .Values.validator.enabled }}
@@ -219,12 +223,21 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: evmosd-validator-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: evmosd-validator-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
+            {{- else }}
+            - name: evmosd-fullnode-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: evmosd-fullnode-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+            {{- end }}
           {{- if .Values.validator.enabled }}
             - name: node-key
               mountPath: {{ .Values.home }}/config/node_key.json
@@ -258,12 +271,21 @@ spec:
         - name: config
           configMap:
             name: evmosd-node-config
+        {{- if .Values.validator.enabled }}
         - name: evmosd-validator-config-toml
           configMap:
             name: evmosd-validator-config-toml
         - name: evmosd-validator-app-toml
           configMap:
             name: evmosd-validator-app-toml
+        {{- else }}
+        - name: evmosd-fullnode-config-toml
+          configMap:
+            name: evmosd-fullnode-config-toml
+        - name: evmosd-fullnode-app-toml
+          configMap:
+            name: evmosd-fullnode-app-toml
+        {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
           hostPath:
