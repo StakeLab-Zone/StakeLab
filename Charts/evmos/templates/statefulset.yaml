@@ -3,33 +3,33 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   {{- if .Values.validator.enabled }}
-  name: evmosd-node-validator
+  name: evmos-node-validator
   {{- else }}
-  name: evmosd-node-fullnode
+  name: evmos-node-fullnode
   {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
   {{- if .Values.validator.enabled }}
-    app: evmosd-validator
+    app: evmos-validator
     evmosd.network/validator: "{{ .Values.evmos_node.moniker }}"
   {{- else }}
-    app: evmosd-fullnode
+    app: evmos-fullnode
     evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
   {{- end }}
 spec:
   replicas: 1
   {{- if .Values.validator.enabled }}
-  serviceName: evmosd-validator
+  serviceName: evmos-validator
   {{- else }}
-  serviceName: evmosd-fullnode
+  serviceName: evmos-fullnode
   {{- end }}
   selector:
     matchLabels:
     {{- if .Values.validator.enabled }}
-      app: evmosd-validator
+      app: evmos-validator
       evmosd.network/validator: "{{ .Values.evmos_node.moniker }}"
     {{- else }}
-      app: evmosd-fullnode
+      app: evmos-fullnode
       evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
     {{- end }}
   template:
@@ -40,10 +40,10 @@ spec:
     {{- end }}
       labels:
       {{- if .Values.validator.enabled }}
-        app: evmosd-validator
+        app: evmos-validator
         evmosd.network/validator: "{{ .Values.evmos_node.moniker }}"
       {{- else }}
-        app: evmosd-fullnode
+        app: evmos-fullnode
         evmosd.network/fullnode: "{{ .Values.evmos_node.moniker }}"
       {{- end }}
     spec:
@@ -52,9 +52,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     {{- if .Values.validator.enabled }}
-      serviceAccountName: evmosd-validator
+      serviceAccountName: evmos-validator
     {{- else }}
-      ServiceAccountName: evmosd-fullnode
+      ServiceAccountName: evmos-fullnode
     {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -110,17 +110,17 @@ spec:
               mountPath: /config
               readOnly: true
             {{- if .Values.validator.enabled }}
-            - name: evmosd-validator-config-toml
+            - name: evmos-validator-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
-            - name: evmosd-validator-app-toml
+            - name: evmos-validator-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
             {{- else }}
-            - name: evmosd-fullnode-config-toml
+            - name: evmos-fullnode-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
-            - name: evmosd-fullnode-app-toml
+            - name: evmos-fullnode-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
             {{- end }}
@@ -233,17 +233,17 @@ spec:
               mountPath: /config
               readOnly: true
             {{- if .Values.validator.enabled }}
-            - name: evmosd-validator-config-toml
+            - name: evmos-validator-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
-            - name: evmosd-validator-app-toml
+            - name: evmos-validator-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
             {{- else }}
-            - name: evmosd-fullnode-config-toml
+            - name: evmos-fullnode-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
-            - name: evmosd-fullnode-app-toml
+            - name: evmos-fullnode-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
             {{- end }}
@@ -279,21 +279,21 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: evmosd-node-config
+            name: evmos-node-config
         {{- if .Values.validator.enabled }}
-        - name: evmosd-validator-config-toml
+        - name: evmos-validator-config-toml
           configMap:
-            name: evmosd-validator-config-toml
-        - name: evmosd-validator-app-toml
+            name: evmos-validator-config-toml
+        - name: evmos-validator-app-toml
           configMap:
-            name: evmosd-validator-app-toml
+            name: evmos-validator-app-toml
         {{- else }}
-        - name: evmosd-fullnode-config-toml
+        - name: evmos-fullnode-config-toml
           configMap:
-            name: evmosd-fullnode-config-toml
-        - name: evmosd-fullnode-app-toml
+            name: evmos-fullnode-config-toml
+        - name: evmos-fullnode-app-toml
           configMap:
-            name: evmosd-fullnode-app-toml
+            name: evmos-fullnode-app-toml
         {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
