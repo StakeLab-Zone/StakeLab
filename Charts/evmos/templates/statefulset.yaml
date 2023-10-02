@@ -109,27 +109,36 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: evmosd-validator-config-toml
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             - name: evmosd-validator-app-toml
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
-          {{- if .Values.local_storage.enabled }}
+            {{- else }}
+            - name: evmosd-fullnode-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: evmosd-fullnode-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+            {{- end }}
+            {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
-          {{- else }}
+            {{- else }}
             - name: home
               mountPath: "{{ .Values.home }}"
-          {{- end }}
-          {{- if .Values.validator.enabled }}
+            {{- end }}
+            {{- if .Values.validator.enabled }}
             - name: node-key
               mountPath: {{ .Values.home }}/config/node_key.json
               subPath: node_key.json
             - name: priv-validator-key
               mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
-          {{- end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       containers:
