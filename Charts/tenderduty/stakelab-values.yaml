@@ -540,6 +540,7 @@ chains:
     nodes:
       #- url: https://secretnetwork-rpc.lavenderfive.com:443
       - url: https://secretnetwork-rpc.highstakes.ch:26657
+      - url: https://rpc.secret.express:443
 
   "Sentinel":
     chain_id: sentinelhub-2
