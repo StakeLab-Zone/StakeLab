@@ -538,7 +538,8 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://secretnetwork-rpc.lavenderfive.com:443
+      #- url: https://secretnetwork-rpc.lavenderfive.com:443
+      - url: https://secretnetwork-rpc.highstakes.ch:26657
 
   "Sentinel":
     chain_id: sentinelhub-2
@@ -648,3 +649,4 @@ chains:
     nodes:
       #- url: https://rpc-umee-ia.cosmosia.notional.ventures:443
       - url: https://umee-rpc.w3coins.io:443
+      - url: https://umee.rpc.kjnodes.com:443
