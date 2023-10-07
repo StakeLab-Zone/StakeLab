@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/charlesjudith/dydxprotocol-docker"
-  tag: "v0.2.5"
+  tag: "v0.3.1"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -104,7 +104,7 @@ dydxprotocol_node:
     max_txs: 5000
   statesync:
     enable: false
-    rpc_servers: ""
+    rpc_servers: "https://dydx-testnet-rpc.polkachu.com:443"
     trust_height: 0
     trust_hash: ""
     trust_period: "168h0m0s"
