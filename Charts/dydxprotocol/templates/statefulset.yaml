@@ -140,12 +140,12 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: ["/bin/dydxprotocold", "start"]
-          args:
-            - "--liquidation-daemon-enabled"
-            - {{ .Values.dydxprotocol_node.liquidationDaemonEnable }}
-            - "--bridge-daemon-eth-rpc-endpoint"
-            - {{ .Values.ethRpcEndpoint | quote }}
+          command: ["/bin/dydxprotocold", "start", "--liquidation-daemon-enabled", "{{ .Values.dydxprotocol_node.liquidationDaemonEnable }}", "--bridge-daemon-eth-rpc-endpoint", "{{ .Values.ethRpcEndpoint }}"]
+          # args:
+          #   - "--liquidation-daemon-enabled"
+          #   - {{ .Values.dydxprotocol_node.liquidationDaemonEnable | quote }}
+          #   - "--bridge-daemon-eth-rpc-endpoint"
+          #   - {{ .Values.ethRpcEndpoint | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
