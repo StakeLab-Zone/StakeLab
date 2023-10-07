@@ -144,6 +144,8 @@ spec:
           args:
             - "--bridge-daemon-eth-rpc-endpoint"
             - {{ .Values.ethRpcEndpoint | quote }}
+            - --liquidation-daemon-enable
+            - {{ .Values.dydxprotocol_node.liquidationDaemonEnable}}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
