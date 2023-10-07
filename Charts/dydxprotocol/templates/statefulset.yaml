@@ -141,9 +141,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/bin/dydxprotocold", "start"]
-          args: ["--liquidation-daemon-enabled", "{{ .Values.dydxprotocol_node.liquidationDaemonEnable }}",
-                "--bridge-daemon-eth-rpc-endpoint", "{{ .Values.ethRpcEndpoint }}",
-                "--liquidation-daemon-loop-delay-ms", "{{ .Values.dydxprotocol_node.liquidationDaemonLoopDelayMs }}"]
+          args: ["--liquidation-daemon-enabled={{ .Values.dydxprotocol_node.liquidationDaemonEnable }}",
+                "--bridge-daemon-eth-rpc-endpoint={{ .Values.ethRpcEndpoint }}",
+                "--liquidation-daemon-loop-delay-ms={{ .Values.dydxprotocol_node.liquidationDaemonLoopDelayMs }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
