@@ -28,6 +28,7 @@ dydxprotocol_node:
     enabled: false
     url: 
 
+  liquidationDaemonLoopDelayMs: 10000
   liquidationDaemonEnable: false
   # Pruning configuration
   pruning: "custom"
