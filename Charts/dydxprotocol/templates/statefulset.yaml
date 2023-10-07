@@ -142,10 +142,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: ["/bin/dydxprotocold", "start"]
           args:
-            - "--bridge-daemon-eth-rpc-endpoint"
-            - {{ .Values.ethRpcEndpoint | quote }}
             - "--liquidation-daemon-enabled"
             - {{ .Values.dydxprotocol_node.liquidationDaemonEnable | quote }}
+            - "--bridge-daemon-eth-rpc-endpoint"
+            - {{ .Values.ethRpcEndpoint | quote }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
