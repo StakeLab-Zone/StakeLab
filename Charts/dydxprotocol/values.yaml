@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/charlesjudith/dydxprotocol-docker"
-  tag: "v0.3.1"
+  tag: "v0.3.5"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -28,8 +28,8 @@ dydxprotocol_node:
     enabled: false
     url: 
 
-  liquidationDaemonLoopDelayMs: 10000
-  liquidationDaemonEnable: false
+  liquidationDaemonLoopDelayMs: 1600
+  liquidationDaemonEnable: true
   # Pruning configuration
   pruning: "custom"
   pruning_keep_recent: "100"
