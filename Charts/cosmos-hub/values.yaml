@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.48-rc1-cosmoshub-v12.0.0"
+  tag: "v0.3.51-rc1-cosmoshub-v13.0.0"
   pullPolicy: IfNotPresent
 
 # Common Values
