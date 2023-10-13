@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.44-canto-v6.0.0"
+  tag: "v0.3.50-canto-v7.0.0"
   pullPolicy: IfNotPresent
 
 # Common Values
