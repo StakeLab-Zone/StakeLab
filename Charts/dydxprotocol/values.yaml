@@ -4,7 +4,7 @@
 
 image:
   repository: "ghcr.io/charlesjudith/dydxprotocol-docker"
-  tag: "v0.3.6"
+  tag: "v0.4.0"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -18,7 +18,7 @@ debug: "false"
 dydxprotocol_node:
   api_enable: "true"
   moniker: StakeLab
-  chainid: dydx-testnet-3
+  chainid: dydx-testnet-4
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
   minimum_gas_prices: "0.025ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5,0.025dv4tnt"
   net: https://raw.githubusercontent.com/CharlesJUDITH/dydxprotocol-docker/main/genesis.json
