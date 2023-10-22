@@ -557,6 +557,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-sentinel-ia.cosmosia.notional.ventures:443
+      - url: https://sentinel-rpc.publicnode.com:443
 
   "Shentu":
     chain_id: shentu-2.2
