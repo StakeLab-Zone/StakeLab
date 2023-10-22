@@ -236,6 +236,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-evmos-ia.cosmosia.notional.ventures:443
+      - url: https://rpc.evmos.stakelab.zone:443
 
   "Fetch AI":
     chain_id: fetchhub-4
