@@ -53,6 +53,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-axelar-ia.cosmosia.notional.ventures:443
+      - url: https://rpc-1.axelar.nodes.guru:443
 
   "Band":
     chain_id: laozi-mainnet
@@ -222,6 +223,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.emoney.quokkastake.io:443
+      - url: https://emoney.validator.network:443
 
   "Evmos":
     chain_id: evmos_9001-2
