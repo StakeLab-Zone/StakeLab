@@ -41,6 +41,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-assetmantle-ia.cosmosia.notional.ventures:443
+      - url: https://assetmantle-rpc.publicnode.com:443
 
   "Axelar":
     chain_id: axelar-dojo-1
