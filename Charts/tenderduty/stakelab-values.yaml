@@ -306,7 +306,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-irisnet-ia.cosmosia.notional.ventures:443
       - url: https://rpc-iris.keplr.app:443
       - url: https://rpc-irisnet-01.stakeflow.io:443
 
@@ -320,7 +319,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-ixo-ia.cosmosia.notional.ventures:443
       - url: https://ixo-rpc.ibs.team:443
 
   "Juno":
