@@ -1,0 +1,312 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: axelar-node-validator
+  {{- else }}
+  name: axelar-node-fullnode
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: axelar-validator
+    axelard.network/validator: "{{ .Values.axelar_node.moniker }}"
+  {{- else }}
+    app: axelar-fullnode
+    axelard.network/fullnode: "{{ .Values.axelar_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: axelar-validator
+  {{- else }}
+  serviceName: axelar-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: axelar-validator
+      axelard.network/validator: "{{ .Values.axelar_node.moniker }}"
+    {{- else }}
+      app: axelar-fullnode
+      axelard.network/fullnode: "{{ .Values.axelar_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: axelar-validator
+        axelard.network/validator: "{{ .Values.axelar_node.moniker }}"
+      {{- else }}
+        app: axelar-fullnode
+        axelard.network/fullnode: "{{ .Values.axelar_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: axelar-validator
+    {{- else }}
+      ServiceAccountName: axelar-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AXELAR_MONIKER
+              value: {{ .Values.axelar_node.moniker }}
+            - name: AXELAR_NET
+              value: {{ .Values.axelar_node.net }}
+            - name: AXELAR_HOME
+              value: {{ .Values.home }}
+            - name: AXELAR_CHAIN_ID
+              value: {{ .Values.axelar_node.chainid }}
+            - name: AXELAR_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: AXELAR_ADDRBOOK_ENABLED
+              value: "{{ .Values.axelar_node.addrbook.enabled }}"
+            - name: AXELAR_ADDRBOOK_URL
+              value: {{ .Values.axelar_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: AXELAR_P2P_PERSISTENT_PEERS
+              value: {{ .Values.axelar_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.axelar_node.addrbook.enabled }}
+            - name: AXELAR_P2P_PERSISTENT_PEERS
+              value: {{ .Values.axelar_node.peers }}
+            {{- end }}
+            - name: AXELAR_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.axelar_node.iavl_disable_fastnode }}"
+            - name: AXELAR_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: AXELAR_MINIMUM_GAS_PRICES
+              value: "{{ .Values.axelar_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.axelar_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: AXELAR_STATESYNC_ENABLE
+              value: "true"
+            - name: AXELAR_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: axelar-validator-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: axelar-validator-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+            {{- else }}
+            - name: axelar-fullnode-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: axelar-fullnode-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+            {{- end }}
+            {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+            {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+            {{- end }}
+            {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/axelard" , "start" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AXELAR_MONIKER
+              value: {{ .Values.axelar_node.moniker }}
+            - name: AXELAR_NET
+              value: {{ .Values.axelar_node.net }}
+            - name: AXELAR_HOME
+              value: {{ .Values.home }}
+            - name: AXELAR_CHAIN_ID
+              value: {{ .Values.axelar_node.chainid }}
+            - name: AXELAR_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: AXELAR_P2P_PERSISTENT_PEERS
+              value: {{ .Values.axelar_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.axelar_node.addrbook.enabled }}
+            - name: AXELAR_P2P_PERSISTENT_PEERS
+              value: {{ .Values.axelar_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: AXELAR_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: AXELAR_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: AXELAR_PRUNING
+              value: "custom"
+            - name: AXELAR_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: AXELAR_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: AXELAR_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: AXELAR_PRUNING
+              value: "{{ .Values.axelar_node.pruning }}"
+            - name: AXELAR_PRUNING_KEEP_RECENT
+              value: "{{ .Values.axelar_node.pruning_keep_recent }}"
+            - name: AXELAR_PRUNING_KEEP_EVERY
+              value: "{{ .Values.axelar_node.pruning_keep_every }}"
+            - name: AXELAR_PRUNING_INTERVAL
+              value: "{{ .Values.axelar_node.pruning_interval }}"
+            {{- end }}
+            - name: AXELAR_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.axelar_node.iavl_disable_fastnode }}"
+            - name: AXELAR_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: AXELAR_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: AXELAR_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: AXELAR_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: AXELAR_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: AXELAR_ROSETTA_ENABLE
+              value: "false"
+            - name: AXELAR_P2P_SEED_MODE
+              value: "true"
+            - name: AXELAR_P2P_PEX
+              value: "{{ .Values.axelar_node.p2p.pex }}"
+            - name: AXELAR_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: AXELAR_MINIMUM_GAS_PRICES
+              value: "{{ .Values.axelar_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.axelar_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: AXELAR_STATESYNC_ENABLE
+              value: "true"
+            - name: AXELAR_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: AXELAR_API_ENABLE
+              value: "{{ .Values.axelar_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: p2p
+            - containerPort: 26659
+              name: kms
+            - containerPort: 26660
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: axelar-validator-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: axelar-validator-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+            {{- else }}
+            - name: axelar-fullnode-config-toml
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            - name: axelar-fullnode-app-toml
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+            {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: axelar-node-config
+        {{- if .Values.validator.enabled }}
+        - name: axelar-validator-config-toml
+          configMap:
+            name: axelar-validator-config-toml
+        - name: axelar-validator-app-toml
+          configMap:
+            name: axelar-validator-app-toml
+        {{- else }}
+        - name: axelar-fullnode-config-toml
+          configMap:
+            name: axelar-fullnode-config-toml
+        - name: axelar-fullnode-app-toml
+          configMap:
+            name: axelar-fullnode-app-toml
+        {{- end }}
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}

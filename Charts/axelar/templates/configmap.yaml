@@ -1,0 +1,235 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: axelar-node-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "axelar-node.labels" . | nindent 4 }}
+data:
+  init.sh: |
+{{ tpl (.Files.Get "scripts/init.sh") . | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: axelar-validator-config-toml
+  {{- else }}
+  name: axelar-fullnode-config-toml
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "axelar-node.labels" . | nindent 4 }}
+data:
+  config.toml: |-
+    proxy_app = "{{ .Values.axelar_node.proxy_app | default "tcp://127.0.0.1:26658" }}"
+    moniker = "{{ .Values.axelar_node.moniker  | default "axelar-node" }}"
+    fast_sync = {{ .Values.axelar_node.fast_sync | default true}}
+    db_backend = "{{ .Values.axelar_node.db_backend | default "goleveldb" }}"
+    db_dir = "{{ .Values.axelar_node.db_dir | default "data" }}"
+    log_level = "{{ .Values.log_level | default "info" }}"
+    log_format = "{{ .Values.log_format | default "plain" }}"
+    genesis_file = "{{ .Values.genesis_file | default "config/genesis.json" }}"
+    priv_validator_key_file = "{{ .Values.axelar_node.priv_validator_key_file | default "config/priv_validator_key.json" }}"
+    priv_validator_state_file = "{{ .Values.priv_validator_state_file | default "data/priv_validator_state.json" }}"
+    priv_validator_laddr = "{{ .Values.axelar_node.priv_validator_laddr | default "" }}"
+    node_key_file = "{{ .Values.node_key_file | default "config/node_key.json" }}"
+    abci = "{{ .Values.abci | default "socket" }}"
+    filter_peers = {{ .Values.filter_peers | default false }}
+    [rpc]
+    laddr = "{{ .Values.axelar_node.rpc.laddr | default "tcp://127.0.0.1:26657" }}"
+    cors_allowed_origins = {{ .Values.axelar_node.rpc.cors_allowed_origins | default "[]" }}
+    cors_allowed_methods = {{ .Values.axelar_node.rpc.cors_allowed_methods | default "['HEAD', 'GET', 'POST']" }}
+    cors_allowed_headers = {{ .Values.axelar_node.rpc.cors_allowed_headers | default "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']" }}
+    grpc_laddr = "{{ .Values.axelar_node.rpc.grpc_laddr | default "" }}"
+    grpc_max_open_connections = {{ .Values.axelar_node.rpc.grpc_max_open_connections | default 900 }}
+    unsafe = {{ .Values.axelar_node.rpc.unsafe | default false }}
+    max_open_connections = {{ .Values.axelar_node.rpc.max_open_connections | default 900 }}
+    max_subscription_clients = {{ .Values.axelar_node.rpc.max_subscription_clients | default 100 }}
+    max_subscriptions_per_client = {{ .Values.axelar_node.rpc.max_subscriptions_per_client | default 5 }}
+    experimental_subscription_buffer_size = {{ .Values.axelar_node.rpc.experimental_subscription_buffer_size | default 200 }}
+    experimental_websocket_write_buffer_size = {{ .Values.axelar_node.rpc.experimental_websocket_write_buffer_size | default 200 }}
+    experimental_close_on_slow_client = {{ .Values.axelar_node.rpc.experimental_close_on_slow_client | default false }}
+    timeout_broadcast_tx_commit = "{{ .Values.axelar_node.rpc.timeout_broadcast_tx_commit | default "10s" }}"
+    max_body_bytes = {{ .Values.axelar_node.rpc.max_body_bytes | default 1000000 }}
+    max_header_bytes = {{ .Values.axelar_node.rpc.max_header_bytes | default 1048576 | int }}
+    tls_cert_file = "{{ .Values.axelar_node.rpc.tls_cert_file | default "" }}"
+    tls_key_file = "{{ .Values.axelar_node.rpc.tls_key_file | default "" }}"
+    pprof_laddr = "{{ .Values.axelar_node.rpc.pprof_laddr | default "localhost:6060" }}"
+    [p2p]
+    laddr = "{{ .Values.axelar_node.p2p.laddr | default "tcp://0.0.0.0:26656" }}"
+    external_address = "{{ .Values.axelar_node.p2p.external_address | default "" }}"
+    {{- if .Values.axelar_node.addrbook.enabled }}
+    seeds = ""
+    {{- else }}
+    seeds = "{{ .Values.axelar_node.seeds}}"
+    {{- end }}
+    {{- if .Values.axelar_node.addrbook.enabled }}
+    persistent_peers = ""
+    {{- else }}
+    persistent_peers = "{{ .Values.axelar_node.peers}}"
+    {{- end }}
+    upnp = {{ .Values.axelar_node.p2p.upnp | default false }}
+    addr_book_file = {{ .Values.axelar_node.p2p.addr_book_file | default "config/addrbook.json" | quote }}
+    addr_book_strict = {{ .Values.axelar_node.p2p.addr_book_strict | default true }}
+    max_num_inbound_peers = {{ .Values.axelar_node.p2p.max_num_inbound_peers | default 240 }}
+    max_num_outbound_peers = {{ .Values.axelar_node.p2p.max_num_outbound_peers | default 30 }}
+    unconditional_peer_ids = {{ .Values.axelar_node.p2p.unconditional_peer_ids | default "" |quote }}
+    persistent_peers_max_dial_period = {{ .Values.axelar_node.p2p.persistent_peers_max_dial_period | default "0s" | quote }}
+    flush_throttle_timeout = {{ .Values.axelar_node.p2p.flush_throttle_timeout | default "100ms" |quote }}
+    max_packet_msg_payload_size = {{ .Values.axelar_node.p2p.max_packet_msg_payload_size | default 1024 }}
+    send_rate = {{ .Values.axelar_node.p2p.send_rate | default 5120000 | int }}
+    recv_rate = {{ .Values.axelar_node.p2p.recv_rate | default 5120000 | int }}
+    pex = {{ .Values.axelar_node.p2p.pex | default true }}
+    seed_mode = {{ .Values.axelar_node.p2p.seed_mode | default false }}
+    private_peer_ids = {{ .Values.axelar_node.p2p.private_peer_ids | default "" |quote}}
+    allow_duplicate_ip = {{ .Values.axelar_node.p2p.allow_duplicate_ip | default false }}
+    handshake_timeout = {{ .Values.axelar_node.p2p.handshake_timeout | default "20s" |quote }}
+    dial_timeout = {{ .Values.axelar_node.p2p.dial_timeout | default "3s" |quote }}
+    [mempool]
+    version = {{ .Values.axelar_node.mempool.version | default "v0" |quote }}
+    recheck = {{ .Values.axelar_node.mempool.recheck | default true }}
+    broadcast = {{ .Values.axelar_node.mempool.broadcast | default true }}
+    wal_dir = {{ .Values.axelar_node.mempool.wal_dir | default "" | quote }}
+    size = {{ .Values.axelar_node.mempool.size | default 10000 }}
+    max_txs_bytes = {{ .Values.axelar_node.mempool.max_txs_bytes | default 1073741824 | int }}
+    cache_size = {{ .Values.axelar_node.mempool.cache_size | default 10000 }}
+    keep-invalid-txs-in-cache = {{ .Values.axelar_node.mempool.keep_invalid_txs_in_cache | default false }}
+    max_tx_bytes = {{ .Values.axelar_node.mempool.max_tx_bytes | default 1048576 }}
+    max_batch_bytes = {{ .Values.axelar_node.mempool.max_batch_bytes | default 1048576 }}
+    ttl-duration = {{ .Values.axelar_node.mempool.ttl_duration | default "0s" | quote }}
+    ttl-num-blocks = {{ .Values.axelar_node.mempool.ttl_num_blocks | default 0 }}
+    [statesync]
+    enable = {{ .Values.axelar_node.statesync.enable | default false }}
+    rpc_servers = {{ .Values.axelar_node.statesync.rpc_servers | default "" |quote}}
+    trust_height = {{ .Values.axelar_node.statesync.trust_height | default 0 }}
+    trust_hash = {{ .Values.axelar_node.statesync.trust_hash | default "" |quote }}
+    trust_period = {{ .Values.axelar_node.statesync.trust_period | default "112h0m0s" | quote }}
+    discovery_time = {{ .Values.axelar_node.statesync.discovery_time | default "15s" | quote }}
+    temp_dir = {{ .Values.axelar_node.statesync.temp_dir | default "" | quote }}
+    chunk_request_timeout = {{ .Values.axelar_node.statesync.chunk_request_timeout | default "10s" | quote }}
+    chunk_fetchers = {{ .Values.axelar_node.statesync.chunk_fetchers | default 4 | quote}}
+    [blocksync]
+    version = "{{ .Values.axelar_node.blocksync.version | default "v0" }}"
+    [consensus]
+    wal_file = "{{ .Values.axelar_node.consensus.wal_file | default "data/cs.wal/wal" }}"
+    timeout_propose = "{{ .Values.axelar_node.consensus.timeout_propose | default "3s" }}"
+    timeout_propose_delta = "{{ .Values.axelar_node.consensus.timeout_propose_delta | default "500ms" }}"
+    timeout_prevote = "{{ .Values.axelar_node.consensus.timeout_prevote | default "1s" }}"
+    timeout_prevote_delta = "{{ .Values.axelar_node.consensus.timeout_prevote_delta | default "500ms" }}"
+    timeout_precommit = "{{ .Values.axelar_node.consensus.timeout_precommit | default "1s" }}"
+    timeout_precommit_delta = "{{ .Values.axelar_node.consensus.timeout_precommit_delta | default "500ms" }}"
+    timeout_commit = "{{ .Values.axelar_node.consensus.timeout_commit | default "3s" }}"
+    double_sign_check_height = {{ .Values.axelar_node.consensus.double_sign_check_height | default 0 }}
+    skip_timeout_commit = {{ .Values.axelar_node.consensus.skip_timeout_commit | default false }}
+    create_empty_blocks = {{ .Values.axelar_node.consensus.create_empty_blocks | default true}}
+    create_empty_blocks_interval = "{{ .Values.axelar_node.consensus.create_empty_blocks_interval | default "0s" }}"
+    peer_gossip_sleep_duration = "{{ .Values.axelar_node.consensus.peer_gossip_sleep_duration | default "100ms" }}"
+    peer_query_maj23_sleep_duration = "{{ .Values.axelar_node.consensus.peer_query_maj23_sleep_duration | default "2s" }}"
+    [storage]
+    discard_abci_responses = {{ .Values.axelar_node.storage.discard_abci_responses | default false }}
+    [tx_index]
+    indexer = "{{ .Values.axelar_node.tx_index.indexer | default "kv" }}"
+    psql-conn = "{{ .Values.axelar_node.tx_index.psql_conn | default "" }}"
+    [instrumentation]
+    prometheus = {{ .Values.axelar_node.instrumentation.prometheus | default true }}
+    prometheus_listen_addr = "{{ .Values.axelar_node.instrumentation.prometheus_listen_addr | default ":26660" }}"
+    max_open_connections = {{ .Values.axelar_node.instrumentation.max_open_connections | default 3 }}
+    namespace = {{ .Values.axelar_node.instrumentation.namespace | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: axelar-validator-app-toml
+  {{- else }}
+  name: axelar-fullnode-app-toml
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "axelar-node.labels" . | nindent 4 }}
+data:
+  app.toml: |-
+    minimum-gas-prices = "{{ .Values.axelar_node.minimum_gas_prices }}"
+    pruning = "{{ .Values.axelar_node.pruning }}"
+    pruning-keep-recent = "{{ .Values.axelar_node.pruning_keep_recent}}"
+    pruning-keep-every = "{{ .Values.axelar_node.pruning_keep_every  }}"
+    pruning-interval = "{{ .Values.axelar_node.pruning_interval }}"
+    halt-height = {{ .Values.axelar_node.halt_height }}
+    halt-time = {{ .Values.axelar_node.halt_time }}
+    min-retain-blocks = {{ .Values.axelar_node.min_retain_blocks }}
+    inter-block-cache = {{ .Values.axelar_node.inter_block_cache }}
+    index-events = {{ .Values.axelar_node.index_events }}
+    iavl-cache-size = {{ .Values.axelar_node.iavl_cache_size }}
+    iavl-disable-fastnode = {{ .Values.axelar_node.iavl_disable_fastnode }}
+    [telemetry]
+    service-name = "{{ .Values.axelar_node.telemetry.serviceName }}"
+    enabled = {{ .Values.axelar_node.telemetry.enabled }}
+    enable-hostname = {{ .Values.axelar_node.telemetry.enableHostname }}
+    enable-hostname-label = {{ .Values.axelar_node.telemetry.enableHostnameLabel }}
+    enable-service-label = {{ .Values.axelar_node.telemetry.enableServiceLabel }}
+    prometheus-retention-time = {{ .Values.axelar_node.telemetry.prometheusRetentionTime }}
+    global-labels = {{ .Values.axelar_node.telemetry.globalLabels }}
+    [api]
+    enable = {{ .Values.axelar_node.api.enable }}
+    swagger = {{ .Values.axelar_node.api.swagger }}
+    address = "{{ .Values.axelar_node.api.address }}"
+    max-open-connections = {{ .Values.axelar_node.api.maxOpenConnections }}
+    rpc-read-timeout = {{ .Values.axelar_node.api.rpcReadTimeout }}
+    rpc-write-timeout = {{ .Values.axelar_node.api.rpcWriteTimeout }}
+    rpc-max-body-bytes = {{ .Values.axelar_node.api.rpcMaxBodyBytes }}
+    enabled-unsafe-cors = {{ .Values.axelar_node.api.enabledUnsafeCors }}
+    [rosetta]
+    enable = {{ .Values.axelar_node.rosetta.enable }}
+    address = "{{ .Values.axelar_node.rosetta.address }}"
+    blockchain = "{{ .Values.axelar_node.rosetta.blockchain }}"
+    network = "{{ .Values.axelar_node.rosetta.network }}"
+    retries = {{ .Values.axelar_node.rosetta.retries }}
+    offline = {{ .Values.axelar_node.rosetta.offline }}
+    [grpc]
+    enable = {{ .Values.axelar_node.grpc.enable }}
+    address = "{{ .Values.axelar_node.grpc.address }}"
+    [grpc-web]
+    enable = {{ .Values.axelar_node.grpcWeb.enable }}
+    address = "{{ .Values.axelar_node.grpcWeb.address }}"
+    enable-unsafe-cors = {{ .Values.axelar_node.grpcWeb.enableUnsafeCors }}
+    [state-sync]
+    snapshot-interval = {{ .Values.axelar_node.stateSync.snapshotInterval }}
+    snapshot-keep-recent = {{ .Values.axelar_node.stateSync.snapshotKeepRecent }}
+    [store]
+    streamers = []
+    [streamers]
+    [streamers.file]
+    keys = ["*", ]
+    write_dir = ""
+    prefix = ""
+    output-metadata = "true"
+    stop-node-on-error = "true"
+    fsync = "false"
+    [mempool]
+    max-txs = "5000"
+    [evm]
+    tracer = ""
+    max-tx-gas-wanted = 0
+    [json-rpc]
+    enable = false
+    address = "127.0.0.1:8545"
+    ws-address = "127.0.0.1:8546"
+    api = "eth,net,web3"
+    gas-cap = 25000000
+    evm-timeout = "5s"
+    txfee-cap = 1
+    filter-cap = 200
+    feehistory-cap = 100
+    logs-cap = 10000
+    block-range-cap = 10000
+    http-timeout = "30s"
+    http-idle-timeout = "2m0s"
+    allow-unprotected-txs = false
+    max-open-connections = 0
+    enable-indexer = false
+    metrics-address = "127.0.0.1:6065"
+    fix-revert-gas-refund-height = 0
+    [tls]
+    certificate-path = ""
+    key-path = ""

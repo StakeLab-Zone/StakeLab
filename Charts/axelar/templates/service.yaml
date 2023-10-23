@@ -1,0 +1,42 @@
+{{- if .Values.fullnode.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: axelar-fullnode
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1317
+      name: api
+    - port: 9090
+      name: grpc
+    - port: 26656
+      name: p2p
+    - port: 26657
+      name: rpc
+  selector:
+    axelard.network/fullnode: "{{ .Values.axelar_node.moniker }}"
+{{- end }}
+{{- if .Values.validator.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: axelar-validator
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 26656
+      name: p2p
+    - port: 26660
+      name: metrics
+    {{- if .Values.validator.tmkms }}
+    - port: 26659
+      name: kms
+    {{- end }}
+  selector:
+    app: "axelar-validator"
+{{- end }}

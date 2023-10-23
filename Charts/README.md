@@ -5,6 +5,7 @@ Helm chart to run nodes on Kubernetes
 # Supported charts
 ## Blockchains (mainnet):
 - [Assetmantle](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/assetmantle)
+- [Axelar](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/axelar)
 - [Bitcanna](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitcanna)
 - [Bitsong](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitsong)
 - [coingecko-api](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/coingecko-api)
