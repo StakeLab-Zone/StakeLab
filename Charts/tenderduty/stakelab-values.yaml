@@ -428,7 +428,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://omniflix.kingnodes.com:443s
+      - url: https://omniflix.kingnodes.com:443
 
   "Osmosis":
     chain_id: osmosis-1
@@ -538,7 +538,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      #- url: https://secretnetwork-rpc.lavenderfive.com:443
       - url: https://secretnetwork-rpc.highstakes.ch:26657
       - url: https://rpc.secret.express:443
 
