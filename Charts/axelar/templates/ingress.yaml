@@ -32,7 +32,7 @@ spec:
               service:
                 name: axelar-fullnode
                 port:
-                  number: 26657s
+                  number: 26657
     - host: grpc.axelar.{{ .Values.ingress.domain }}
       http:
         paths:

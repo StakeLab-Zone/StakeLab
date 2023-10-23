@@ -18,7 +18,7 @@ if [ ! -d "$AXELAR_HOME/data" ]
 then
 mkdir -p $AXELAR_HOME/data
 # Init the chain
-/bin/evmosd init --chain-id "$AXELAR_CHAIN_ID" "$AXELAR_MONIKER"
+/bin/axelard init --chain-id "$AXELAR_CHAIN_ID" "$AXELAR_MONIKER"
 
 cd "$AXELAR_HOME/data" || exit
 curl -s "$AXELAR_NET" > "$AXELAR_HOME/config/genesis.json"

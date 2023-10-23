@@ -9,7 +9,6 @@ image:
   pullPolicy: IfNotPresent
 
 # Common Values
-
 keyring_backend: "test"
 home: "/root/.axelar"
 debug: "false"
