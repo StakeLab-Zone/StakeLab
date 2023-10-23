@@ -5,6 +5,19 @@ metadata:
   name: {{ include "axelar-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - rpc.axelar.{{ .Values.ingress.domain }}
+    secretName: rpc.axelar-{{ .Values.ingress.domain }}-tls
+  - hosts:
+    - api.axelar.{{ .Values.ingress.domain }}
+    secretName: api.axelar-{{ .Values.ingress.domain }}-tls
+  {{- end }}
+  annotations:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
@@ -19,7 +32,7 @@ spec:
               service:
                 name: axelar-fullnode
                 port:
-                  number: 26657
+                  number: 26657s
     - host: grpc.axelar.{{ .Values.ingress.domain }}
       http:
         paths:
