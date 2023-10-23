@@ -127,6 +127,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-chihuahua.whispernode.com:443
+      - url: https://chihuahua-rpc.publicnode.com:443
 
   "Comdex":
     chain_id: comdex-1
@@ -200,7 +201,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.mainnet.desmos.network:443
-  # This will be re-enabled once the testnet-2 chain is live    
+ 
   "DYDX":
     chain_id: dydx-testnet-4
     valoper_address: dydxvaloper1nr6aen695k93su60he4vtmydvnyjjzlq8jzpff
@@ -274,6 +275,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-gravitybridge-ia.cosmosia.notional.ventures:443
+      - url: https://gravity-rpc.ramuchi.tech:443
 
   "HumansAI":
     chain_id: humans_1089-1
@@ -325,6 +327,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-ixo-ia.cosmosia.notional.ventures:443
+      - url: https://ixo-rpc.ibs.team:443
 
   "Juno":
     chain_id: juno-1
@@ -337,6 +340,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://juno-rpc.reece.sh:443
+      - url: https://juno-rpc.publicnode.com:443
 
   "Kava":
     chain_id: kava_2222-10
@@ -434,6 +438,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-omniflixhub-ia.cosmosia.notional.ventures:443
+      - url: https://omniflix.kingnodes.com:443s
 
   "Osmosis":
     chain_id: osmosis-1
@@ -472,6 +477,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-persistent-ia.cosmosia.notional.ventures:443
+      - url: https://rpc.core.persistence.one:443
 
   "Quicksilver":
     chain_id: quicksilver-2
@@ -520,6 +526,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-regen-ia.cosmosia.notional.ventures:443
+      - url: https://regen-rpc.publicnode.com:443
 
   "Rizon":
     chain_id: titan-1
@@ -583,6 +590,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-sifchain-ia.cosmosia.notional.ventures:443
+      - url: https://sifchain-rpc.publicnode.com:443
 
   "Sommelier":
     chain_id: sommelier-3
@@ -619,6 +627,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-stargaze-ia.cosmosia.notional.ventures:443
+      - url: https://stargaze-rpc.publicnode.com:443
 
   "Stride":
     chain_id: stride-1
