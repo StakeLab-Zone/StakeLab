@@ -40,7 +40,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-assetmantle-ia.cosmosia.notional.ventures:443
       - url: https://assetmantle-rpc.publicnode.com:443
 
   "Axelar":
@@ -53,7 +52,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-axelar-ia.cosmosia.notional.ventures:443
       - url: https://rpc-1.axelar.nodes.guru:443
 
   "Band":
@@ -224,7 +222,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc.emoney.quokkastake.io:443
       - url: https://emoney.validator.network:443
 
   "Evmos":
@@ -237,7 +234,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-evmos-ia.cosmosia.notional.ventures:443
       - url: https://rpc.evmos.stakelab.zone:443
 
   "Fetch AI":
@@ -274,7 +270,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-gravitybridge-ia.cosmosia.notional.ventures:443
       - url: https://gravity-rpc.ramuchi.tech:443
 
   "HumansAI":
@@ -299,7 +294,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-injective-ia.cosmosia.notional.ventures:443
       - url: https://injective-mainnet-rpc.autostake.com:443
 
   "Iris":
@@ -364,7 +358,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-kichain-ia.cosmosia.notional.ventures:443
       - url: https://ki-rpc.ibs.team:443
 
   "Kyve":
@@ -437,7 +430,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-omniflixhub-ia.cosmosia.notional.ventures:443
       - url: https://omniflix.kingnodes.com:443s
 
   "Osmosis":
@@ -476,7 +468,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-persistent-ia.cosmosia.notional.ventures:443
       - url: https://rpc.core.persistence.one:443
 
   "Quicksilver":
@@ -525,7 +516,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-regen-ia.cosmosia.notional.ventures:443
       - url: https://regen-rpc.publicnode.com:443
 
   "Rizon":
@@ -564,7 +554,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-sentinel-ia.cosmosia.notional.ventures:443
       - url: https://sentinel-rpc.publicnode.com:443
 
   "Shentu":
@@ -589,7 +578,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-sifchain-ia.cosmosia.notional.ventures:443
       - url: https://sifchain-rpc.publicnode.com:443
 
   "Sommelier":
@@ -626,7 +614,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-stargaze-ia.cosmosia.notional.ventures:443
       - url: https://stargaze-rpc.publicnode.com:443
 
   "Stride":
@@ -663,6 +650,5 @@ chains:
       slack:
         enabled: yes
     nodes:
-      #- url: https://rpc-umee-ia.cosmosia.notional.ventures:443
       - url: https://umee-rpc.w3coins.io:443
       - url: https://umee.rpc.kjnodes.com:443
