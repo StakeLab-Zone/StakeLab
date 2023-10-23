@@ -71,10 +71,9 @@ else
     case "$SNAPSHOT_PROVIDER" in
 
       "polkachu")
-        SNAPSHOT_URL=$(curl -s https://snapshots.polkachu.com/testnet-snapshots/axelar | grep tar.lz4 | head -n1 | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' |   sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i')
-        echo "Using latest Polkachu blockchain snapshot, $SNAPSHOT_URL"
-        aria2c --out=snapshot.tar.lz4 --summary-interval 15 --check-certificate=false --max-tries=99 --retry-wait=5 --always-resume=true --max-file-not-found=99 --conditional-get=true -s 4 -x 4 -k 1M -j 1 "$SNAPSHOT_URL"
-        lz4 -c -d snapshot.tar.lz4 | tar -x -C "$AXELAR_HOME"
+        echo "Using latest Axelar blockchain snapshot"
+        wget -O axelar_10195466.tar.lz4 https://snapshots.polkachu.com/testnet-snapshots/axelar/axelar_10195466.tar.lz4
+        lz4 -c -d axelar_10195466.tar.lz4| tar -x -C "$AXELAR_HOME"
         rm -f snapshot.tar.lz4
         ;;
 
