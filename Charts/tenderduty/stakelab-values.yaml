@@ -89,6 +89,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://bitsong-rpc.lavenderfive.com:443
+      - url: https://rpc.explorebitsong.com:443
 
   "Burnt":
     chain_id: xion-testnet-1
@@ -538,7 +539,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://secretnetwork-rpc.highstakes.ch:26657
       - url: https://rpc.secret.express:443
 
   "Sentinel":
@@ -587,7 +587,8 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://sommelier-mainnet-rpc.autostake.com:443
+      - url: https://rpc-sommelier.pupmos.network:443
+      - url: https://sommelier-rpc.w3coins.io:443
 
   "Stafihub":
     chain_id: stafihub-1
@@ -635,7 +636,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://teritori-mainnet-rpc.autostake.com:443
+      - url: https://teritori-rpc.publicnode.com:443
 
   "Umee":
     chain_id: umee-1
