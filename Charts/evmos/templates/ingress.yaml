@@ -20,7 +20,7 @@ spec:
     secretName: api.evmos-{{ .Values.ingress.domain }}-tls
   {{- end }}
   rules:
-    - host: evmos-rpc.{{ .Values.ingress.domain }}
+    - host: rpc.evmos.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
