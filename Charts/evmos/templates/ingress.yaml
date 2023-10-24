@@ -5,10 +5,20 @@ metadata:
   name: {{ include "evmos-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - rpc.evmos.{{ .Values.ingress.domain }}
+    secretName: rpc.evmos-{{ .Values.ingress.domain }}-tls
+  - hosts:
+    - api.evmos.{{ .Values.ingress.domain }}
+    secretName: api.evmos-{{ .Values.ingress.domain }}-tls
+  {{- end }}
   rules:
     - host: evmos-rpc.{{ .Values.ingress.domain }}
       http:
@@ -20,7 +30,38 @@ spec:
                 name: evmos-fullnode
                 port:
                   number: 26657
-    - host: evmos-grpc.{{ .Values.ingress.domain }}
+    - host: api.evmos.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: evmos-fullnode
+                port:
+                  number: 1317
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "evmos-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - grpc.evmos.{{ .Values.ingress.domain }}
+    secretName: grpc.evmos-{{ .Values.ingress.domain }}-tls
+  {{ end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: grpc.evmos.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -30,14 +71,4 @@ spec:
                 name: evmos-fullnode
                 port:
                   number: 9090
-    - host: evmos-p2p.{{ .Values.ingress.domain }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: evmos-fullnode
-                port:
-                  number: 26656
 {{- end }}
