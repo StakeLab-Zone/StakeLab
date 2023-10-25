@@ -5,12 +5,22 @@ metadata:
   name: {{ include "cosmoshub-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - rpc.cosmoshub.{{ .Values.ingress.domain }}
+    secretName: rpc.cosmoshub-{{ .Values.ingress.domain }}-tls
+  - hosts:
+    - api.cosmoshub.{{ .Values.ingress.domain }}
+    secretName: api.cosmoshub-{{ .Values.ingress.domain }}-tls
+  {{- end }}
   rules:
-    - host: cosmoshub-rpc.{{ .Values.ingress.domain }}
+    - host: rpc.cosmoshub.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -20,7 +30,38 @@ spec:
                 name: cosmoshub-fullnode
                 port:
                   number: 26657
-    - host: cosmoshub-grpc.{{ .Values.ingress.domain }}
+    - host: api.cosmoshub.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cosmoshub-fullnode
+                port:
+                  number: 1317
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "cosmoshub-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - grpc.cosmoshub.{{ .Values.ingress.domain }}
+    secretName: grpc.cosmoshub-{{ .Values.ingress.domain }}-tls
+  {{ end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: grpc.cosmoshub.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -30,14 +71,4 @@ spec:
                 name: cosmoshub-fullnode
                 port:
                   number: 9090
-    - host: cosmoshub-p2p.{{ .Values.ingress.domain }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: cosmoshub-fullnode
-                port:
-                  number: 26656
 {{- end }}
