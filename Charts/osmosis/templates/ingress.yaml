@@ -5,12 +5,22 @@ metadata:
   name: {{ include "osmosis-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - rpc.osmosis.{{ .Values.ingress.domain }}
+    secretName: rpc.osmosis-{{ .Values.ingress.domain }}-tls
+  - hosts:
+    - api.osmosis.{{ .Values.ingress.domain }}
+    secretName: api.osmosis-{{ .Values.ingress.domain }}-tls
+  {{- end }}
   rules:
-    - host: osmosis-rpc.{{ .Values.ingress.domain }}
+    - host: rpc.osmosis.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -20,7 +30,38 @@ spec:
                 name: osmosis-fullnode
                 port:
                   number: 26657
-    - host: osmosis-grpc.{{ .Values.ingress.domain }}
+    - host: api.osmosis.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: osmosis-fullnode
+                port:
+                  number: 1317
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "osmosis-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - grpc.osmosis.{{ .Values.ingress.domain }}
+    secretName: grpc.osmosis-{{ .Values.ingress.domain }}-tls
+  {{ end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: grpc.osmosis.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -30,14 +71,4 @@ spec:
                 name: osmosis-fullnode
                 port:
                   number: 9090
-    - host: osmosis-p2p.{{ .Values.ingress.domain }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: osmosis-fullnode
-                port:
-                  number: 26656
 {{- end }}

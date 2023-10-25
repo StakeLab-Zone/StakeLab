@@ -277,4 +277,5 @@ affinity: {}
 
 ingress:
   enabled: false
+  tls: false
   domain: "dmain.tld"
