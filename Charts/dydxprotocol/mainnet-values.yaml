@@ -34,3 +34,8 @@ statesync:
   
 service:
   type: ClusterIP
+
+ingress:
+  enabled: true
+  domain: "stakelab.zone"
+  tls: true

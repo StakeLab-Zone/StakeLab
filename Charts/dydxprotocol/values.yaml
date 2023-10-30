@@ -283,7 +283,8 @@ affinity: {}
 
 ingress:
   enabled: false
-  domain: "dmain.tld"
+  domain: "domain.tld"
+  tls: false
 
 service:
   type: LoadBalancer
