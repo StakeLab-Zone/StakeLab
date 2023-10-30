@@ -125,7 +125,6 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-chihuahua.whispernode.com:443
       - url: https://chihuahua-rpc.publicnode.com:443
 
   "Comdex":
