@@ -201,7 +201,7 @@ chains:
     nodes:
       - url: https://rpc.mainnet.desmos.network:443
  
-  "DYDX":
+  "DYDX-testnet":
     chain_id: dydx-testnet-4
     valoper_address: dydxvaloper1nr6aen695k93su60he4vtmydvnyjjzlq8jzpff
     public_fallback: no
@@ -212,6 +212,18 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.dydx.chuck-dev.xyz:443
+
+  "DYDX":
+    chain_id: dydx-mainnet-1
+    valoper_address: dydxvaloper10ud7hu7p0cckgxf5x3zg46eqz4uuhxf09h3pe2
+    public_fallback: no
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc.dydx.stakelab.zone:443
       
   "Emoney":
     chain_id: emoney-3
