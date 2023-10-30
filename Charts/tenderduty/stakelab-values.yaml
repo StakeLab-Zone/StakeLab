@@ -29,6 +29,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-1.archway.nodes.guru:443
+      - url: https://rpc.mainnet.archway.io:443
 
   "Asset Mantle":
     chain_id: mantle-1
@@ -41,6 +42,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://assetmantle-rpc.publicnode.com:443
+      - url: https://rpc.assetmantle.one:443
 
   "Axelar":
     chain_id: axelar-dojo-1
@@ -126,6 +128,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://chihuahua-rpc.publicnode.com:443
+      - url: https://rpc.chihuahua.wtf:443
 
   "Comdex":
     chain_id: comdex-1
@@ -527,6 +530,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://regen-rpc.publicnode.com:443
+      - url: https://regen-rpc.w3coins.io:443
 
   "Rizon":
     chain_id: titan-1
@@ -563,6 +567,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://sentinel-rpc.publicnode.com:443
+      - url: https://rpc-sentinel.whispernode.com:443
 
   "Shentu":
     chain_id: shentu-2.2
@@ -587,6 +592,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://sifchain-rpc.publicnode.com:443
+      - url: https://sifchain-mainnet-rpc.autostake.com:443
 
   "Sommelier":
     chain_id: sommelier-3
@@ -624,6 +630,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://stargaze-rpc.publicnode.com:443
+      - url: https://rpc-stargaze.pupmos.network:443
 
   "Stride":
     chain_id: stride-1
@@ -648,6 +655,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://teritori-rpc.publicnode.com:443
+      - url: https://teritori.rpc.silknodes.io:443
 
   "Umee":
     chain_id: umee-1
