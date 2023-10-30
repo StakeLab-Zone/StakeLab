@@ -5,12 +5,22 @@ metadata:
   name: {{ include "dydxprotocol-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - rpc.dydxprotocol.{{ .Values.ingress.domain }}
+    secretName: rpc.dydx-{{ .Values.ingress.domain }}-tls
+  - hosts:
+    - api.dydxprotocol.{{ .Values.ingress.domain }}
+    secretName: api.dydx-{{ .Values.ingress.domain }}-tls
+  {{- end }}
   rules:
-    - host: dydxprotocol-rpc.{{ .Values.ingress.domain }}
+    - host: rpc.dydx.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -20,7 +30,38 @@ spec:
                 name: dydxprotocol-fullnode
                 port:
                   number: 26657
-    - host: dydxprotocol-grpc.{{ .Values.ingress.domain }}
+    - host: api.dydx.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: dydxprotocol-fullnode
+                port:
+                  number: 1317
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "dydxprotocol-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: GRPC
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - grpc.dydx.{{ .Values.ingress.domain }}
+    secretName: grpc.dydx-{{ .Values.ingress.domain }}-tls
+  {{ end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: grpc.dydx.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -30,14 +71,4 @@ spec:
                 name: dydxprotocol-fullnode
                 port:
                   number: 9090
-    - host: dydxprotocol-p2p.{{ .Values.ingress.domain }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: dydxprotocol-fullnode
-                port:
-                  number: 26656
 {{- end }}
