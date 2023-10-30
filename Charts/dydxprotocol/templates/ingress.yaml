@@ -13,10 +13,10 @@ spec:
   {{- if .Values.ingress.tls }}
   tls:
   - hosts:
-    - rpc.dydxprotocol.{{ .Values.ingress.domain }}
+    - rpc.dydx.{{ .Values.ingress.domain }}
     secretName: rpc.dydx-{{ .Values.ingress.domain }}-tls
   - hosts:
-    - api.dydxprotocol.{{ .Values.ingress.domain }}
+    - api.dydx.{{ .Values.ingress.domain }}
     secretName: api.dydx-{{ .Values.ingress.domain }}-tls
   {{- end }}
   rules:
