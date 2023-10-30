@@ -28,7 +28,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc-1.archway.nodes.guru:443
+      #- url: https://rpc-1.archway.nodes.guru:443
       - url: https://rpc.mainnet.archway.io:443
 
   "Asset Mantle":
@@ -41,7 +41,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://assetmantle-rpc.publicnode.com:443
+      #- url: https://assetmantle-rpc.publicnode.com:443
       - url: https://rpc.assetmantle.one:443
 
   "Axelar":
@@ -127,7 +127,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://chihuahua-rpc.publicnode.com:443
+      #- url: https://chihuahua-rpc.publicnode.com:443
       - url: https://rpc.chihuahua.wtf:443
 
   "Comdex":
@@ -529,7 +529,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://regen-rpc.publicnode.com:443
+      #- url: https://regen-rpc.publicnode.com:443
       - url: https://regen-rpc.w3coins.io:443
 
   "Rizon":
@@ -566,7 +566,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://sentinel-rpc.publicnode.com:443
+      #- url: https://sentinel-rpc.publicnode.com:443
       - url: https://rpc-sentinel.whispernode.com:443
 
   "Shentu":
@@ -591,7 +591,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://sifchain-rpc.publicnode.com:443
+      #- url: https://sifchain-rpc.publicnode.com:443
       - url: https://sifchain-mainnet-rpc.autostake.com:443
 
   "Sommelier":
@@ -629,7 +629,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://stargaze-rpc.publicnode.com:443
+      #- url: https://stargaze-rpc.publicnode.com:443
       - url: https://rpc-stargaze.pupmos.network:443
 
   "Stride":
@@ -654,7 +654,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://teritori-rpc.publicnode.com:443
+      #- url: https://teritori-rpc.publicnode.com:443
       - url: https://teritori.rpc.silknodes.io:443
 
   "Umee":
