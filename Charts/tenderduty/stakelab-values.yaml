@@ -117,6 +117,18 @@ chains:
     nodes:
       - url: https://rpc.canto.nodestake.top:443
 
+  "Celestia":
+    chain_id: celestia
+    valoper_address: celestiavaloper1lqfqp2w65pjsu6hg3qg4qfp4t2t6da4a3gg8ad
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://celestia-mainnet-rpc.autostake.com:443
+
   "Chihuahua":
     chain_id: chihuahua-1
     valoper_address: chihuahuavaloper13c2hcctczy695gfs5gc637tc844n6a9unlkaqv
