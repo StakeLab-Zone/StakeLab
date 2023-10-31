@@ -666,8 +666,8 @@ chains:
       slack:
         enabled: yes
     nodes:
-      #- url: https://teritori-rpc.publicnode.com:443
-      - url: https://teritori.rpc.silknodes.io:443
+      - url: https://teritori-rpc.publicnode.com:443
+      #- url: https://teritori.rpc.silknodes.io:443
 
   "Umee":
     chain_id: umee-1
