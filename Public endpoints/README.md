@@ -11,9 +11,16 @@ If you are one of our supported network, or one we don't support but would like 
 ## Supported networks:  
 
 ### _Cosmos Hub_  
-- [RPC](http://rpc.cosmoshub.stakelab.zone/)  
-- [API](http://api.cosmoshub.stakelab.zone/)  
+- [RPC](https://rpc.cosmoshub.stakelab.zone/)
+- [API](https://api.cosmoshub.stakelab.zone/)
+- [GRPC](grpc.cosmoshub.stakelab.zone:443)
+
+### _DYDX_
+- [RPC](https://rpc.dydx.stakelab.zone/)
+- [API](https://api.dydx.stakelab.zone/)
+- [GRPC](grpc.dydx.stakelab.zone:443)
 
 ### _Osmosis_  
-- [RPC](http://rpc.osmosis.stakelab.zone/)  
-- [API](http://api.osmosis.stakelab.zone/)  
+- [RPC](http://rpc.osmosis.stakelab.zone/)
+- [API](http://api.osmosis.stakelab.zone/)
+- [GRPC](grpc.osmosis.stakelab.zone:443)
