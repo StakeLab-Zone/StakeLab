@@ -22,5 +22,5 @@ If you are one of our supported network, or one we don't support but would like 
 - [API](https://api.dydx.stakelab.zone/)
 
 ### _Osmosis_  
-- [RPC](http://rpc.osmosis.stakelab.zone/)
-- [API](http://api.osmosis.stakelab.zone/)
+- [RPC](https://rpc.osmosis.stakelab.zone/)
+- [API](https://api.osmosis.stakelab.zone/)
