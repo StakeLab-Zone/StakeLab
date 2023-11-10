@@ -127,7 +127,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://celestia-mainnet-rpc.autostake.com:443
+      - url: https://celestia.rpc.stakin-nodes.com:443
 
   "Chihuahua":
     chain_id: chihuahua-1
