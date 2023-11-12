@@ -147,6 +147,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/axelard" , "start" ]
+          args: ["--pruning={{ .Values.axelar_node.pruning }}",
+                "--pruning-interval={{ .Values.axelar_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.axelar_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AXELAR_MONIKER
