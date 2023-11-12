@@ -143,7 +143,9 @@ spec:
           command: ["/bin/dydxprotocold", "start"]
           args: ["--liquidation-daemon-enabled={{ .Values.dydxprotocol_node.liquidationDaemonEnable }}",
                 "--bridge-daemon-eth-rpc-endpoint={{ .Values.ethRpcEndpoint }}",
-                "--liquidation-daemon-loop-delay-ms={{ .Values.dydxprotocol_node.liquidationDaemonLoopDelayMs }}"]
+                "--pruning={{ .Values.dydxprotocol_node.pruning }}",
+                "--pruning-interval={{ .Values.dydxprotocol_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.dydxprotocol_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: DYDX_MONIKER
