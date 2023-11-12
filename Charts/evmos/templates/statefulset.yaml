@@ -147,6 +147,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/evmosd" , "start" ]
+          args: ["--pruning={{ .Values.evmos_node.pruning }}",
+                "--pruning-interval={{ .Values.evmos_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.evmos_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: EVMOS_MONIKER
