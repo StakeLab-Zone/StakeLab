@@ -3,7 +3,13 @@ cosmoshub_node:
     indexer: "null"
   api:
     enable: true
-  
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "1000"
+  pruning_keep_every: "0"
+  pruning_interval: "100"
+
 validator:
   enabled: false
   
