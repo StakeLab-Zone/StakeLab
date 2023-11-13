@@ -18,7 +18,6 @@ debug: "false"
 cosmoshub_node:
   # snapshot_provider can be either "polkachu" (2Gi), "autostake" (1Gi). Otherwise it'll default to a much larger in size.
   snapshot_provider: "polkachu"
-  api_enable: "false"
   moniker: yourminikerhere
   chainid: cosmoshub-4
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood

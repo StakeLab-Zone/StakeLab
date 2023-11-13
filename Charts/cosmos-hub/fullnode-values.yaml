@@ -1,0 +1,12 @@
+cosmoshub_node:
+  tx_index:
+    indexer: "null"
+  api:
+    enable: true
+  
+validator:
+  enabled: false
+  
+fullnode:
+  enabled: true
+
