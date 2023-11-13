@@ -1,6 +1,4 @@
 cosmoshub_node:
-  tx_index:
-    indexer: "null"
   api:
     enable: true
 

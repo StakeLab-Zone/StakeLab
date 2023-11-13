@@ -129,7 +129,7 @@ data:
     [storage]
     discard_abci_responses = {{ .Values.cosmoshub_node.storage.discard_abci_responses | default false }}
     [tx_index]
-    indexer = {{ .Values.cosmoshub_node.tx_index.indexer | default "kv" | quote }}
+    indexer = {{ .Values.cosmoshub_node.tx_index.indexer | default "null" | quote }}
     psql-conn = "{{ .Values.cosmoshub_node.tx_index.psql_conn | default "" }}"
     [instrumentation]
     prometheus = {{ .Values.cosmoshub_node.instrumentation.prometheus | default true }}
