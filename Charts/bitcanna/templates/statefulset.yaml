@@ -138,6 +138,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/bcnad" , "start" ]
+          args: ["--pruning={{ .Values.bitcanna_node.pruning }}",
+                "--pruning-interval={{ .Values.bitcanna_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.bitcanna_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: BITCANNA_MONIKER
