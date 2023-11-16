@@ -129,7 +129,7 @@ data:
     [storage]
     discard_abci_responses = {{ .Values.comdex_node.storage.discard_abci_responses | default false }}
     [tx_index]
-    indexer = "{{ .Values.comdex_node.tx_index.indexer | default "kv" }}"
+    indexer = "{{ .Values.comdex_node.tx_index.indexer | default "null" }}"
     psql-conn = "{{ .Values.comdex_node.tx_index.psql_conn | default "" }}"
     [instrumentation]
     prometheus = {{ .Values.comdex_node.instrumentation.prometheus | default true }}
