@@ -125,7 +125,7 @@ data:
     [storage]
     discard_abci_responses = {{ .Values.bitcanna_node.storage.discard_abci_responses | default false }}
     [tx_index]
-    indexer = "{{ .Values.bitcanna_node.tx_index.indexer | default "kv" }}"
+    indexer = "{{ .Values.bitcanna_node.tx_index.indexer | default "null" }}"
     psql-conn = "{{ .Values.bitcanna_node.tx_index.psql_conn | default "" }}"
     [instrumentation]
     prometheus = {{ .Values.bitcanna_node.instrumentation.prometheus | default true }}
