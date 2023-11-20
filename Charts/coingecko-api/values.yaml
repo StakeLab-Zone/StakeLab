@@ -9,7 +9,7 @@ redis:
 
 coingeckoApi:
   image: ghcr.io/charlesjudith/get-crypto-prices
-  tag: 0.0.7
+  tag: 0.0.8
   replicaCount: 1
   redisPort: 6379 
   redisHost: localhost
