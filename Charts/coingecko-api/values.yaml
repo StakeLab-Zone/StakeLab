@@ -61,7 +61,7 @@ resources:
     memory: "256Mi"
   limits:
     cpu: "1"
-    memory: "2Gi"
+    memory: "3Gi"
 
 autoscaling:
   enabled: false
