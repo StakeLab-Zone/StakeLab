@@ -1,0 +1,176 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mayanode.fullname" . }}-scripts
+data:
+  retry.sh: |
+    #!/bin/sh
+
+    TRY=0
+
+    while [ $TRY -lt 5 ]
+    do
+      "$@" 2>/tmp/retry-out
+
+      cat /tmp/retry-out
+      if ! grep "account sequence mismatch" /tmp/retry-out >/dev/null; then
+        break
+      fi
+
+      TRY=$((TRY+1))
+      echo Retrying account sequence mismatch, try $TRY...
+      sleep 2
+    done
+
+  set-node-keys.sh: |
+    #!/bin/sh
+
+    NODE_PUB_KEY=$(echo "$SIGNER_PASSWD" | mayanode keys show mayachain --pubkey --keyring-backend file | mayanode pubkey)
+    NODE_PUB_KEY_ED25519=$(echo "$SIGNER_PASSWD" | mayanode ed25519)
+    VALIDATOR=$(mayanode tendermint show-validator | mayanode pubkey --bech cons)
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain set-node-keys "$NODE_PUB_KEY" "$NODE_PUB_KEY_ED25519" "$VALIDATOR" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  set-ip-address.sh: |
+    #!/bin/sh
+
+    NODE_IP_ADDRESS=${1:-$(curl -s http://whatismyip.akamai.com)}
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain set-ip-address "$NODE_IP_ADDRESS" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  set-version.sh: |
+    #!/bin/sh
+
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain set-version --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  pause.sh: |
+    #!/bin/sh
+
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain pause-chain --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  resume.sh: |
+    #!/bin/sh
+
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain resume-chain --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  relay.sh: |
+    #!/bin/sh
+
+    printf "%s\n%s\n%s\n" "$SIGNER_NAME" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode query mayachain discord-relay "$1" "$2" --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  entrypoint.sh: |
+    #!/bin/sh
+
+    # allow duplicate peers ip behind load balancer
+    sed -i -e "s/allow_duplicate_ip = false/allow_duplicate_ip = true/g" ~/.mayanode/config/config.toml
+
+    # update max file open limit
+    ulimit -n 65535
+
+    ARGS="--log_format json --p2p.laddr tcp://0.0.0.0:{{ include "mayanode.p2p" . }} --rpc.laddr tcp://0.0.0.0:{{ include "mayanode.rpc" . }}"
+    [ "$DEBUG" = "true" ] && ARGS="$ARGS --trace --log_level debug" || ARGS="$ARGS --log_level info"
+
+    if [ "$HARDFORK_BLOCK_HEIGHT" != "" ]; then
+      # don't even start if height is equal or higher than halt block height
+      [ "$(jq </root/.mayanode/data/priv_validator_state.json -r .height)" -lt "$HARDFORK_BLOCK_HEIGHT" ] || exit 1
+
+      ARGS="$ARGS --halt-height $HARDFORK_BLOCK_HEIGHT"
+    fi
+    # shellcheck disable=SC2086
+    printf "%s\n%s\n" "$SIGNER_NAME" "$SIGNER_PASSWD" | mayanode start $ARGS
+
+  mimir.sh: |
+    #!/bin/sh
+
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain mimir "$1" "$2" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  ban.sh: |
+    #!/bin/sh
+
+    printf "%s\n%s\n" "$SIGNER_PASSWD" "$SIGNER_PASSWD" | mayanode tx mayachain ban "$1" --from "$SIGNER_NAME" --keyring-backend file --chain-id "$CHAIN_ID" --yes --gas auto --gas-adjustment 2 --node "tcp://localhost:$MAYANODE_SERVICE_PORT_RPC"
+
+  external-ip.sh: |
+    #!/bin/bash
+    # ./external-ip.sh <host_network> <service_name> <config_map>
+    #
+    # Script to extract external ip from a service:
+    # If host network returns public ip of the node
+    # If LoadBalancer returns external IP either directly or from hostname
+    # If ClusterIP return service IP
+    # If NodePort returns node IP
+
+    apk add bind-tools
+
+    HOST_NETWORK=$1
+    SERVICE=$2
+    CONFIGMAP=$3
+
+    if [ "$HOST_NETWORK" = "true" ]; then
+      external_ip=$(curl -s http://whatismyip.akamai.com)
+    else
+      type=$(kubectl get svc "$SERVICE" -o jsonpath='{.spec.type}')
+      external_ip=""
+
+      if [ "$type" = "ClusterIP" ]; then
+        external_ip=$(kubectl get svc "$SERVICE" -o jsonpath='{.spec.clusterIP}')
+      elif [ "$type" = "NodePort" ]; then
+        external_ip=$(kubectl get nodes --selector=kubernetes.io/role!=master -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}')
+      elif [ "$type" = "LoadBalancer" ]; then
+        # Hack TODO remove when this is fixed here https://github.com/kubernetes/kubernetes/issues/82595
+        kubectl annotate svc "$SERVICE" service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled=false --overwrite
+        sleep 5
+        kubectl annotate svc "$SERVICE" service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled=true --overwrite
+
+        while [ -z "$external_ip" ]; do
+          echo "Waiting for load balancer external endpoint..."
+          external_ip=$(kubectl get svc "$SERVICE" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          if [ -z "$external_ip" ]; then
+            hostname=$(kubectl get svc "$SERVICE" -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+            [ -n "$hostname" ] && external_ip=$(dig +short "$hostname" | sort | head -1)
+          fi
+          [ -z "$external_ip" ] && sleep 10
+        done
+      fi
+    fi
+
+    kubectl create configmap "$CONFIGMAP" --from-literal=externalIP="$external_ip" --dry-run=client -o yaml | kubectl apply -f -
+
+  auto-update.sh: |
+    #!/bin/bash
+
+    set -euo pipefail
+
+    # retrieve current nodes
+    curl -sL -o /tmp/nodes {{ .Values.autoupdate.nodes }}
+
+    # lookup version used by 2/3 of the network
+    ACTIVE_NODES=$(jq -r '[.[] | select(.status == "Active")] | length' /tmp/nodes)
+    THRESHOLD=$(($ACTIVE_NODES*2/3))
+    NET_VERSION=$(jq -r "[.[] | select(.status==\"Active\")] | group_by(.version)[] | select(length > $THRESHOLD) | .[0].version" /tmp/nodes)
+
+    # this will be empty if the network does not have >2/3 on a single version
+    if [ -z "$NET_VERSION" ]; then
+      echo "network has not reached 2/3 consensus on version, skipping upgrade"
+      exit 0
+    fi
+
+    # retrieve mayanode version
+    MAYANODE_IMAGE=$(kubectl get deploy mayanode -o jsonpath="{.spec.template.spec.containers[0].image}")
+
+    # sanity checks
+    if [ -z "$MAYANODE_IMAGE" ]; then
+      echo "unable to retrieve mayanode image versions"
+      exit 1
+    fi
+
+    # abort if we are already up to date
+    MAYANODE_VERSION=$(echo $MAYANODE_IMAGE | awk -F- '{print $3}')
+    if [[ "$MAYANODE_VERSION" == "$NET_VERSION" ]]; then
+      echo "current mayanode version $MAYANODE_VERSION is up to date"
+      exit 0
+    fi
+
+    # patch the mayanode version
+    NEW_IMAGE=$(echo $(echo $MAYANODE_IMAGE | awk 'BEGIN {FS=OFS="-"} {$NF=""}1')$NET_VERSION)
+    echo "updating mayanode version $MAYANODE_VERSION -> $NET_VERSION"
+    echo "new image $NEW_IMAGE"
+    kubectl set image deployment/mayanode {{ .Chart.Name }}=$NEW_IMAGE
+
