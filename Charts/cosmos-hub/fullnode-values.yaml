@@ -8,6 +8,9 @@ cosmoshub_node:
   pruning_keep_every: "0"
   pruning_interval: "100"
 
+  tx_index:
+    indexer: "kv"
+
 validator:
   enabled: false
   
