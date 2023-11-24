@@ -1,0 +1,19 @@
+
+# If the node is a validator
+validator:
+  enabled: false
+
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: true
+
+microk8s:
+  enabled: true
+  hostpath: /data/shentu-fullnode
+
+local_storage:
+  path: /data/shentu-fullnode
+
+ingress:
+  enabled: false
+  domain: "stakelab.zone"
