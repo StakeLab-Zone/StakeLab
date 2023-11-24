@@ -5,12 +5,20 @@ metadata:
   name: {{ include "shentu-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
   annotations:
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - rpc.shentu.{{ .Values.ingress.domain }}
+    secretName: rpc.shentu-{{ .Values.ingress.domain }}-tls
+  - hosts:
+    - api.shentu.{{ .Values.ingress.domain }}
+    secretName: api.shentu-{{ .Values.ingress.domain }}-tls
+  {{- end }}
   rules:
-    - host: shentu-rpc.{{ .Values.ingress.domain }}
+    - host: rpc.shentu.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -20,7 +28,36 @@ spec:
                 name: shentu-fullnode
                 port:
                   number: 26657
-    - host: shentu-grpc.{{ .Values.ingress.domain }}
+    - host: api.shentu.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: shentu-fullnode
+                port:
+                  number: 1317
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "shentu-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    {{- toYaml .Values.ingress.grpc.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - grpc.shentu.{{ .Values.ingress.domain }}
+    secretName: grpc.shentu-{{ .Values.ingress.domain }}-tls
+  {{ end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: grpc.shentu.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -30,14 +67,4 @@ spec:
                 name: shentu-fullnode
                 port:
                   number: 9090
-    - host: shentu-p2p.{{ .Values.ingress.domain }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: shentu-fullnode
-                port:
-                  number: 26656
 {{- end }}
