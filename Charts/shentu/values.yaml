@@ -4,13 +4,13 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.47-shentu-v2.7.2"
+  tag: "v0.4.1-shentu-v2.8.0"
   pullPolicy: IfNotPresent
 
 # Common Values
 
 keyring_backend: "test"
-home: "/root/.certik"
+home: "/root/.shentud"
 debug: "false"
 
 # Set Values to run a single shentu (Certik) node connected to an existing network

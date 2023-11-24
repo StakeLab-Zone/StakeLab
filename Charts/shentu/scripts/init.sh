@@ -18,7 +18,7 @@ if [ ! -d "$SHENTU_HOME/data" ]
 then
 mkdir -p $SHENTU_HOME/data
 # Init the chain
-/bin/certik init --chain-id "$SHENTU_CHAIN_ID" "$SHENTU_MONIKER"
+/bin/shentud init --chain-id "$SHENTU_CHAIN_ID" "$SHENTU_MONIKER"
 
 cd "$SHENTU_HOME/data" || exit
 curl -s "$SHENTU_NET" > "$SHENTU_HOME/config/genesis.json"

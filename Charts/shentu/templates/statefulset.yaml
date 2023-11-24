@@ -144,7 +144,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/certik" , "start" ]
+          command: [ "/bin/shentud" , "start" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: SHENTU_MONIKER
