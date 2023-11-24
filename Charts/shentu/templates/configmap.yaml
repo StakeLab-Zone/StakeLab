@@ -196,13 +196,3 @@ data:
     [state-sync]
     snapshot-interval = {{ .Values.shentu_node.stateSync.snapshotInterval }}
     snapshot-keep-recent = {{ .Values.shentu_node.stateSync.snapshotKeepRecent }}
-    [store]
-    streamers = {{ .Values.shentu_node.store.streamers }}
-    [streamers]
-    [streamers.file]
-    keys = {{ .Values.shentu_node.streamers.file.keys |default "['*', ]" }}
-    write_dir = {{ .Values.shentu_node.streamers.file.writeDir | default "" | quote }}
-    prefix = {{ .Values.shentu_node.streamers.file.prefix | default "" | quote }}
-    output-metadata = {{ .Values.shentu_node.streamers.file.outputMetadata | default true |quote }}
-    stop-node-on-error = {{ .Values.shentu_node.streamers.file.stopNodeOnError | default true |quote }}
-    fsync = {{ .Values.shentu_node.streamers.file.fsync | default false | quote }}
