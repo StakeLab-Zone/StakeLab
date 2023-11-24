@@ -1,3 +1,7 @@
+shentu_node:
+  api:
+    enable: true
+    address:  tcp://0.0.0.0:1317
 
 # If the node is a validator
 validator:
