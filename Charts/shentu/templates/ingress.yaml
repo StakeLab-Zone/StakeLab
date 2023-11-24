@@ -38,6 +38,8 @@ spec:
                 name: shentu-fullnode
                 port:
                   number: 1317
+{{- end }}
+{{- if .Values.ingress.grpc.enabled -}}
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -48,7 +50,7 @@ metadata:
     {{- toYaml .Values.ingress.grpc.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
-  {{- if .Values.ingress.tls }}
+  {{- if .Values.ingress.grpc.tls }}
   tls:
   - hosts:
     - grpc.shentu.{{ .Values.ingress.domain }}
