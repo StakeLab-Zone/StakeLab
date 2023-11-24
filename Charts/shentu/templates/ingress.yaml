@@ -55,7 +55,7 @@ spec:
   - hosts:
     - grpc.shentu.{{ .Values.ingress.domain }}
     secretName: grpc.shentu-{{ .Values.ingress.domain }}-tls
-  {{ end }}
+  {{- end }}
 spec:
   ingressClassName: nginx
   rules:
