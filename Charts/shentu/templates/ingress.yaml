@@ -1,21 +1,21 @@
 {{- if .Values.ingress.enabled -}}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "shentu-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
-  annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+  annotations: {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
   {{- if .Values.ingress.tls }}
   tls:
-  - hosts:
-    - rpc.shentu.{{ .Values.ingress.domain }}
-    secretName: rpc.shentu-{{ .Values.ingress.domain }}-tls
-  - hosts:
-    - api.shentu.{{ .Values.ingress.domain }}
-    secretName: api.shentu-{{ .Values.ingress.domain }}-tls
+    - hosts:
+        - rpc.shentu.{{ .Values.ingress.domain }}
+      secretName: rpc.shentu-{{ .Values.ingress.domain }}-tls
+    - hosts:
+        - api.shentu.{{ .Values.ingress.domain }}
+      secretName: api.shentu-{{ .Values.ingress.domain }}-tls
   {{- end }}
   rules:
     - host: rpc.shentu.{{ .Values.ingress.domain }}
@@ -39,25 +39,22 @@ spec:
                 port:
                   number: 1317
 {{- end }}
-{{- if .Values.ingress.grpc.enabled -}}
 ---
+{{- if .Values.ingress.grpc.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "shentu-node.fullname" . }}-grpc-ingress
   namespace: {{ .Release.Namespace }}
-  annotations:
-    {{- toYaml .Values.ingress.grpc.annotations | nindent 4 }}
+  annotations: {{- toYaml .Values.ingress.grpc.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
   {{- if .Values.ingress.grpc.tls }}
   tls:
-  - hosts:
-    - grpc.shentu.{{ .Values.ingress.domain }}
-    secretName: grpc.shentu-{{ .Values.ingress.domain }}-tls
+    - hosts:
+        - grpc.shentu.{{ .Values.ingress.domain }}
+      secretName: grpc.shentu-{{ .Values.ingress.domain }}-tls
   {{- end }}
-spec:
-  ingressClassName: nginx
   rules:
     - host: grpc.shentu.{{ .Values.ingress.domain }}
       http:
