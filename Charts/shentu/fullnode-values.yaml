@@ -3,6 +3,11 @@ shentu_node:
     enable: true
     address:  tcp://0.0.0.0:1317
 
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "1000"
+  pruning_interval: "100"
+
 # If the node is a validator
 validator:
   enabled: false

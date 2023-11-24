@@ -68,6 +68,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/bash" , "/config/init.sh" ]
+          args: ["--pruning={{ .Values.shentu_node.pruning }}",
+                "--pruning-interval={{ .Values.shentu_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.shentu_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: SHENTU_MONIKER
