@@ -16,7 +16,7 @@ debug: "false"
 # Set Values to run a single Celestia node connected to an existing network
 # Defaults to mainnet
 celestia_node:
-  snapshot_provider: "quicksync"
+  snapshot_provider: "polkachu"
   api_enable: "false"
   moniker: yourminikerhere
   chainid: celestia

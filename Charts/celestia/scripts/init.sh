@@ -18,7 +18,7 @@ if [ ! -d "$CELESTIA_HOME/data" ]
 then
 mkdir -p $CELESTIA_HOME/data
 # Init the chain
-/bin/celestia-appd init --chain-id "$CELESTIA_CHAIN_ID" "$CELESTIA_MONIKER"
+/bin/celestia-appd init --chain-id "$CELESTIA_CHAIN_ID" "$CELESTIA_MONIKER" --home "$CELESTIA_HOME"
 
 
 cd "$CELESTIA_HOME/data" || exit
