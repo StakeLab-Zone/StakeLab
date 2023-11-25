@@ -260,9 +260,9 @@ spec:
             - name: celestia-validator-client-toml
           {{- else }}
             - name: celestia-fullnode-client-toml
+          {{- end }}
               mountPath: {{ .Values.home }}/config/client.toml
               subPath: client.toml
-          {{- end }}
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
