@@ -1,0 +1,313 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: celestia-node-validator
+  {{- else }}
+  name: celestia-node-fullnode
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: celestia-validator
+    celestia.network/validator: "{{ .Values.celestia_node.moniker }}"
+  {{- else }}
+    app: celestia-fullnode
+    celestia.network/fullnode: "{{ .Values.celestia_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: celestia-validator
+  {{- else }}
+  serviceName: celestia-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: celestia-validator
+      celestia.network/validator: "{{ .Values.celestia_node.moniker }}"
+    {{- else }}
+      app: celestia-fullnode
+      celestia.network/fullnode: "{{ .Values.celestia_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: celestia-validator
+        celestia.network/validator: "{{ .Values.celestia_node.moniker }}"
+      {{- else }}
+        app: celestia-fullnode
+        celestia.network/fullnode: "{{ .Values.celestia_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: celestia-validator
+    {{- else }}
+      ServiceAccountName: celestia-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CELESTIA_MONIKER
+              value: {{ .Values.celestia_node.moniker }}
+            - name: CELESTIA_NET
+              value: {{ .Values.celestia_node.net }}
+            - name: CELESTIA_HOME
+              value: {{ .Values.home }}
+            - name: CELESTIA_CHAIN_ID
+              value: {{ .Values.celestia_node.chainid }}
+            - name: CELESTIA_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: CELESTIA_ADDRBOOK_ENABLED
+              value: "{{ .Values.celestia_node.addrbook.enabled }}"
+            - name: CELESTIA_ADDRBOOK_URL
+              value: {{ .Values.celestia_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: CELESTIA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.celestia_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.celestia_node.addrbook.enabled }}
+            - name: CELESTIA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.celestia_node.peers }}
+            {{- end }}
+            - name: CELESTIA_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.celestia_node.iavl_disable_fastnode }}"
+            - name: CELESTIA_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: CELESTIA_MINIMUM_GAS_PRICES
+              value: "{{ .Values.celestia_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.celestia_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: CELESTIA_STATESYNC_ENABLE
+              value: "true"
+            - name: CELESTIA_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: celestia-validator-config-toml
+            {{- else }}
+            - name: celestia-fullnode-config-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: celestia-validator-app-toml
+            {{- else }}
+            - name: celestia-fullnode-app-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/celestia-appd" , "start" ]
+          args: ["--pruning={{ .Values.celestia_node.pruning }}",
+                "--pruning-interval={{ .Values.celestia_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.celestia_node.pruning_keep_recent }}"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CELESTIA_MONIKER
+              value: {{ .Values.celestia_node.moniker }}
+            - name: CELESTIA_NET
+              value: {{ .Values.celestia_node.net }}
+            - name: CELESTIA_HOME
+              value: {{ .Values.home }}
+            - name: CELESTIA_CHAIN_ID
+              value: {{ .Values.celestia_node.chainid }}
+            - name: CELESTIA_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: CELESTIA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.celestia_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.celestia_node.addrbook.enabled }}
+            - name: CELESTIA_P2P_PERSISTENT_PEERS
+              value: {{ .Values.celestia_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: CELESTIA_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: CELESTIA_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: CELESTIA_PRUNING
+              value: "custom"
+            - name: CELESTIA_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: CELESTIA_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: CELESTIA_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: CELESTIA_PRUNING
+              value: "{{ .Values.celestia_node.pruning }}"
+            - name: CELESTIA_PRUNING_KEEP_RECENT
+              value: "{{ .Values.celestia_node.pruning_keep_recent }}"
+            - name: CELESTIA_PRUNING_KEEP_EVERY
+              value: "{{ .Values.celestia_node.pruning_keep_every }}"
+            - name: CELESTIA_PRUNING_INTERVAL
+              value: "{{ .Values.celestia_node.pruning_interval }}"
+            {{- end }}
+            - name: CELESTIA_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.celestia_node.iavl_disable_fastnode }}"
+            - name: CELESTIA_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: CELESTIA_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: CELESTIA_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: CELESTIA_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: CELESTIA_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: CELESTIA_ROSETTA_ENABLE
+              value: "false"
+            - name: CELESTIA_P2P_SEED_MODE
+              value: "true"
+            - name: CELESTIA_P2P_PEX
+              value: "{{ .Values.celestia_node.p2p.pex }}"
+            - name: CELESTIA_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: CELESTIA_MINIMUM_GAS_PRICES
+              value: "{{ .Values.celestia_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.celestia_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: CELESTIA_STATESYNC_ENABLE
+              value: "true"
+            - name: CELESTIA_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: CELESTIA_API_ENABLE
+              value: "{{ .Values.celestia_node.api_enable }}"
+          ports:
+            - containerPort: 26656
+              name: p2p
+            - containerPort: 26659
+              name: kms
+            - containerPort: 26660
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: celestia-validator-config-toml
+            {{- else }}
+            - name: celestia-fullnode-config-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: celestia-validator-app-toml
+            {{- else }}
+            - name: celestia-fullnode-app-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: celestia-node-config
+        {{- if .Values.validator.enabled }}
+        - name: celestia-validator-config-toml
+          configMap:
+            name: celestia-validator-config-toml
+        - name: celestia-validator-app-toml
+          configMap:
+            name: celestia-validator-app-toml
+        {{- else }}
+        - name: celestia-fullnode-config-toml
+          configMap:
+            name: celestia-fullnode-config-toml
+        - name: celestia-fullnode-app-toml
+          configMap:
+            name: celestia-fullnode-app-toml
+        {{- end }}
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}
