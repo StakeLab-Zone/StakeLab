@@ -51,7 +51,7 @@ data:
     experimental_websocket_write_buffer_size = {{ .Values.celestia_node.rpc.experimental_websocket_write_buffer_size | default 200 }}
     experimental_close_on_slow_client = {{ .Values.celestia_node.rpc.experimental_close_on_slow_client | default false }}
     timeout_broadcast_tx_commit = "{{ .Values.celestia_node.rpc.timeout_broadcast_tx_commit | default "50s" }}"
-    max_body_bytes = {{ .Values.celestia_node.rpc.max_body_bytes | default 8388608 }}
+    max_body_bytes = {{ .Values.celestia_node.rpc.max_body_bytes | default 8388608 | int }}
     max_header_bytes = {{ .Values.celestia_node.rpc.max_header_bytes | default 1048576 | int }}
     tls_cert_file = "{{ .Values.celestia_node.rpc.tls_cert_file | default "" }}"
     tls_key_file = "{{ .Values.celestia_node.rpc.tls_key_file | default "" }}"
@@ -186,7 +186,7 @@ data:
     max-open-connections = {{ .Values.celestia_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.celestia_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.celestia_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.celestia_node.api.rpcMaxBodyBytes }}
+    rpc-max-body-bytes = {{ .Values.celestia_node.api.rpcMaxBodyBytes | int }}
     enabled-unsafe-cors = {{ .Values.celestia_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.celestia_node.rosetta.enable }}
