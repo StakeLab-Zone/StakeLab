@@ -230,7 +230,7 @@ metadata:
 data:
   client.toml: |-
     chain-id = {{ .Values.celestia_node.chainid | quote }}
-    keyring-backend = {{ .Values.keyring_backend | default "os" | quote }}}
+    keyring-backend = {{ .Values.keyring_backend | default "os" | quote }}
     output = "text"
     node = {{ .Values.celestia_node.rpc.laddr | default "tcp://127.0.0.1:26657" | quote }}
     broadcast-mode = "sync"
