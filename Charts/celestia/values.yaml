@@ -3,7 +3,7 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: "ghcr.io/celestiaorg/celestia-app"
+  repository: "ghcr.io/charlesjudith/celestia-docker"
   tag: "v1.3.0"
   pullPolicy: IfNotPresent
 
