@@ -3,6 +3,9 @@ celestia_node:
     enable: true
     address:  tcp://0.0.0.0:1317
 
+  rpc:
+    laddr: "tcp://0.0.0.1:26657"
+
   # Pruning configuration
   pruning: "custom"
   pruning_keep_recent: "1000"
