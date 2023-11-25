@@ -256,6 +256,13 @@ spec:
               mountPath: {{ .Values.home }}/config/priv_validator_key.json
               subPath: priv_validator_key.json
           {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: celestia-validator-client-toml
+          {{- else }}
+            - name: celestia-fullnode-client-toml
+              mountPath: {{ .Values.home }}/config/client.toml
+              subPath: client.toml
+          {{- end }}
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
