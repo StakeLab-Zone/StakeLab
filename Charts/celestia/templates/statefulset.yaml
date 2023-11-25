@@ -295,6 +295,9 @@ spec:
         - name: celestia-validator-app-toml
           configMap:
             name: celestia-validator-app-toml
+        - name: celestia-validator-client-toml
+          configMap:
+            name: celestia-validator-client-toml
         {{- else }}
         - name: celestia-fullnode-config-toml
           configMap:
@@ -302,6 +305,9 @@ spec:
         - name: celestia-fullnode-app-toml
           configMap:
             name: celestia-fullnode-app-toml
+        - name: celestia-fullnode-client-toml
+          configMap:
+            name: celestia-fullnode-client-toml
         {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
