@@ -1,0 +1,322 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  {{- if .Values.validator.enabled }}
+  name: injective-node-validator
+  {{- else }}
+  name: injective-node-fullnode
+  {{- end }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+  {{- if .Values.validator.enabled }}
+    app: injective-validator
+    injective.network/validator: "{{ .Values.injective_node.moniker }}"
+  {{- else }}
+    app: injective-fullnode
+    injective.network/fullnode: "{{ .Values.injective_node.moniker }}"
+  {{- end }}
+spec:
+  replicas: 1
+  {{- if .Values.validator.enabled }}
+  serviceName: injective-validator
+  {{- else }}
+  serviceName: injective-fullnode
+  {{- end }}
+  selector:
+    matchLabels:
+    {{- if .Values.validator.enabled }}
+      app: injective-validator
+      injective.network/validator: "{{ .Values.injective_node.moniker }}"
+    {{- else }}
+      app: injective-fullnode
+      injective.network/fullnode: "{{ .Values.injective_node.moniker }}"
+    {{- end }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      labels:
+      {{- if .Values.validator.enabled }}
+        app: injective-validator
+        injective.network/validator: "{{ .Values.injective_node.moniker }}"
+      {{- else }}
+        app: injective-fullnode
+        injective.network/fullnode: "{{ .Values.injective_node.moniker }}"
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- if .Values.validator.enabled }}
+      serviceAccountName: injective-validator
+    {{- else }}
+      ServiceAccountName: injective-fullnode
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if .Values.local_storage.enabled }}
+      nodeSelector:
+        kubernetes.io/hostname: {{ $.Values.local_storage.host }}
+      {{- end }}
+      initContainers:
+        - name: init
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/bash" , "/config/init.sh" ]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: INJECTIVE_MONIKER
+              value: {{ .Values.injective_node.moniker }}
+            - name: INJECTIVE_NET
+              value: {{ .Values.injective_node.net }}
+            - name: INJECTIVE_HOME
+              value: {{ .Values.home }}
+            - name: INJECTIVE_CHAIN_ID
+              value: {{ .Values.injective_node.chainid }}
+            - name: INJECTIVE_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            - name: INJECTIVE_ADDRBOOK_ENABLED
+              value: "{{ .Values.injective_node.addrbook.enabled }}"
+            - name: INJECTIVE_ADDRBOOK_URL
+              value: {{ .Values.injective_node.addrbook.url }}
+            {{- if .Values.state_sync.enabled }}
+            - name: INJECTIVE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.injective_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.injective_node.addrbook.enabled }}
+            - name: INJECTIVE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.injective_node.peers }}
+            {{- end }}
+            - name: INJECTIVE_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.injective_node.iavl_disable_fastnode }}"
+            - name: INJECTIVE_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: INJECTIVE_MINIMUM_GAS_PRICES
+              value: "{{ .Values.injective_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.injective_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: INJECTIVE_STATESYNC_ENABLE
+              value: "true"
+            - name: INJECTIVE_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: injective-validator-config-toml
+            {{- else }}
+            - name: injective-fullnode-config-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: injective-validator-app-toml
+            {{- else }}
+            - name: injective-fullnode-app-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: [ "/bin/injectived", "start" ]
+          args: ["--pruning={{ .Values.injective_node.pruning }}",
+                "--pruning-interval={{ .Values.injective_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.injective_node.pruning_keep_recent }}"]
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: INJECTIVE_MONIKER
+              value: {{ .Values.injective_node.moniker }}
+            - name: INJECTIVE_NET
+              value: {{ .Values.injective_node.net }}
+            - name: INJECTIVE_HOME
+              value: {{ .Values.home }}
+            - name: INJECTIVE_CHAIN_ID
+              value: {{ .Values.injective_node.chainid }}
+            - name: INJECTIVE_KEYRING_BACKEND
+              value: {{ .Values.keyring_backend }}
+            {{- if .Values.state_sync.enabled }}
+            - name: INJECTIVE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.injective_node.peers }},{{ .Values.state_sync.node_id }}
+            {{- else if not .Values.injective_node.addrbook.enabled }}
+            - name: INJECTIVE_P2P_PERSISTENT_PEERS
+              value: {{ .Values.injective_node.peers }}
+            {{- end }}
+            {{- if .Values.snapshots.enabled }}
+            - name: INJECTIVE_STATE_SYNC_SNAPSHOT_INTERVAL
+              value: "2000"
+            - name: INJECTIVE_STATE_SYNC_SNAPSHOT_KEEP_RECENT
+              value: "5"
+            - name: INJECTIVE_PRUNING
+              value: "custom"
+            - name: INJECTIVE_PRUNING_KEEP_RECENT
+              value: "100"
+            - name: INJECTIVE_PRUNING_KEEP_EVERY
+              value: "2000"
+            - name: INJECTIVE_PRUNING_INTERVAL
+              value: "10"
+            {{- else }}
+            - name: INJECTIVE_PRUNING
+              value: "{{ .Values.injective_node.pruning }}"
+            - name: INJECTIVE_PRUNING_KEEP_RECENT
+              value: "{{ .Values.injective_node.pruning_keep_recent }}"
+            - name: INJECTIVE_PRUNING_KEEP_EVERY
+              value: "{{ .Values.injective_node.pruning_keep_every }}"
+            - name: INJECTIVE_PRUNING_INTERVAL
+              value: "{{ .Values.injective_node.pruning_interval }}"
+            {{- end }}
+            - name: INJECTIVE_IAVL_DISABLE_FASTNODE
+              value: "{{ .Values.injective_node.iavl_disable_fastnode }}"
+            - name: INJECTIVE_P2P_LADDR
+              value: tcp://0.0.0.0:26656
+            - name: INJECTIVE_RPC_LADDR
+              value: tcp://0.0.0.0:26657
+            - name: INJECTIVE_RPC_PPROF_LADDR
+              value: 0.0.0.0:6060
+            - name: INJECTIVE_GRPC_ADDRESS
+              value: 0.0.0.0:9090
+            - name: INJECTIVE_P2P_ADDR_BOOK_STRICT
+              value: "false"
+            - name: INJECTIVE_ROSETTA_ENABLE
+              value: "false"
+            - name: INJECTIVE_P2P_SEED_MODE
+              value: "true"
+            - name: INJECTIVE_P2P_PEX
+              value: "{{ .Values.injective_node.p2p.pex }}"
+            - name: INJECTIVE_DEBUG
+              value: "{{ $.Values.debug }}"
+            - name: INJECTIVE_MINIMUM_GAS_PRICES
+              value: "{{ .Values.injective_node.minimum_gas_prices }}"
+            - name: SNAPSHOT_PROVIDER
+              value: "{{ .Values.injective_node.snapshot_provider }}"
+            {{- if .Values.state_sync.enabled }}
+            - name: INJECTIVE_STATESYNC_ENABLE
+              value: "true"
+            - name: INJECTIVE_STATESYNC_RPC_SERVERS
+              value: "{{ .Values.state_sync.rpc1 }},{{ .Values.state_sync.rpc2 }}"
+            {{- end }}
+            - name: INJECTIVE_API_ENABLE
+              value: "{{ .Values.injective_node.api.enable }}"
+          ports:
+            - containerPort: 26660
+              name: metrics
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            {{- if .Values.validator.enabled }}
+            - name: injective-validator-config-toml
+            {{- else }}
+            - name: injective-fullnode-config-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/config.toml
+              subPath: config.toml
+            {{- if .Values.validator.enabled }}
+            - name: injective-validator-app-toml
+            {{- else }}
+            - name: injective-fullnode-app-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/app.toml
+              subPath: app.toml
+          {{- if .Values.validator.enabled }}
+            - name: node-key
+              mountPath: {{ .Values.home }}/config/node_key.json
+              subPath: node_key.json
+            - name: priv-validator-key
+              mountPath: {{ .Values.home }}/config/priv_validator_key.json
+              subPath: priv_validator_key.json
+          {{- end }}
+          {{- if .Values.validator.enabled }}
+            - name: injective-validator-client-toml
+          {{- else }}
+            - name: injective-fullnode-client-toml
+          {{- end }}
+              mountPath: {{ .Values.home }}/config/client.toml
+              subPath: client.toml
+          {{- if .Values.local_storage.enabled }}
+            - name: local-persistent-storage
+              mountPath: "{{ .Values.home }}"
+          {{- else }}
+            - name: home
+              mountPath: "{{ .Values.home }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: injective-node-config
+        {{- if .Values.validator.enabled }}
+        - name: injective-validator-config-toml
+          configMap:
+            name: injective-validator-config-toml
+        - name: injective-validator-app-toml
+          configMap:
+            name: injective-validator-app-toml
+        - name: injective-validator-client-toml
+          configMap:
+            name: injective-validator-client-toml
+        {{- else }}
+        - name: injective-fullnode-config-toml
+          configMap:
+            name: injective-fullnode-config-toml
+        - name: injective-fullnode-app-toml
+          configMap:
+            name: injective-fullnode-app-toml
+        - name: injective-fullnode-client-toml
+          configMap:
+            name: injective-fullnode-client-toml
+        {{- end }}
+      {{- if .Values.microk8s.enabled }}
+        - name: home
+          hostPath:
+            # Ensure the file directory is created.
+            path: "{{ .Values.microk8s.hostpath }}"
+            type: DirectoryOrCreate
+      {{- end }}
+      {{- if .Values.validator.enabled }}
+        - name: priv-validator-key
+          secret:
+            secretName: priv-validator-key
+        - name: node-key
+          secret:
+            secretName: node-key
+      {{- end }}

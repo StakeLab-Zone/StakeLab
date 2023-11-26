@@ -1,0 +1,42 @@
+{{- if .Values.fullnode.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: injective-fullnode
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1317
+      name: api
+    - port: 9090
+      name: grpc
+    - port: 26660
+      name: metrics
+    - port: 26657
+      name: rpc
+  selector:
+    injective.network/fullnode: "{{ .Values.injective_node.moniker }}"
+{{- end }}
+{{- if .Values.validator.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: injective-validator
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 26656
+      name: p2p
+    - port: 26660
+      name: metrics
+    {{- if .Values.validator.tmkms }}
+    - port: 26659
+      name: kms
+    {{- end }}
+  selector:
+    app: "injective-validator"
+{{- end }}

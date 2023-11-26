@@ -1,0 +1,279 @@
+# Default values for injective-node.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: "ghcr.io/charlesjudith/injective-docker"
+  tag: "v1.11.6"
+  pullPolicy: IfNotPresent
+
+# Common Values
+
+keyring_backend: "test"
+home: "/root/.injectived"
+debug: "false"
+
+# Set Values to run a single Injective node connected to an existing network
+# Defaults to mainnet
+injective_node:
+  snapshot_provider: "polkachu"
+  api_enable: "false"
+  moniker: yourminikerhere
+  chainid: injective-1
+  minimum_gas_prices: 500000000inj
+  net: https://snapshots.polkachu.com/genesis/injective/genesis.json
+  peers: d1c1db88b926bab93c36617da4eba9c56c4741ee@65.108.199.51:16656,b7480bbb7a3121a7a32460d2e5cac976ee3bd899@51.222.254.138:26656,7001f6a42af699fc65c4652e19ca53b5b311b1cb@15.235.55.169:14356,a6c66d5db62d6359179c30c7dc3836fa8d60d348@148.113.162.70:12200,c1b38eb98f67024024e302507c4465883b69aeb3@159.65.201.42:26656,a988534ab1e4bc42aad26ea7ec7bdc7d5415a14c@172.111.52.51:32664,d5f5627c4669883500bada279751b4524eb0b8c4@57.128.97.8:35656,de29c61e80b140a53c5e251b4545a1db4b5036bb@157.90.199.94:26631,1229b1adc9f77208df8eef2978d0b5cecdf6f74e@3.248.136.66:26656,3f363c67696f4f25fa8ac582078b72dd37d6f159@95.217.148.218:4095,885908cad70c9759ab8a0ec72239ff78deb5915c@217.79.189.99:26656,0506f644cad6132502737f1b122e9ee3fc80ac87@15.235.15.172:26656,009256d91328b83da024010ecdcd7de8a5918e02@162.19.85.200:30206,c870bb2ac0002e99e2651f2c17c2fbef86b428a0@88.218.224.28:26656,0948a84b7b0f281991c71902da1e4dc0fb31f663@195.14.6.138:26656,1669810c254807e06415ddef691c29326b1ef1a5@43.131.57.169:26656,1c27835324d81b1e21f5ad8c989bae323aac08eb@51.158.60.11:26656,5a3e13293a95bbaa26a21dd6799cc0e5ea28a5c3@85.10.200.231:4095,bdeca72936eedcb6202acff7b73feab3f19ecbeb@167.235.180.97:14256,b335c4cd6c527c065503607c48abf5a2f62d2b51@15.235.114.80:11751,d009b32a96de36dbaef25010c3005492105f3980@51.222.42.196:26656,bbfe01a0e32f4b5c4438ee644d44dbead103f660@65.108.69.91:26656,16ea6416a614ca433a0aac1fc9d54420bcced92b@65.108.198.118:14356,1c69492360188e6a0fc97895ddb9b74594638ffb@65.21.125.164:26656,769e4600ffb609b12ece63d59fefdd0012e7a858@209.182.237.121:26656,d8fa03360014d47dc2ed1fa930b0922a6efc7f27@135.125.189.156:26656,b9af1d731665610772bb121c069fcece931aa00c@5.10.24.69:26656,051170d7617b8738b5a6a740033aab6a95a8a35e@65.108.130.171:26656,6bd183f262c2f219a0037efd0da259d7e5c9ea27@57.128.140.96:26656,764a63571429ef1a5bd6c70aca0da0a9e3aacef6@169.155.168.153:26656,898f9a97c85b5a262e88626e8b9b554fee4432ef@148.251.188.45:26656,b336891013798de581b4c7ef58ce81360de82885@51.91.152.102:26188,af3c13212b1bfeb8dc63b9ec2ba91118b5f4f775@141.95.98.187:26656,20ce5b22bef7d9e7a3842f767b7e054925a25ef1@89.149.218.80:26656,c1787071d895e589f7e761361c933b7da093dae9@57.180.80.45:26656,a26923b6db5227058d726d82fb659eae20f78d90@93.189.30.110:26656,830b5a8d1cc06165167226eef2452f0219dfdc37@65.109.89.19:14356,0226b946a6a0f53daab63c7a6434850605e8835f@94.130.18.205:4030,f0fb6d20db0bcc2391b01eb4edef5d98db549f32@138.201.16.240:4095,422621290ec774ad7e394b50ef0b09c11548321b@52.30.132.101:26656,19beda38fc0895fa38f13121cd6a5d34b9f68d3a@135.181.20.31:26656,40e2d11f169350e7b8383b06cc9e3f83ca514173@47.254.133.70:26656,d8083b20c97ee9174c65c1a79d57d6b3bebbd6e3@15.204.196.86:26656,bd5ed84f7ed7a7557fd98fce4e9c516b886b8206@162.55.0.195:26656,c24b38af25bfb5015213d5cfabc2f9fd2b0e746f@136.243.35.176:14356,4594dddd3c04477525e88cfbf3afa3485f5fb968@169.155.45.153:26656,04458f7ba7d335a4e31e1f0abc6207d0b0010c7f@146.59.52.137:12256,666fb82b2665655c2c8249614dfcec4cfc438ce3@148.113.153.111:26656,ac7f42b221da174dade12e5dbef96c00913dc0ae@85.10.197.58:14356,68bbee8e37c6d32be84dc45f997cafc73f9df4ed@142.132.157.163:26656,3df8176d128a545c7402a186706968fd77624b62@141.95.65.169:26656,1b52484fff6c19be92d451ca6d1340cc8187b5ec@37.252.190.197:26656,55c3bbb45f1139be9144ba9d8f7b4e89e48a77f0@65.109.31.114:26656,36d0ca3752436b09885a345e26e7a9e942389bd5@93.115.25.15:26664,2fccf7c14b0beb441b6bf8e7caf739a4e71c775a@65.21.90.48:26656,e7debb6ef6560ebb2fc5bc4725ba68b296c56d41@131.153.158.249:26656,7e96c0b762c9f2ee70fb0e9c1345ad271e2de1ca@54.68.169.253:26656,85a5bf8990c5ea97ad1c3446623d42940eb3c1c5@135.125.180.140:26656,474cdf49b2425983bf35d1128e42d7c463a57d66@51.210.209.111:26656,6cc376d4f91f015d6580885d417d1809cc8212f5@178.23.126.15:26656,6169de3037b9058381f38f86bcd185a2355f4228@15.235.87.154:26656,529a19fa85f96d3ac04a3243593c92e37b9ee575@65.108.204.252:26656,a7bf47bf83b12c6744d1f8a1b944947b12330404@65.108.230.84:26656,7c2918ee7c056a5be0b4b5b3616df8b4072ab3fb@65.109.38.77:26656,54547de6e0ba4fe9ceabafbc3604475f9eff84aa@148.113.153.105:26656
+  seeds: 
+  addrbook:
+    enabled: true
+    url: https://snapshots.polkachu.com/addrbook/injective/addrbook.json
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "100"
+  pruning_keep_every: "0"
+  pruning_interval: "10"
+
+  iavl_disable_fastnode: true
+
+  proxy_app: "tcp://127.0.0.1:26658"
+  fast_sync: true
+  db_backend: "goleveldb"
+  db_dir: "data"
+  log_level: "info"
+  log_format: "plain"
+  genesis_file: "config/genesis.json"
+  priv_validator_state_file: "data/priv_validator_state.json"
+  priv_validator_key_file: "config/priv_validator_key.json"
+  node_key_file: "config/node_key.json"
+  abci: "socket"
+  filter_peers: false
+  rpc:
+    laddr: "tcp://127.0.0.1:26657"
+    cors_allowed_origins: "[]"
+    cors_allowed_methods: "['HEAD', 'GET', 'POST']"
+    cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
+    grpc_laddr: ""
+    grpc_max_open_connections: 900
+    unsafe: false
+    max_open_connections: 900
+    max_subscription_clients: 100
+    max_subscriptions_per_client: 5
+    experimental_subscription_buffer_size: 200
+    experimental_websocket_write_buffer_size: 200
+    experimental_close_on_slow_client: false
+    timeout_broadcast_tx_commit: "50s"
+    max_body_bytes: 8388608
+    max_header_bytes: 1048576
+    tls_cert_file: ""
+    tls_key_file: ""
+    pprof_laddr: "localhost:6060"
+  p2p:
+    laddr: "tcp://0.0.0.0:26656"
+    external_address: ""
+    upnp: false
+    addr_book_file: "config/addrbook.json"
+    addr_book_strict: true
+    max_num_inbound_peers: 40
+    max_num_outbound_peers: 10
+    unconditional_peer_ids: ""
+    persistent_peers_max_dial_period: "0s"
+    flush_throttle_timeout: "100ms"
+    max_packet_msg_payload_size: 1024
+    send_rate: 5120000
+    recv_rate: 5120000
+    pex: true
+    seed_mode: false
+    private_peer_ids: ""
+    allow_duplicate_ip: false
+    handshake_timeout: "20s"
+    dial_timeout: "3s"
+  mempool:
+    version: "v1"
+    recheck: true
+    broadcast: true
+    wal_dir: ""
+    size: 5000
+    max_txs_bytes: 39485440
+    cache_size: 10000
+    keep-invalid-txs-in-cache: false
+    max_tx_bytes: 7897088
+    max_batch_bytes: 0
+    ttl-duration: "1m15s"
+    ttl-num-blocks: 5
+  statesync:
+    enable: false
+    rpc_servers: ""
+    trust_height: 0
+    trust_hash: ""
+    trust_period: "168h0m0s"
+    discovery_time: "15s"
+    temp_dir: ""
+    chunk_request_timeout: "10s"
+    chunk_fetchers: "4"
+  fastsync:
+    version: "v0"
+  consensus:
+    wal_file: "data/cs.wal/wal"
+    timeout_propose: "3s"
+    timeout_propose_delta: "500ms"
+    timeout_prevote: "1s"
+    timeout_prevote_delta: "500ms"
+    timeout_precommit: "1s"
+    timeout_precommit_delta: "500ms"
+    timeout_commit: "5s"
+    double_sign_check_height: 0
+    skip_timeout_commit: false
+    create_empty_blocks: true
+    create_empty_blocks_interval: "0s"
+    peer_gossip_sleep_duration: "100ms"
+    peer_query_maj23_sleep_duration: "2s"
+  storage:
+    discard_abci_responses: true
+  tx_index:
+    indexer: "kv"
+    psql-conn: ""
+  instrumentation:
+    prometheus: true
+    prometheus_listen_addr: ":26660"
+    max_open_connections: 900
+    namespace: "cometbft"
+
+  halt_height: 0
+  halt_time: 0
+  min_retain_blocks: 0
+  inter_block_cache: true
+  index_events: "[]"
+  iavl_cache_size: 781250
+
+  telemetry:
+    enabled: false
+    serviceName: ""
+    enableHostname: false
+    enableHostnameLabel: false
+    enableServiceLabel: false
+    prometheusRetentionTime: 0
+    globalLabels: "[]"
+
+  api:
+    enable: false
+    swagger: false
+    address: "tcp://0.0.0.0:1317"
+    maxOpenConnections: 1000
+    rpcReadTimeout: 10
+    rpcWriteTimeout: 0
+    rpcMaxBodyBytes: 1000000
+    enabledUnsafeCors: false
+
+  rosetta:
+    enable: false
+    address: ":8080"
+    blockchain: "app"
+    network: "network"
+    retries: 3
+    offline: false
+
+  grpc:
+    enable: true
+    address: "0.0.0.0:9090"
+  grpcWeb:
+    enable: true
+    address: "0.0.0.0:9091"
+    enableUnsafeCors: false
+  stateSync:
+    snapshotInterval: 0
+    snapshotKeepRecent: 2
+
+  store:
+    streamers: "[]"
+  streamers:
+    file:
+      keys: "['*', ]"
+      writeDir: ""
+      prefix: ""
+      outputMetadata: true
+      stopNodeOnError: true
+      fsync: false
+
+# If your node gets connection troubles to Polkachu,
+# make sure to get through the trouble-shooting section at
+state_sync:
+  enabled: false
+  rpc1: "https://injective-rpc.polkachu.com:443"
+  node_id: ""
+  # height_offset should equal the INJECTIVE_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
+  height_offset: 2000
+
+snapshots:
+  enabled: false
+
+microk8s:
+  enabled: true
+  hostpath: /data/injective-validator
+
+# Used for mounting INJECTIVE_HOME on a specific node
+local_storage:
+  enabled: false
+  capacity: 100Gi
+  path: /data/injective-validator
+  host: ""
+
+# If the node is a validator
+validator:
+  enabled: true
+  node_key: ""
+  priv_key: ""
+  tmkms: false
+  
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: false
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+ingress:
+  enabled: false
+  tls: false
+  domain: "dmain.tld"
+  grpc:
+    enabled: false
+    tls: false
