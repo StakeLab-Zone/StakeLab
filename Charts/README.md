@@ -16,6 +16,7 @@ Helm chart to run nodes on Kubernetes
 - [Cosmos-upgrade](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-upgrade)
 - [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
+- [Injective](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/injective)
 - [Osmosis](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/osmosis)
 - [Lava metwork](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/lava)
 - [Evmos](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/evmos)
