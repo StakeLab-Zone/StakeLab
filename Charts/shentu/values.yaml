@@ -267,5 +267,8 @@ affinity: {}
 
 ingress:
   enabled: false
-  domain: "domain.tld"
   tls: false
+  domain: "dmain.tld"
+  grpc:
+    enabled: false
+    tls: false
