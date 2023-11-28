@@ -53,7 +53,7 @@ spec:
   tls:
     - hosts:
         - grpc.osmosis.{{ .Values.ingress.domain }}
-      secretName: grpc.osmosis-{{ .Values.ingress.domain }}-tls
+      secretName: grpc.osmosis.{{ .Values.ingress.domain }}-tls
   {{- end }}
   rules:
     - host: grpc.osmosis.{{ .Values.ingress.domain }}
