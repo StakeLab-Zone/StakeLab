@@ -12,6 +12,8 @@ If you are one of our supported network, or one we don't support but would like 
 
 [dYdX](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#dydx)
 
+[Evmos](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#evmos)
+
 [Injective](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#injective)
 
 [Osmosis](https://github.com/StakeLab-Hub/StakeLab/blob/main/Public%20endpoints/README.md#osmosis)
@@ -31,6 +33,10 @@ If you are one of our supported network, or one we don't support but would like 
 ### _dYdX_
 - [RPC](https://rpc.dydx.stakelab.zone/)
 - [API](https://api.dydx.stakelab.zone/)
+
+### _Evmos_
+- [RPC](https://rpc.evmos.stakelab.zone/)
+- [API](https://api.evmos.stakelab.zone/)
 
 ### _Injective_
 - [RPC](https://rpc.injective.stakelab.zone/)
