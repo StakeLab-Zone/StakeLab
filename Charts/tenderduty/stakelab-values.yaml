@@ -128,6 +128,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://celestia.rpc.stakin-nodes.com:443
+      - url: https://rpc.celestia.stakelab.zone:443
 
   "Chihuahua":
     chain_id: chihuahua-1
@@ -177,7 +178,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.cosmoshub.strange.love:443
-      - url: https://rpc.cosmoshub.stakelab.zone:443
+      - url: https://rpc.cosmo-hub.stakelab.zone:443
   
   "Crescent":
     chain_id: crescent-1
@@ -322,6 +323,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://injective-mainnet-rpc.autostake.com:443
+      - url: https://rpc.injective.stakelab.zone:443
 
   "Iris":
     chain_id: irishub-1
@@ -592,6 +594,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-shentu-01.stakeflow.io:443
+      - url: https://rpc.shentu.stakelab.zone:443
 
   "Sifchain":
     chain_id: sifchain-1
