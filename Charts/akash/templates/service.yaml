@@ -1,0 +1,38 @@
+{{- if .Values.fullnode.enabled -}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: akash-fullnode
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 1317
+      name: akash-api
+    - port: 9090
+      name: akash-grpc
+    - port: 26660
+      name: akash-metrics
+    - port: 26657
+      name: akash-rpc
+  selector:
+    akash.network/fullnode: "{{ .Values.akash_node.moniker }}"
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: akash-validator
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 26656
+      name: akash-p2p
+    {{- if .Values.validator.tmkms }}
+    - port: 26659
+      name: akash-kms
+    {{- end }}
+  selector:
+    app: "akash-validator"
