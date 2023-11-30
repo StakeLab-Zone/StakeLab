@@ -25,6 +25,9 @@ dydxprotocol_node:
   grpcWeb:
     enable: 'false'
 
+  tx_index:
+    indexer: "null"
+
 microk8s:
   enabled: true
   hostpath: /data/dydx-validator-mainnet
