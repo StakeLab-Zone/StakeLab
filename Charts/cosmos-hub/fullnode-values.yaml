@@ -8,6 +8,8 @@ cosmoshub_node:
   pruning_keep_every: "0"
   pruning_interval: "100"
 
+  moniker: StakeLab
+
   tx_index:
     indexer: "kv"
 
@@ -31,10 +33,10 @@ fullnode:
 
 microk8s:
   enabled: true
-  hostpath: /data/osmosis-fullnode
+  hostpath: /data/cosmoshub-fullnode
 
 local_storage:
-  path: /data/osmosis-fullnode
+  path: /data/cosmoshub-fullnode
 
 ingress:
   enabled: true
