@@ -147,7 +147,7 @@ spec:
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          command: [ "/bin/akashd" , "start" ]
+          command: [ "/bin/akash" , "start" ]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AKASH_MONIKER
