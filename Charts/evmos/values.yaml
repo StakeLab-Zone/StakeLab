@@ -265,3 +265,6 @@ ingress:
   enabled: false
   tls: false
   domain: "dmain.tld"
+  grpc:
+    enabled: false
+    tls: false
