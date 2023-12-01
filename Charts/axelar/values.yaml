@@ -264,8 +264,8 @@ affinity: {}
 
 ingress:
   enabled: false
-  domain: "domain.tld"
   tls: false
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+  domain: "dmain.tld"
+  grpc:
+    enabled: false
+    tls: false
