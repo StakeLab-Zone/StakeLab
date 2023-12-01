@@ -4,18 +4,18 @@ Helm chart to run nodes on Kubernetes
 
 # Supported charts
 ## Blockchains (mainnet):
+- [Akash](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/akash)
 - [Assetmantle](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/assetmantle)
 - [Axelar](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/axelar)
 - [Bitcanna](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitcanna)
 - [Bitsong](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/bitsong)
-- [Coingecko-api](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/coingecko-api)
 - [Canto](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/canto)
 - [Celestia](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/celestia)
 - [Comdex](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/comdex)
 - [Cosmos Hub](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-hub)
-- [Cosmos-upgrade](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-upgrade)
 - [Chihuahua](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/chihuahua)
 - [Crescent](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/crescent)
+- [dYdX](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/dydxprotocol)
 - [Injective](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/injective)
 - [Osmosis](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/osmosis)
 - [Lava metwork](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/lava)
@@ -27,6 +27,8 @@ Helm chart to run nodes on Kubernetes
 - [dYdX](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/dydxprotocol)
 
 ## Tools:
+- [Coingecko-api](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/coingecko-api)
+- [Cosmos endpoint cache](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-endpoint-cache)
+- [Cosmos-upgrade](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-upgrade)
 - [Tenderduty](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/tenderduty)
 - [Uptime-Kuma](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/uptime-kuma)
-- [Cosmos endpoint cache](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/cosmos-endpoint-cache)
