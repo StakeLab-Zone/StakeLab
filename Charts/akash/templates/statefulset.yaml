@@ -68,9 +68,6 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/bash" , "/config/init.sh" ]
-          args: ["--pruning={{ .Values.akash_node.pruning }}",
-                "--pruning-interval={{ .Values.akash_node.pruning_interval }}",
-                "--pruning-keep-recent={{ .Values.akash_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AKASH_MONIKER
@@ -148,6 +145,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/akash" , "start" ]
+          args: ["--pruning={{ .Values.akash_node.pruning }}",
+                "--pruning-interval={{ .Values.akash_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.akash_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: AKASH_MONIKER
