@@ -146,6 +146,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/gaiad" , "start" ]
+          args: ["--pruning={{ .Values.cosmoshub_node.pruning }}",
+                "--pruning-interval={{ .Values.cosmoshub_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.cosmoshub_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: COSMOSHUB_MONIKER
