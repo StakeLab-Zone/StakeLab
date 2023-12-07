@@ -609,6 +609,19 @@ chains:
       #- url: https://sifchain-rpc.publicnode.com:443
       - url: https://sifchain-mainnet-rpc.autostake.com:443
 
+  "Soarchain":
+    chain_id: soarchaintestnet
+    valoper_address: soarvaloper1d3vljn68ltll7g2z536e2zzk6tqsu9zf7wyy5g
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://soarchain-testnet-rpc.polkachu.com:443
+      
+  
   "Sommelier":
     chain_id: sommelier-3
     valoper_address: sommvaloper1pedd3sk0qhwc3yr6zh036gcwc0d6yhuntw9lcw
@@ -684,3 +697,15 @@ chains:
     nodes:
       - url: https://umee-rpc.w3coins.io:443
       - url: https://umee.rpc.kjnodes.com:443
+
+  "Union":
+    chain_id: union-testnet-4
+    valoper_address: unionvaloper1jjdd5l25nj9yrkqwrdkhahh9n9th9umy29xhal
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://union-testnet-rpc.polkachu.com:443
