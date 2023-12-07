@@ -1,16 +1,24 @@
 {{- if .Values.ingress.enabled -}}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ include "bitsong-node.fullname" . }}-ingress
   namespace: {{ .Release.Namespace }}
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+  annotations: {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - rpc.bitsong.{{ .Values.ingress.domain }}
+      secretName: rpc.bitsong-{{ .Values.ingress.domain }}-tls
+    - hosts:
+        - api.bitsong.{{ .Values.ingress.domain }}
+      secretName: api.bitsong-{{ .Values.ingress.domain }}-tls
+  {{- end }}
   rules:
-    - host: bitsong-rpc.{{ .Values.ingress.domain }}
+    - host: rpc.bitsong.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -20,7 +28,35 @@ spec:
                 name: bitsong-fullnode
                 port:
                   number: 26657
-    - host: bitsong-grpc.{{ .Values.ingress.domain }}
+    - host: api.bitsong.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bitsong-fullnode
+                port:
+                  number: 1317
+{{- end }}
+---
+{{- if .Values.ingress.grpc.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "bitsong-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations: {{- toYaml .Values.ingress.grpc.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.grpc.tls }}
+  tls:
+    - hosts:
+        - grpc.bitsong.{{ .Values.ingress.domain }}
+      secretName: grpc.bitsong-{{ .Values.ingress.domain }}-tls
+  {{- end }}
+  rules:
+    - host: grpc.bitsong.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
@@ -30,14 +66,4 @@ spec:
                 name: bitsong-fullnode
                 port:
                   number: 9090
-    - host: bitsong-p2p.{{ .Values.ingress.domain }}
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: bitsong-fullnode
-                port:
-                  number: 26656
 {{- end }}
