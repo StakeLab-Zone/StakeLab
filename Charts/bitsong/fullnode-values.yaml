@@ -1,0 +1,51 @@
+bitsong_node:
+  api:
+    enable: true
+    address:  tcp://0.0.0.0:1317
+  
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "1000"
+  pruning_keep_every: "0"
+  pruning_interval: "100"
+
+  moniker: StakeLab
+
+  tx_index:
+    indexer: "kv"
+
+  rpc:
+    laddr: "tcp://0.0.0.0:26657"
+  
+  moniker: StakeLab
+
+# If the node is a validator
+validator:
+  enabled: false
+
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: true
+
+microk8s:
+  enabled: true
+  hostpath: /data/bitsong-fullnode
+
+local_storage:
+  path: /data/bitsong-fullnode
+
+ingress:
+  enabled: true
+  domain: "stakelab.zone"
+  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+  grpc:
+    enabled: true
+    tls: true
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
