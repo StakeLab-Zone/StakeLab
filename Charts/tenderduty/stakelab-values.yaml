@@ -155,6 +155,18 @@ chains:
     nodes:
       - url: https://rpc.comdex.one:443
 
+  "Composable":
+    chain_id: centauri-1
+    valoper_address: centaurivaloper10at4sl26gx3767ejn2w7awy7k522ernz7q56pa
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://composable-rpc.polkachu.com/
+
   "Coreum":
     chain_id: coreum-mainnet-1
     valoper_address: corevaloper1k0rllvenwr02gvm52fh5056g5m3hly2lpf63z5
