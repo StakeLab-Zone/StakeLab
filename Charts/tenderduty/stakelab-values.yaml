@@ -251,7 +251,21 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.dydx.stakelab.zone:443
-      
+
+  "Dymension":
+    chain_id: froopyland_100-1
+    valoper_address: dymvaloper1al66sx8nawksjxmd93r5wth463ul2jca8tfh2a
+    public_fallback: no
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: http://89.116.31.118:26657
+      - url: http://51.15.212.195:26657
+      - url: http://15.235.160.84:31741
+
   "Emoney":
     chain_id: emoney-3
     valoper_address: emoneyvaloper1fskgtauswg2d0p79d9gdqj2yjyfulg3d65dtue
