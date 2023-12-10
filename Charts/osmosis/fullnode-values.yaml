@@ -7,7 +7,10 @@ osmosis_node:
     laddr: "tcp://0.0.0.0:26657"
   
   moniker: StakeLab
-  
+
+  tx_index:
+    indexer: "kv"
+
   # Pruning configuration
   pruning: "custom"
   pruning_keep_recent: "1000"
