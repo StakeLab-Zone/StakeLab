@@ -3,7 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    app.kubernetes.io/name: {{ .Values.monitoring.promName }}
+    release: {{ .Values.monitoring.promReleaseName }}
   name: {{ .Values.monitoring.name }}
   namespace: {{ .Values.monitoring.namespace }}
 spec:
@@ -13,11 +13,7 @@ spec:
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
-    {{- if .Values.validator.enabled }}
-    - shentu-validator
-    {{- else }}
-    - shentu-fullnode
-    {{- end }}
+    - {{ .Release.Namespace }}
   selector:
     matchLabels:
       {{- if .Values.validator.enabled }}

@@ -278,5 +278,5 @@ monitoring:
   # Monitoring namespace
   namespace: observability
   # Prometheus Operator version
-  promName: kube-state-metrics
+  promReleaseName: prometheus-stack
   name: shentu-metrics
