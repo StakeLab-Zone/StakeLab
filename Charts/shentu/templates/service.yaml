@@ -12,13 +12,13 @@ spec:
       name: shentu-api
     - port: 9090
       name: shentu-grpc
-    - port: 26656
-      name: shentu-p2p
+    - port: 26660
+      name: metrics
     - port: 26657
       name: shentu-rpc
   selector:
     shentu.network/fullnode: "{{ .Values.shentu_node.moniker }}"
-{{- end }}
+{{- else }}
 ---
 apiVersion: v1
 kind: Service
@@ -36,3 +36,4 @@ spec:
     {{- end }}
   selector:
     app: "shentu-validator"
+{{- end }}
