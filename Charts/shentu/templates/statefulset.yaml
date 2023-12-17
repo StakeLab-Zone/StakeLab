@@ -223,12 +223,8 @@ spec:
             - name: SHENTU_API_ENABLE
               value: "{{ .Values.shentu_node.api_enable }}"
           ports:
-            - containerPort: 26656
-              name: shentu-p2p
-            - containerPort: 26659
-              name: shentu-kms
             - containerPort: 26660
-              name: shentu-metrics
+              name: metrics
           volumeMounts:
             - name: config
               mountPath: /config

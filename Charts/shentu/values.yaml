@@ -272,3 +272,11 @@ ingress:
   grpc:
     enabled: false
     tls: false
+
+monitoring:
+  enabled: false
+  # Monitoring namespace
+  namespace: observability
+  # Prometheus Operator version
+  promName: kube-state-metrics
+  name: shentu-metrics

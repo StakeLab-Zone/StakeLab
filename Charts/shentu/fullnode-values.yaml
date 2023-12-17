@@ -8,6 +8,8 @@ shentu_node:
   pruning_keep_recent: "1000"
   pruning_interval: "100"
 
+  moniker: StakeLab
+
 # If the node is a validator
 validator:
   enabled: false
@@ -22,6 +24,9 @@ microk8s:
 
 local_storage:
   path: /data/shentu-fullnode
+
+monitoring:
+  enabled: true
 
 ingress:
   enabled: true
