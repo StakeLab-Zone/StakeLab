@@ -18,7 +18,7 @@ spec:
       name: akash-rpc
   selector:
     akash.network/fullnode: "{{ .Values.akash_node.moniker }}"
-{{- end }}
+{{- else }}
 ---
 apiVersion: v1
 kind: Service
@@ -36,3 +36,4 @@ spec:
     {{- end }}
   selector:
     app: "akash-validator"
+{{- end }}
