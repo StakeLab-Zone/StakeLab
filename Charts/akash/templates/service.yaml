@@ -13,7 +13,7 @@ spec:
     - port: 9090
       name: akash-grpc
     - port: 26660
-      name: akash-metrics
+      name: metrics
     - port: 26657
       name: akash-rpc
   selector:

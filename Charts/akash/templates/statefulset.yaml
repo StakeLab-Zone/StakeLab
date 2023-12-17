@@ -226,7 +226,7 @@ spec:
             - containerPort: 26656
               name: akash-p2p
             - containerPort: 26660
-              name: akash-metrics
+              name: metrics
           volumeMounts:
             - name: config
               mountPath: /config
