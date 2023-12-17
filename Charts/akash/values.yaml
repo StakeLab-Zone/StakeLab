@@ -271,3 +271,11 @@ ingress:
   grpc:
     enabled: false
     tls: false
+
+monitoring:
+  enabled: false
+  # Monitoring namespace
+  namespace: observability
+  # Prometheus Operator version
+  promReleaseName: prometheus-stack
+  name: akash-metrics
