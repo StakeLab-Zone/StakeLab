@@ -2,31 +2,45 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  {{- if .Values.validator.enabled }}
+  name: chihuahua-node-validator
+  {{- else if .Values.fullnode.enabled }}
   name: chihuahua-node-fullnode
+  {{- else if .Values.archive.enabled }}
+  name: chihuahua-node-archive
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
   {{- if .Values.validator.enabled }}
     app: chihuahua-validator
     chihuahua.network/validator: "{{ .Values.chihuahua_node.moniker }}"
-  {{- else }}
+  {{- else if .Values.fullnode.enabled }}
     app: chihuahua-fullnode
     chihuahua.network/fullnode: "{{ .Values.chihuahua_node.moniker }}"
+  {{- else if .Values.archive.enabled }}
+    app: chihuahua-archive
+    chihuahua.network/archive: "{{ .Values.chihuahua_node.moniker }}"
   {{- end }}
 spec:
   replicas: 1
   {{- if .Values.validator.enabled }}
   serviceName: chihuahua-validator
-  {{- else }}
+  {{- else if .Values.fullnode.enabled }}
   serviceName: chihuahua-fullnode
+  {{- else if .Values.archive.enabled }}
+  serviceName: chihuahua-archive
   {{- end }}
   selector:
     matchLabels:
     {{- if .Values.validator.enabled }}
       app: chihuahua-validator
       chihuahua.network/validator: "{{ .Values.chihuahua_node.moniker }}"
-    {{- else }}
+    {{- else if .Values.fullnode.enabled }}
       app: chihuahua-fullnode
       chihuahua.network/fullnode: "{{ .Values.chihuahua_node.moniker }}"
+    {{- else if .Values.archive.enabled }}
+      app: chihuahua-archive
+      chihuahua.network/archive: "{{ .Values.chihuahua_node.moniker }}"
     {{- end }}
   template:
     metadata:
@@ -38,9 +52,12 @@ spec:
       {{- if .Values.validator.enabled }}
         app: chihuahua-validator
         chihuahua.network/validator: "{{ .Values.chihuahua_node.moniker }}"
-      {{- else }}
+      {{- else if .Values.fullnode.enabled }}
         app: chihuahua-fullnode
         chihuahua.network/fullnode: "{{ .Values.chihuahua_node.moniker }}"
+      {{- else if .Values.archive.enabled }}
+        app: chihuahua-archive
+        chihuahua.network/archive: "{{ .Values.chihuahua_node.moniker }}"
       {{- end }}
     spec:
       {{- with .Values.imagePullSecrets }}
@@ -49,8 +66,10 @@ spec:
       {{- end }}
     {{- if .Values.validator.enabled }}
       serviceAccountName: chihuahua-validator
-    {{- else }}
+    {{- else if .Values.fullnode.enabled }}
       ServiceAccountName: chihuahua-fullnode
+    {{- else if .Values.archive.enabled }}
+      ServiceAccountName: chihuahua-archive
     {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
@@ -107,15 +126,19 @@ spec:
               readOnly: true
             {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-config-toml
-            {{- else }}
+            {{ else if .Values.fullnode.enabled }}
             - name: chihuahua-fullnode-config-toml
+            {{- else if .Values.archive.enabled }}
+            - name: chihuahua-archive-config-toml
             {{- end }}
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-app-toml
-            {{- else }}
+            {{- else if .Values.fullnode.enabled }}
             - name: chihuahua-fullnode-app-toml
+            {{- else if .Values.archive.enabled }}
+            - name: chihuahua-archive-app-toml
             {{- end }}
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
@@ -140,9 +163,13 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/chihuahuad" , "start" ]
+          {{- if .Values.archive.enabled }}
+          args: ["--pruning={{ .Values.chihuahua_node.pruning }}"]
+          {{- else }}
           args: ["--pruning={{ .Values.chihuahua_node.pruning }}",
                 "--pruning-interval={{ .Values.chihuahua_node.pruning_interval }}",
                 "--pruning-keep-recent={{ .Values.chihuahua_node.pruning_keep_recent }}"]
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: CHIHUAHUA_MONIKER
@@ -226,15 +253,19 @@ spec:
               readOnly: true
             {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-config-toml
-            {{- else }}
+            {{- else if .Values.fullnode.enabled }}
             - name: chihuahua-fullnode-config-toml
+            {{- else if .Values.archive.enabled }}
+            - name: chihuahua-archive-config-toml
             {{- end }}
               mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
             {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-app-toml
-            {{- else }}
+            {{- else if .Values.fullnode.enabled }}
             - name: chihuahua-fullnode-app-toml
+            {{- else if .Values.archive.enabled }}
+            - name: chihuahua-archive-app-toml
             {{- end }}
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
@@ -270,13 +301,20 @@ spec:
         - name: chihuahua-validator-app-toml
           configMap:
             name: chihuahua-validator-app-toml
-        {{- else }}
+        {{- else if .Values.fullnode.enabled }}
         - name: chihuahua-fullnode-config-toml
           configMap:
             name: chihuahua-fullnode-config-toml
         - name: chihuahua-fullnode-app-toml
           configMap:
             name: chihuahua-fullnode-app-toml
+        {{- else if .Values.archive.enabled }}
+        - name: chihuahua-archive-config-toml
+          configMap:
+            name: chihuahua-archive-config-toml
+        - name: chihuahua-archive-app-toml
+          configMap:
+            name: chihuahua-archive-app-toml
         {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home

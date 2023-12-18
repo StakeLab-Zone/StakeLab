@@ -22,6 +22,9 @@ validator:
 
 # If the node is a fullnode (non-validator)
 fullnode:
+  enabled: false
+
+archive:
   enabled: true
 
 microk8s:

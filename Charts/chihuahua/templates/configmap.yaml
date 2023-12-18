@@ -14,8 +14,12 @@ kind: ConfigMap
 metadata:
   {{- if .Values.validator.enabled }}
   name: chihuahua-validator-config-toml
-  {{- else }}
+  {{- end }}
+  {{- if .Values.fullnode.enabled }}
   name: chihuahua-fullnode-config-toml
+  {{- end }}
+  {{- if .Values.archive.enabled }}
+  name: chihuahua-archive-config-toml
   {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
@@ -144,6 +148,9 @@ metadata:
   name: chihuahua-validator-app-toml
   {{- else }}
   name: chihuahua-fullnode-app-toml
+  {{- end }}
+  {{- if .Values.archive.enabled }}
+  name: chihuahua-archive-app-toml
   {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:

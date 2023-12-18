@@ -235,6 +235,9 @@ validator:
 fullnode:
   enabled: false
 
+archive:
+  enabled: false
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""

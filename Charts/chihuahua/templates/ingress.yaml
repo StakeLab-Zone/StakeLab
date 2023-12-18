@@ -25,7 +25,11 @@ spec:
             pathType: Prefix
             backend:
               service:
+                {{- if .Values.fullnode.enabled }}
                 name: chihuahua-fullnode
+                {{- else if .Values.archive.enabled }}
+                name: chihuahua-archive
+                {{- end }}
                 port:
                   number: 26657
     - host: api.chihuahua.{{ .Values.ingress.domain }}
@@ -35,7 +39,11 @@ spec:
             pathType: Prefix
             backend:
               service:
+                {{- if .Values.fullnode.enabled }}
                 name: chihuahua-fullnode
+                {{- else if .Values.archive.enabled }}
+                name: chihuahua-archive
+                {{- end }}
                 port:
                   number: 1317
 {{- end }}
@@ -63,7 +71,11 @@ spec:
             pathType: Prefix
             backend:
               service:
+                {{- if .Values.fullnode.enabled }}
                 name: chihuahua-fullnode
+                {{- else if .Values.archive.enabled }}
+                name: chihuahua-archive
+                {{- end }}
                 port:
                   number: 9090
 {{- end }}
