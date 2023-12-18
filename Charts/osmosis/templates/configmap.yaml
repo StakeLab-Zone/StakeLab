@@ -177,7 +177,7 @@ data:
     max-open-connections = {{ .Values.osmosis_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.osmosis_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.osmosis_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.osmosis_node.api.rpcMaxBodyBytes | int}}
+    rpc-max-body-bytes = {{ .Values.osmosis_node.api.rpcMaxBodyBytes | int | quote }}
     enabled-unsafe-cors = {{ .Values.osmosis_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.osmosis_node.rosetta.enable }}
