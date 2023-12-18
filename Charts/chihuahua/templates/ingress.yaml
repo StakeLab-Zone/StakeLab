@@ -1,0 +1,69 @@
+{{- if .Values.ingress.enabled -}}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "chihuahua-node.fullname" . }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations: {{- toYaml .Values.ingress.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+        - rpc.chihuahua.{{ .Values.ingress.domain }}
+      secretName: rpc.chihuahua-{{ .Values.ingress.domain }}-tls
+    - hosts:
+        - api.chihuahua.{{ .Values.ingress.domain }}
+      secretName: api.chihuahua-{{ .Values.ingress.domain }}-tls
+  {{- end }}
+  rules:
+    - host: rpc.chihuahua.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chihuahua-fullnode
+                port:
+                  number: 26657
+    - host: api.chihuahua.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chihuahua-fullnode
+                port:
+                  number: 1317
+{{- end }}
+---
+{{- if .Values.ingress.grpc.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "chihuahua-node.fullname" . }}-grpc-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations: {{- toYaml .Values.ingress.grpc.annotations | nindent 4 }}
+spec:
+  ingressClassName: nginx
+  {{- if .Values.ingress.grpc.tls }}
+  tls:
+    - hosts:
+        - grpc.chihuahua.{{ .Values.ingress.domain }}
+      secretName: grpc.chihuahua.{{ .Values.ingress.domain }}-tls
+  {{- end }}
+  rules:
+    - host: grpc.chihuahua.{{ .Values.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chihuahua-fullnode
+                port:
+                  number: 9090
+{{- end }}

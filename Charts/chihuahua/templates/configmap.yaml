@@ -12,7 +12,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: config-toml
+  {{- if .Values.validator.enabled }}
+  name: chihuahua-validator-config-toml
+  {{- else }}
+  name: chihuahua-fullnode-config-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "chihuahua-node.labels" . | nindent 4 }}
@@ -136,7 +140,11 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-toml
+  {{- if .Values.validator.enabled }}
+  name: chihuahua-validator-app-toml
+  {{- else }}
+  name: chihuahua-fullnode-app-toml
+  {{- end }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "chihuahua-node.labels" . | nindent 4 }}

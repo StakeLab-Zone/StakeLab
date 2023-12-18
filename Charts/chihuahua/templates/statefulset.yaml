@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: chihuahua-node-validator
+  name: chihuahua-node-fullnode
   namespace: {{ .Release.Namespace }}
   labels:
   {{- if .Values.validator.enabled }}
@@ -105,11 +105,19 @@ spec:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-config-toml
-              mountPath: /root/.chihuahuad/config/config.toml
+            {{- else }}
+            - name: chihuahua-fullnode-config-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-app-toml
-              mountPath: /root/.chihuahuad/config/app.toml
+            {{- else }}
+            - name: chihuahua-fullnode-app-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
@@ -121,10 +129,8 @@ spec:
           {{- if .Values.validator.enabled }}
             - name: node-key
               mountPath: /root/.chihuahuad/config/node_key.json
-              subPath: node_key.json
             - name: priv-validator-key
               mountPath: /root/.chihuahuad/config/priv_validator_key.json
-              subPath: priv_validator_key.json
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -134,6 +140,9 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           command: [ "/bin/chihuahuad" , "start" ]
+          args: ["--pruning={{ .Values.chihuahua_node.pruning }}",
+                "--pruning-interval={{ .Values.chihuahua_node.pruning_interval }}",
+                "--pruning-keep-recent={{ .Values.chihuahua_node.pruning_keep_recent }}"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: CHIHUAHUA_MONIKER
@@ -209,30 +218,26 @@ spec:
             - name: CHIHUAHUA_API_ENABLE
               value: "{{ .Values.chihuahua_node.api_enable }}"
           ports:
-            - containerPort: 26656
-              name: chihuahuad-p2p
-            - containerPort: 26659
-              name: chihuahuad-kms
             - containerPort: 26660
               name: metrics
           volumeMounts:
             - name: config
               mountPath: /config
               readOnly: true
+            {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-config-toml
-              mountPath: /root/.chihuahuad/config/config.toml
+            {{- else }}
+            - name: chihuahua-fullnode-config-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/config.toml
               subPath: config.toml
+            {{- if .Values.validator.enabled }}
             - name: chihuahua-validator-app-toml
-              mountPath: /root/.chihuahuad/config/app.toml
+            {{- else }}
+            - name: chihuahua-fullnode-app-toml
+            {{- end }}
+              mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
-          {{- if .Values.validator.enabled }}
-            - name: node-key
-              mountPath: /root/.chihuahuad/config/node_key.json
-              subPath: node_key.json
-            - name: priv-validator-key
-              mountPath: /root/.chihuahuad/config/priv_validator_key.json
-              subPath: priv_validator_key.json
-          {{- end }}
           {{- if .Values.local_storage.enabled }}
             - name: local-persistent-storage
               mountPath: "{{ .Values.home }}"
@@ -258,12 +263,21 @@ spec:
         - name: config
           configMap:
             name: chihuahua-node-config
+        {{- if .Values.validator.enabled }}
         - name: chihuahua-validator-config-toml
           configMap:
             name: chihuahua-validator-config-toml
         - name: chihuahua-validator-app-toml
           configMap:
             name: chihuahua-validator-app-toml
+        {{- else }}
+        - name: chihuahua-fullnode-config-toml
+          configMap:
+            name: chihuahua-fullnode-config-toml
+        - name: chihuahua-fullnode-app-toml
+          configMap:
+            name: chihuahua-fullnode-app-toml
+        {{- end }}
       {{- if .Values.microk8s.enabled }}
         - name: home
           hostPath:

@@ -12,13 +12,14 @@ spec:
       name: chihuahuad-api
     - port: 9090
       name: chihuahuad-grpc
-    - port: 26656
-      name: chihuahuad-p2p
+    - port: 26660
+      name: metrics
     - port: 26657
       name: chihuahuad-rpc
   selector:
     chihuahua.network/fullnode: "{{ .Values.chihuahua_node.moniker }}"
 {{- end }}
+{{- if .Values.validator.enabled -}}
 ---
 apiVersion: v1
 kind: Service
@@ -29,10 +30,13 @@ spec:
   type: ClusterIP
   ports:
     - port: 26656
-      name: chihuahuad-p2p
-    - port: 26659
-      name: chihuahuad-kms
+      name: p2p
     - port: 26660
       name: metrics
+    {{- if .Values.validator.tmkms }}
+    - port: 26659
+      name: kms
+    {{- end }}
   selector:
     app: "chihuahua-validator"
+{{- end }}

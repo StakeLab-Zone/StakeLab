@@ -5,7 +5,7 @@
 image:
   # repository: ghcr.io/charlesjudith/chihuahua-node-docker
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.3.49-chihuahua-v5.0.3"
+  tag: "v0.4.3-chihuahua-v5.0.4"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -135,7 +135,7 @@ chihuahua_node:
   storage:
     discard_abci_responses: false
   tx_index:
-    indexer: "kv"
+    indexer: "null"
     psql-conn: ""
   instrumentation:
     prometheus: true
@@ -207,7 +207,7 @@ state_sync:
   enabled: false
   rpc1: "https://chihuahua-rpc.polkachu.com:443"
   rpc2: "https://chihuahua-rpc.polkachu.com:443"
-  node_id: "765ab0e15d4bcd7533b4bad8e596a1c42264a4fe@65.108.128.201:12956"
+  node_id: ""
   # height_offset should equal the CHIHUAHUA_STATE_SYNC_SNAPSHOT_INTERVAL on the node which makes the state-sync snapshots
   height_offset: 2000
 
@@ -216,24 +216,24 @@ snapshots:
 
 microk8s:
   enabled: true
-  hostpath: /data/chihuahua-fullnode
+  hostpath: /data/chihuahua-validator
 
 # Used for mounting CHIHUAHUA_HOME on a specific node
 local_storage:
   enabled: false
   capacity: 100Gi
-  path: /data/chihuahua-fullnode
+  path: /data/chihuahua-validator
   host: ""
 
 # If the node is a validator
 validator:
-  enabled: false
+  enabled: true
   node_key: 
   priv_key: 
 
 # If the node is a fullnode (non-validator)
 fullnode:
-  enabled: true
+  enabled: false
 
 imagePullSecrets: []
 nameOverride: ""
@@ -278,4 +278,8 @@ affinity: {}
 
 ingress:
   enabled: false
+  tls: false
   domain: "dmain.tld"
+  grpc:
+    enabled: false
+    tls: false
