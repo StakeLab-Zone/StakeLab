@@ -1,0 +1,48 @@
+chihuahua_node:
+  api:
+    enable: true
+    address:  tcp://0.0.0.0:1317
+
+  rpc:
+    laddr: "tcp://0.0.0.0:26657"
+  
+  moniker: StakeLab
+
+  tx_index:
+    indexer: "kv"
+
+  # Pruning configuration
+  pruning: "custom"
+  pruning_keep_recent: "1000"
+  pruning_interval: "100"
+
+# If the node is a validator
+validator:
+  enabled: false
+
+# If the node is a fullnode (non-validator)
+fullnode:
+  enabled: true
+
+microk8s:
+  enabled: true
+  hostpath: /data/chihuahua-fullnode
+
+local_storage:
+  path: /data/chihuahua-fullnode
+
+ingress:
+  enabled: true
+  domain: "archive.stakelab.zone"
+  tls: true
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+  grpc:
+    enabled: true
+    tls: true
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/backend-protocol: GRPC
