@@ -224,10 +224,6 @@ spec:
             - name: COSMOSHUB_API_ENABLE
               value: "{{ .Values.cosmoshub_node.api.enable }}"
           ports:
-            - containerPort: 26656
-              name: p2p
-            - containerPort: 26659
-              name: kms
             - containerPort: 26660
               name: metrics
           volumeMounts:

@@ -34,6 +34,9 @@ microk8s:
 local_storage:
   path: /data/cosmoshub-fullnode
 
+monitoring:
+  enabled: true
+
 ingress:
   enabled: true
   domain: "stakelab.zone"
