@@ -1,0 +1,24 @@
+{{ if .Values.monitoring.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    release: {{ .Values.monitoring.promReleaseName }}
+  name: {{ .Values.monitoring.name }}
+  namespace: {{ .Values.monitoring.namespace }}
+spec:
+  endpoints:
+  - interval: 60s
+    port: metrics
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- if .Values.validator.enabled }}
+      app.kubernetes.io/instance: cosmoshub-validator
+      {{- else }}
+      app.kubernetes.io/instance: cosmoshub-fullnode
+      {{- end }}
+{{- end }}
