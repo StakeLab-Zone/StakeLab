@@ -177,7 +177,7 @@ data:
     max-open-connections = {{ .Values.chihuahua_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.chihuahua_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.chihuahua_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.chihuahua_node.api.rpcMaxBodyBytes }}
+    rpc-max-body-bytes = {{ .Values.chihuahua_node.api.rpcMaxBodyBytes | int }}
     enabled-unsafe-cors = {{ .Values.chihuahua_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.chihuahua_node.rosetta.enable }}
