@@ -471,7 +471,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc.novel.remedy.tm.p2p.org:443
+      - url: https://rpc-neutron.cosmos-spaces.cloud:443
 
   "OmniFlix":
     chain_id: omniflixhub-1
