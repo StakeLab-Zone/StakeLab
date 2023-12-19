@@ -130,14 +130,6 @@ spec:
             - name: home
               mountPath: "{{ .Values.home }}"
           {{- end }}
-          {{- if .Values.validator.enabled }}
-            - name: node-key
-              mountPath: {{ .Values.home }}/config/node_key.json
-              subPath: node_key.json
-            - name: priv-validator-key
-              mountPath: {{ .Values.home }}/config/priv_validator_key.json
-              subPath: priv_validator_key.json
-          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       containers:
@@ -245,14 +237,6 @@ spec:
               mountPath: {{ .Values.home }}/config/app.toml
               subPath: app.toml
           {{- if .Values.validator.enabled }}
-            - name: node-key
-              mountPath: {{ .Values.home }}/config/node_key.json
-              subPath: node_key.json
-            - name: priv-validator-key
-              mountPath: {{ .Values.home }}/config/priv_validator_key.json
-              subPath: priv_validator_key.json
-          {{- end }}
-          {{- if .Values.validator.enabled }}
             - name: injective-validator-client-toml
           {{- else }}
             - name: injective-fullnode-client-toml
@@ -311,12 +295,4 @@ spec:
             # Ensure the file directory is created.
             path: "{{ .Values.microk8s.hostpath }}"
             type: DirectoryOrCreate
-      {{- end }}
-      {{- if .Values.validator.enabled }}
-        - name: priv-validator-key
-          secret:
-            secretName: priv-validator-key
-        - name: node-key
-          secret:
-            secretName: node-key
       {{- end }}
