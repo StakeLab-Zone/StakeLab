@@ -29,10 +29,10 @@ archive:
 
 microk8s:
   enabled: true
-  hostpath: /data/chihuahua-fullnode
+  hostpath: /data/chihuahua-archive
 
 local_storage:
-  path: /data/chihuahua-fullnode
+  path: /data/chihuahua-archive
 
 ingress:
   enabled: true
