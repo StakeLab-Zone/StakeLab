@@ -16,6 +16,9 @@ pullPolicy: Always
 
 servicePort: 8000
 
+orchestratorAddress: nil
+apiEndpoint: nil
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
