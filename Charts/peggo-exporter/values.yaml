@@ -16,8 +16,9 @@ pullPolicy: Always
 
 servicePort: 8000
 
-orchestratorAddress: nil
-apiEndpoint: nil
+orchestratorAddress: inj1xvnlzs3xw2fy3y2jzj3kck0n532jx9kltvmm8k
+apiEndpoint: 'https://api.injective.stakelab.zone'
+checkInterval: 300
 
 serviceAccount:
   # Specifies whether a service account should be created

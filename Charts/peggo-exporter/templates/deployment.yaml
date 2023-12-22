@@ -43,6 +43,8 @@ spec:
               value: {{ .Values.orchestratorAddress | quote }}
             - name: API_ENDPOINT
               value: {{ .Values.apiEndpoint | quote }}
+            - name: CHECK_INTERVAL
+              value: {{ .Values.checkInterval | quote }}
           ports:
             - name: peggo-exporter
               containerPort: {{ .Values.servicePort }}
