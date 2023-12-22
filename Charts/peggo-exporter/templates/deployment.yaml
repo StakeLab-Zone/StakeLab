@@ -44,7 +44,7 @@ spec:
             - name: API_ENDPOINT
               value: {{ .Values.apiEndpoint | quote }}
             - name: CHECK_INTERVAL
-              value: {{ .Values.checkInterval | quote }}
+              value: {{ .Values.checkInterval }}
           ports:
             - name: peggo-exporter
               containerPort: {{ .Values.servicePort }}
