@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "peggo-exporter.fullname" . }}
+  labels:
+    app: peggo-exporter
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: peggo-exporter
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: peggo-exporter
+    spec:
+      replicas: {{ .Values.replicaCount }}
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: {{ .Values.strategy.maxSurge }}
+          maxUnavailable: {{ .Values.strategy.maxUnavailable }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: peggo-exporter-service
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image }}:{{ .Values.tag }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          env:
+            - name: ORCHESTRATOR_ADDRESS
+              value: {{ .Values.orchestratorAddress | quote }}
+            - name: API_ENDPOINT
+              value: {{ .Values.apiEndpoint | quote }}
+          ports:
+            - name: peggo-exporter
+              containerPort: {{ .Values.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: peggo-exporter
+          readinessProbe:
+            httpGet:
+              path: /
+              port: peggo-exporter
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}

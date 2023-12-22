@@ -1,0 +1,64 @@
+
+image: ghcr.io/stakelab-zone/peggo-exporter
+tag: latest
+pullPolicy: Always
+
+strategy:
+  maxSurge: 1
+  maxUnavailable: 0
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Docker image pull policy
+pullPolicy: Always
+
+servicePort: 8000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+
+service:
+  type: ClusterIP
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "256Mi"
+  limits:
+    cpu: "1"
+    memory: "1Gi"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+monitoring:
+  enabled: false
+  # Monitoring namespace
+  namespace: observability
+  # Prometheus Operator version
+  promReleaseName: prometheus-stack
+  name: peggo-exporter-metrics
