@@ -1,3 +1,3 @@
-# peggo-exporter
+# Umee price feeder exporter
 
-Helm chart for the Injective Peggo Exporter
+Helm chart for the Umee price feeder Exporter
