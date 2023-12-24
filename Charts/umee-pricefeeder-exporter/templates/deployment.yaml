@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "umee-pricefeeder-exporter.fullname" . }}
+  labels:
+    app: umee-pricefeeder-exporter
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: umee-pricefeeder-exporter
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: umee-pricefeeder-exporter
+    spec:
+      replicas: {{ .Values.replicaCount }}
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: {{ .Values.strategy.maxSurge }}
+          maxUnavailable: {{ .Values.strategy.maxUnavailable }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: umee-pricefeeder-exporter-service
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image }}:{{ .Values.tag }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          env:
+            - name: ORCHESTRATOR_ADDRESS
+              value: {{ .Values.operatorAddress | quote }}
+            - name: API_ENDPOINT
+              value: {{ .Values.apiEndpoint | quote }}
+            - name: CHECK_INTERVAL
+              value: {{ .Values.checkInterval | quote }}
+          ports:
+            - name: umee-pricefeeder-exporter
+              containerPort: {{ .Values.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: umee-pricefeeder-exporter
+          readinessProbe:
+            httpGet:
+              path: /
+              port: umee-pricefeeder-exporter
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
