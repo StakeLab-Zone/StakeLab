@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: "ghcr.io/charlesjudith/osmosis-docker"
-  tag: "v21.1.4"
+  repository: "ghcr.io/akash-network/cosmos-omnibus"
+  tag: "v0.4.4-rc4-osmosis-v21.1.2"
   pullPolicy: IfNotPresent
 
 # Common Values
@@ -282,3 +282,11 @@ ingress:
   grpc:
     enabled: false
     tls: false
+
+monitoring:
+  enabled: false
+  # Monitoring namespace
+  namespace: observability
+  # Prometheus Operator version
+  promReleaseName: prometheus-stack
+  name: osmosis-metrics

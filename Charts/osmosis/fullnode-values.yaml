@@ -31,6 +31,9 @@ microk8s:
 local_storage:
   path: /data/osmosis-fullnode
 
+monitoring:
+  enabled: true
+
 ingress:
   enabled: true
   domain: "stakelab.zone"
