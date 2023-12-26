@@ -12,8 +12,8 @@ spec:
       name: api
     - port: 9090
       name: grpc
-    - port: 26656
-      name: p2p
+    - port: 26660
+      name: metrics
     - port: 26657
       name: rpc
   selector:

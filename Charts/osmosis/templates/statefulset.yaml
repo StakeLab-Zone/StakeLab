@@ -224,10 +224,6 @@ spec:
             - name: OSMOSIS_API_ENABLE
               value: "{{ .Values.osmosis_node.api_enable }}"
           ports:
-            - containerPort: 26656
-              name: p2p
-            - containerPort: 26659
-              name: kms
             - containerPort: 26660
               name: metrics
           volumeMounts:
