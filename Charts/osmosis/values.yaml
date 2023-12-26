@@ -3,8 +3,8 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.4.4-rc2-osmosis-v21.0.0"
+  repository: "ghcr.io/charlesjudith/osmosis-docker"
+  tag: "v21.1.4"
   pullPolicy: IfNotPresent
 
 # Common Values
