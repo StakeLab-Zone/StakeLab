@@ -34,6 +34,14 @@ microk8s:
 local_storage:
   path: /data/chihuahua-archive
 
+monitoring:
+  enabled: true
+  # Monitoring namespace
+  namespace: observability
+  # Prometheus Operator version
+  promReleaseName: kube-prom-stack
+  name: chihuahua-archive-metrics
+
 ingress:
   enabled: true
   domain: "archive.stakelab.zone"
