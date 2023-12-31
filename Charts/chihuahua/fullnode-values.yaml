@@ -5,7 +5,7 @@ chihuahua_node:
 
   rpc:
     laddr: "tcp://0.0.0.0:26657"
-  
+    cors_allowed_origins: "[*]"  
   moniker: StakeLab
 
   tx_index:
