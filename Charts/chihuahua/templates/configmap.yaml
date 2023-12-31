@@ -42,7 +42,7 @@ data:
     filter_peers = {{ .Values.filter_peers | default false }}
     [rpc]
     laddr = "{{ .Values.chihuahua_node.rpc.laddr | default "tcp://127.0.0.1:26657" }}"
-    cors_allowed_origins = {{ .Values.chihuahua_node.rpc.cors_allowed_origins | default "[]" }}
+    cors_allowed_origins = {{ .Values.chihuahua_node.rpc.cors_allowed_origins | default "[]" |quote }}
     cors_allowed_methods = {{ .Values.chihuahua_node.rpc.cors_allowed_methods | default "['HEAD', 'GET', 'POST']" }}
     cors_allowed_headers = {{ .Values.chihuahua_node.rpc.cors_allowed_headers | default "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']" }}
     grpc_laddr = "{{ .Values.chihuahua_node.rpc.grpc_laddr | default "" }}"
