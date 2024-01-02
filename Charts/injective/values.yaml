@@ -137,7 +137,7 @@ injective_node:
     prometheus: true
     prometheus_listen_addr: ":26660"
     max_open_connections: 900
-    namespace: "cometbft"
+    namespace: "tendermint"
 
   halt_height: 0
   halt_time: 0
