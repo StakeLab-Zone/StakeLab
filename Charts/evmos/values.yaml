@@ -20,7 +20,7 @@ evmos_node:
   snapshot_provider: "polkachu"
   api_enable: "false"
   moniker: yourminikerhere
-  chainid: evmos_7700-1
+  chainid: evmos_9001-2
   # disable PEX when nodes have issues with syncing / catching up / peer dial errors/flood
   minimum_gas_prices: 1500000000000aevmos
   net: https://snapshots.polkachu.com/genesis/evmos/genesis.json
@@ -268,3 +268,11 @@ ingress:
   grpc:
     enabled: false
     tls: false
+
+monitoring:
+  enabled: false
+  # Monitoring namespace
+  namespace: observability
+  # Prometheus Operator version
+  promReleaseName: prometheus-stack
+  name: evmos-metrics

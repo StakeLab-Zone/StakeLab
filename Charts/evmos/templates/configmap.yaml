@@ -233,3 +233,30 @@ data:
     [tls]
     certificate-path = ""
     key-path = ""
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: client-toml
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "evmos-node.labels" . | nindent 4 }}
+data:
+  app.toml: |-
+    # This is a TOML config file.
+    # For more information, see https://github.com/toml-lang/toml
+
+    ###############################################################################
+    ###                           Client Configuration                            ###
+    ###############################################################################
+
+    # The network chain ID
+    chain-id = {{ .Values.evmos_node.chain_id | quote }}}
+    # The keyring's backend, where the keys are stored (os|file|kwallet|pass|test|memory)
+    keyring-backend = {{ .Values.keyring_backend | quote }}
+    # CLI output format (text|json)
+    output = "text"
+    # <host>:<port> to Tendermint RPC interface for this chain
+    node = "tcp://localhost:26657"
+    # Transaction broadcasting mode (sync|async)
+    broadcast-mode = "sync"
