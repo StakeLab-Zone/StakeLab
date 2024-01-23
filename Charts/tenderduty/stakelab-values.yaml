@@ -202,7 +202,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://mainnet.crescent.network:26657
+      - url: https://rpc-crescent.pupmos.network:443
 
   "Decentr":
     chain_id: mainnet-3
