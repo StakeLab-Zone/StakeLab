@@ -18,7 +18,7 @@ Helm chart to run nodes on Kubernetes
 - [dYdX](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/dydxprotocol)
 - [Injective](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/injective)
 - [Osmosis](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/osmosis)
-- [Lava metwork](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/lava)
+- [Lava network](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/lava)
 - [Evmos](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/evmos)
 - [Shentu](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/shentu)
 - [Ununifi](https://github.com/StakeLab-Zone/StakeLab/tree/main/Charts/ununifi)
