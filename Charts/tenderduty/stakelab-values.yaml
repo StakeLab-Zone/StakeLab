@@ -705,6 +705,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://stride-rpc.lavenderfive.com:443
+      - url: https://stride-rpc.publicnode.com:443
 
   "Teritori":
     chain_id: teritori-1
