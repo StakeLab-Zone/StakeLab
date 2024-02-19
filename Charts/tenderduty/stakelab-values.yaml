@@ -653,6 +653,7 @@ chains:
         enabled: yes
     nodes:
       - url: https://soarchain-testnet-rpc.polkachu.com:443
+      - url: https://rpc.testnet.soarchain.com:443
       
   
   "Sommelier":
