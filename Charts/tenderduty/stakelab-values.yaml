@@ -314,8 +314,8 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc.gitopia.roomit.xyz/
-      - url: https://gitopia-rpc.stakeangle.com/
+      - url: https://rpc.gitopia.roomit.xyz:443
+      - url: https://gitopia-rpc.stakeangle.com:443
 
   "Gravity Bridge":
     chain_id: gravity-bridge-3
@@ -462,7 +462,7 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: "https://rpc.gopanacea.org:443"
+      - url: https://rpc.gopanacea.org:443
 
   "Neutron":
     chain_id: neutron-1
@@ -613,10 +613,11 @@ chains:
     nodes:
       #- url: https://sentinel-rpc.publicnode.com:443
       - url: https://rpc-sentinel.whispernode.com:443
+      - url: https://sentinel-rpc.publicnode.com:443
 
   "Shentu":
     chain_id: shentu-2.2
-    valoper_address: certikvaloper1795d6km32m8qtquepatf7npean9dgvrpr3le7q
+    valoper_address: shentuvaloper1795d6km32m8qtquepatf7npean9dgvrpxfnz02
     public_fallback: yes
     alerts:
       consecutive_enabled: yes
@@ -640,6 +641,7 @@ chains:
         enabled: yes
     nodes:
       #- url: https://sifchain-rpc.publicnode.com:443
+      - url: https://rpc.sifchain.fasthub.io/
       - url: https://sifchain-mainnet-rpc.autostake.com:443
 
   "Soarchain":
