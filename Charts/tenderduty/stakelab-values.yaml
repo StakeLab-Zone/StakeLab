@@ -165,7 +165,9 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://composable-rpc.polkachu.com/
+      - url: https://composable-mainnet-rpc.autostake.com:443
+      - url: https://rpc-composable-ia.cosmosia.notional.ventures:443
+      
 
   "Coreum":
     chain_id: coreum-mainnet-1
@@ -253,7 +255,7 @@ chains:
       - url: https://rpc.dydx.stakelab.zone:443
 
   "Dymension":
-    chain_id: froopyland_100-1
+    chain_id: dymension_1100-1
     valoper_address: dymvaloper1al66sx8nawksjxmd93r5wth463ul2jca8tfh2a
     public_fallback: no
     alerts:
@@ -262,9 +264,9 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: http://89.116.31.118:26657
-      - url: http://51.15.212.195:26657
-      - url: http://15.235.160.84:31741
+      - url: https://dymension-rpc.publicnode.com:443
+      - url: https://dym.rpc-archive.m.stavr.tech:443
+      - url: https://dymension-mainnet-rpc.autostake.com:443
 
   "Emoney":
     chain_id: emoney-3
@@ -312,7 +314,8 @@ chains:
       slack:
         enabled: yes
     nodes:
-      - url: https://rpc.gitopia.nodestake.top:443
+      - url: https://rpc.gitopia.roomit.xyz/
+      - url: https://gitopia-rpc.stakeangle.com/
 
   "Gravity Bridge":
     chain_id: gravity-bridge-3
@@ -558,6 +561,8 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.rebus.nodestake.top:443
+      - url: https://api.rebuschain.com/cosmosrpc:443
+      - url: https://api.rebuschain.com:26657
 
   "Regen":
     chain_id: regen-1
@@ -621,6 +626,8 @@ chains:
     nodes:
       - url: https://rpc-shentu-01.stakeflow.io:443
       - url: https://rpc.shentu.stakelab.zone:443
+      - url: https://shentu-rpc.publicnode.com:443
+      
 
   "Sifchain":
     chain_id: sifchain-1
