@@ -748,7 +748,7 @@ chains:
       - url: https://umee.rpc.kjnodes.com:443
 
   "Union":
-    chain_id: union-testnet-4
+    chain_id: union-testnet-6
     valoper_address: unionvaloper1jjdd5l25nj9yrkqwrdkhahh9n9th9umy29xhal
     public_fallback: yes
     alerts:
@@ -758,3 +758,4 @@ chains:
         enabled: yes
     nodes:
       - url: https://union-testnet-rpc.polkachu.com:443
+      - url: https://rpc.testnet.bonlulu.uno
