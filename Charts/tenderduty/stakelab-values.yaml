@@ -760,6 +760,17 @@ chains:
       - url: https://union-testnet-rpc.polkachu.com:443
       - url: https://rpc.testnet.bonlulu.uno
 
+   "Warden":
+    chain_id:  
+    valoper_address: 
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: 
 
    "Zetachain":
     chain_id: zetachain_7000-1 
