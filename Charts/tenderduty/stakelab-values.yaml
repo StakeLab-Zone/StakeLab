@@ -476,6 +476,18 @@ chains:
     nodes:
       - url: https://rpc-neutron.cosmos-spaces.cloud:443
 
+  "Okp4":
+    chain_id: okp4-drunemeton-1
+    valoper_address: okp4valoper1qyze9a6vnqamtn309z5yy9lg0k5lu2l7xapzw0
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://okp4-testnet.nodejumper.io:443
+
   "OmniFlix":
     chain_id: omniflixhub-1
     valoper_address: omniflixvaloper1pzkx9p2upmrrscwxvwgrmvmfrgcnfskxfzm3z0
