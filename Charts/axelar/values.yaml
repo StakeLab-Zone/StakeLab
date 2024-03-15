@@ -5,7 +5,7 @@
 image:
   # ghcr.io/charlesjudith/axelar-docker:v0.34.0
   repository: "ghcr.io/charlesjudith/axelar-docker"
-  tag: "v0.34.0"
+  tag: "v0.35.5"
   pullPolicy: IfNotPresent
 
 # Common Values
