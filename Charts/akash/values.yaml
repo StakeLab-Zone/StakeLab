@@ -4,8 +4,8 @@
 
 image:
   repository: "ghcr.io/akash-network/cosmos-omnibus"
-  tag: "v0.4.3-rc1-akash-v0.30.0"
-  pullPolicy: IfNotPresent
+  tag: "v0.4.10-akash-v0.32.1"
+  pullPolicy: Always
 
 # Common Values
 
@@ -53,7 +53,7 @@ akash_node:
   filter_peers: false
   rpc:
     laddr: "tcp://127.0.0.1:26657"
-    cors_allowed_origins: "[]"
+    cors_allowed_origins: "[*]"
     cors_allowed_methods: "['HEAD', 'GET', 'POST']"
     cors_allowed_headers: "['Origin', 'Accept', 'Content-Type', 'X-Requested-With', 'X-Server-Time']"
     grpc_laddr: ""
