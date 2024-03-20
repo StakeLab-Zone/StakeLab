@@ -177,7 +177,7 @@ data:
     max-open-connections = {{ .Values.cosmoshub_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.cosmoshub_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.cosmoshub_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.cosmoshub_node.api.rpcMaxBodyBytes }}
+    rpc-max-body-bytes = {{ .Values.cosmoshub_node.api.rpcMaxBodyBytes | int }}
     enabled-unsafe-cors = {{ .Values.cosmoshub_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.cosmoshub_node.rosetta.enable }}
