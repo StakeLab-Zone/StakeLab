@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "backend-stats.fullname" . }}
+  labels:
+    app: faucet
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.faucet.servicePort }}
+      targetPort: {{ .Values.faucet.servicePort }}
+      protocol: TCP
+      name: faucet
+  selector:
+    app: faucet

@@ -24,7 +24,18 @@ backendService:
     maxSurge: 1
     maxUnavailable: 0
 
-imagePullSecrets: []
+faucet:
+  image: ghcr.io/stakelab-zone/stakelab-backend:faucet
+  passphrase: ""
+  NearPrivateKey: ""
+  servicePort: 3333
+  replicaCount: 0
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+
+imagePullSecrets:
+  - name: ghcr-secret
 nameOverride: ""
 fullnameOverride: ""
 
