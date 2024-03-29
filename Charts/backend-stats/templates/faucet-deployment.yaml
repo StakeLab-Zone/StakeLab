@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "backend-stats.fullname" . }}
+  name: faucet
   labels:
     app: faucet
 spec:
