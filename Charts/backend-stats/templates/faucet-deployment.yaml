@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "backend-stats.fullname" . }}
+  labels:
+    app: faucet
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: faucet
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app: faucet
+    spec:
+      replicas: {{ .Values.faucet.replicaCount }}
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: {{ .Values.faucet.strategy.maxSurge }}
+          maxUnavailable: {{ .Values.faucet.strategy.maxUnavailable }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: faucet
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.faucet.image }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          env:
+            - name: REDIS_PORT
+              value: {{ .Values.backendService.redisPort | quote }}
+            - name: REDIS_HOST
+              value: {{ .Values.backendService.redisHost | quote }}
+            - name: REDIS_PASSWORD
+              value: {{ .Values.backendService.redisPassword | quote }}
+            - name: DRIVE_DISK
+              value: {{ .Values.backendService.driveDisk | quote }}
+            - name: REDIS_CONNECTION
+              value: {{ .Values.backendService.redisConnection | quote }}
+            - name: APP_KEY
+              value: {{ .Values.backendService.appKey | quote }}
+            - name: FAUCET_PASSPHRASE
+              value: {{ .Values.faucet.passphrase | quote }}
+            - name: NEAR_PRIVATE_KEY
+              value: {{ .Values.faucet.NearPrivateKey | quote }}
+          ports:
+            - name: faucet
+              containerPort: {{ .Values.faucet.servicePort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: faucet
+          readinessProbe:
+            httpGet:
+              path: /
+              port: faucet
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+            {{- with .Values.nodeSelector }}
+            nodeSelector:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.affinity }}
+            affinity:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
+            {{- with .Values.tolerations }}
+            tolerations:
+              {{- toYaml . | nindent 8 }}
+            {{- end }}
