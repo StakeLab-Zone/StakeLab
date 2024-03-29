@@ -55,18 +55,6 @@ spec:
               value: {{ .Values.faucet.passphrase | quote }}
             - name: NEAR_PRIVATE_KEY
               value: {{ .Values.faucet.NearPrivateKey | quote }}
-          ports:
-            - name: faucet
-              containerPort: {{ .Values.faucet.servicePort }}
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: faucet
-          readinessProbe:
-            httpGet:
-              path: /
-              port: faucet
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
             {{- with .Values.nodeSelector }}
