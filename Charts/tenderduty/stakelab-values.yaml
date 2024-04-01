@@ -303,7 +303,19 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc-fetchhub.fetch.ai:443
-
+      
+"Galactica":
+    chain_id: galactica_9301-1
+    valoper_address: galavaloper1rtpvzqppaf57y8f3paqcmf4qvq0ysuf9wmw3z2
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc.galactica.test.pfc.zone:443
+      
   "Gitopia":
     chain_id: gitopia
     valoper_address: gitopiavaloper1vzn4rauhrhggek4nlzneyxyjmvk32yzvwa23le
@@ -428,7 +440,19 @@ chains:
     nodes:
       - url: https://rpc-kyve.ecostake.com:443
 
-  "Lava":
+  "Lava Mainnet":
+    chain_id: lava-mainnet-1
+    valoper_address: lava@valoper1enyxz27y8ef9nl3lnvgsglqvaa0nr9c2sa9xmq
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 3
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://lava-rpc.w3coins.io:443
+      
+  "Lava Testnet":
     chain_id: lava-testnet-2
     valoper_address: lava@valoper1p3r3ah5ddjtuemdwt0x0nhyljlmsu6nark8j5l
     public_fallback: yes
@@ -761,7 +785,7 @@ chains:
       - url: https://rpc.testnet.bonlulu.uno
 
    "Warden":
-    chain_id:  
+    chain_id: alfama
     valoper_address: 
     public_fallback: yes
     alerts:
@@ -770,7 +794,33 @@ chains:
       slack:
         enabled: yes
     nodes:
+      - url: https://warden-testnet-rpc.coinsspor.com:443
+      - url: https://warden-testnet-rpc.nodesync.top:443
+
+"Xion Mainnet":
+    chain_id: xion-mainnet-1
+    valoper_address: xionvaloper1ypwfnfuldmlp9u8asqzz6qx29p0utqzer5678k
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
       - url: 
+
+"Xion Testnet":
+    chain_id: xion-testnet-1
+    valoper_address: xionvaloper1ypwfnfuldmlp9u8asqzz6qx29p0utqzer5678k
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc.xion-testnet-1.burnt.com
+      - url: https://testnet-burnt-rpc.lavenderfive.com
 
    "Zetachain":
     chain_id: zetachain_7000-1 
