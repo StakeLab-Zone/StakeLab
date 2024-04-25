@@ -78,7 +78,7 @@ injective_node:
     max_num_outbound_peers: 10
     unconditional_peer_ids: ""
     persistent_peers_max_dial_period: "0s"
-    flush_throttle_timeout: "100ms"
+    flush_throttle_timeout: "10ms"
     max_packet_msg_payload_size: 1024
     send_rate: 5120000
     recv_rate: 5120000
@@ -126,7 +126,7 @@ injective_node:
     skip_timeout_commit: false
     create_empty_blocks: true
     create_empty_blocks_interval: "0s"
-    peer_gossip_sleep_duration: "100ms"
+    peer_gossip_sleep_duration: "10ms"
     peer_query_maj23_sleep_duration: "2s"
   storage:
     discard_abci_responses: true
