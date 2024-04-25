@@ -636,6 +636,19 @@ chains:
         enabled: yes
     nodes:
       - url: https://rpc.secret.express:443
+      - url: 
+
+  "Seda":
+    chain_id: seda-1
+    valoper_address: sedavaloper1h87avhy00h3d9x43c2x4kasyemt8xjst5ggxzu
+    public_fallback: yes
+    alerts:
+      consecutive_enabled: yes
+      consecutive_missed: 10
+      slack:
+        enabled: yes
+    nodes:
+      - url: https://rpc.seda.tcnetwork.io:443
 
   "Sentinel":
     chain_id: sentinelhub-2
