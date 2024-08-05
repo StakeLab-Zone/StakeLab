@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cosmos-validator-watcher.fullname" . }}
+  labels:
+    {{- include "cosmos-validator-watcher.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "cosmos-validator-watcher.selectorLabels" . | nindent 4 }}
