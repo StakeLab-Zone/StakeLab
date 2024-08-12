@@ -9,7 +9,7 @@ metadata:
 spec:
   endpoints:
   - interval: 60s
-    port: metrics
+    port: http
   jobLabel: app.kubernetes.io/name
   namespaceSelector:
     matchNames:
