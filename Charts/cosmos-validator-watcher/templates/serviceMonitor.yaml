@@ -16,5 +16,5 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      {{- include "cosmos-validator-watcher.labels" . | nindent 4 }}
+      app.kubernetes.io/name: cosmos-validator-watcher
 {{- end }}
