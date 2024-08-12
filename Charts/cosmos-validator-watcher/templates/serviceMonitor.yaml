@@ -16,5 +16,5 @@ spec:
     - {{ .Release.Namespace }}
   selector:
     matchLabels:
-      {{- include "cosmos-validator-watcher.selectorLabels" . | nindent 4 }}
+      {{- include "cosmos-validator-watcher.labels" . | nindent 4 }}
 {{- end }}
