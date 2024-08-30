@@ -148,7 +148,8 @@ spec:
           command: [ "/bin/osmosisd" , "start" ]
           args: ["--pruning={{ .Values.osmosis_node.pruning }}",
                 "--pruning-interval={{ .Values.osmosis_node.pruning_interval }}",
-                "--pruning-keep-recent={{ .Values.osmosis_node.pruning_keep_recent }}"]
+                "--pruning-keep-recent={{ .Values.osmosis_node.pruning_keep_recent }}",
+                "--reject-config-defaults=true"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: OSMOSIS_MONIKER
@@ -209,8 +210,6 @@ spec:
               value: "true"
             - name: OSMOSIS_P2P_PEX
               value: "{{ .Values.osmosis_node.p2p.pex }}"
-            - name: OSMOSIS_DEBUG
-              value: "{{ $.Values.debug }}"
             - name: OSMOSIS_MINIMUM_GAS_PRICES
               value: "{{ .Values.osmosis_node.minimum_gas_prices }}"
             - name: SNAPSHOT_PROVIDER
