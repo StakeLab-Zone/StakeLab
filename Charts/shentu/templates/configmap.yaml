@@ -95,8 +95,8 @@ data:
     max_txs_bytes = {{ .Values.shentu_node.mempool.max_txs_bytes | default 1073741824 | int }}
     cache_size = {{ .Values.shentu_node.mempool.cache_size | default 10000 }}
     keep-invalid-txs-in-cache = {{ .Values.shentu_node.mempool.keep_invalid_txs_in_cache | default false }}
-    max_tx_bytes = {{ .Values.shentu_node.mempool.max_tx_bytes | default 1048576 }}
-    max_batch_bytes = {{ .Values.shentu_node.mempool.max_batch_bytes | default 1048576 }}
+    max_tx_bytes = {{ .Values.shentu_node.mempool.max_tx_bytes | default 1048576 | int }}
+    max_batch_bytes = {{ .Values.shentu_node.mempool.max_batch_bytes | default 1048576 | int }}
     ttl-duration = {{ .Values.shentu_node.mempool.ttl_duration | default "0s" | quote }}
     ttl-num-blocks = {{ .Values.shentu_node.mempool.ttl_num_blocks | default 0 }}
     [statesync]
@@ -177,7 +177,7 @@ data:
     max-open-connections = {{ .Values.shentu_node.api.maxOpenConnections }}
     rpc-read-timeout = {{ .Values.shentu_node.api.rpcReadTimeout }}
     rpc-write-timeout = {{ .Values.shentu_node.api.rpcWriteTimeout }}
-    rpc-max-body-bytes = {{ .Values.shentu_node.api.rpcMaxBodyBytes }}
+    rpc-max-body-bytes = {{ .Values.shentu_node.api.rpcMaxBodyBytes | int }}
     enabled-unsafe-cors = {{ .Values.shentu_node.api.enabledUnsafeCors }}
     [rosetta]
     enable = {{ .Values.shentu_node.rosetta.enable }}
