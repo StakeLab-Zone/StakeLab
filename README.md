@@ -1,5 +1,5 @@
 # StakeLab  
-StakeLab is the first product of the StakeLab Zone which is related to the validation of Cosmos SDK blockchains based. You can found here all the contributions and tools provided by the team.  
+StakeLab is the first product of the StakeLab Zone which is related to the validation of blockchains. You can found here all the contributions and tools provided by the team.  
 
 ## Summary
 1. [Charts](https://github.com/StakeLab-Hub/StakeLab/blob/main/Charts/README.md)  
