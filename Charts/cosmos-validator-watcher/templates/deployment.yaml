@@ -44,8 +44,15 @@ spec:
             - "--node"
             - "{{ . }}?__websocket=0"
           {{- end }}
+          {{- if kindIs "slice" .Values.validatorAddress }}
+          {{- range .Values.validatorAddress }}
             - "--validator"
-            - {{ .Values.validatorAddress }}
+            - "{{ . }}"
+          {{- end }}
+          {{- else }}
+            - "--validator"
+            - "{{ .Values.validatorAddress }}"
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
